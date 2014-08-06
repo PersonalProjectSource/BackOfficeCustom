@@ -11,37 +11,23 @@
                   </li>
                   {% endif %}
                   <li class="sub-menu">
-                      <a href="{{ path ('users_hermes_list') }}" >
-                          <i class="fa fa-users"></i>
-                          <span>Liste des utilisateurs</span>
-                      </a>
-                  </li>
-                  <li class="sub-menu">
                       <a href="{{ path ('langue') }}" >
                           <i class="fa fa-globe"></i>
                           <span>Liste des langues</span>
                       </a>
                   </li>
                   <li class="sub-menu">
-                      <a href="{{ path ('list_questions') }}" >
-                          <i class="fa fa-edit"></i>
-                          <span>Liste des questions</span>
+                      <a href="{{ path ('media') }}" >
+                          <i class="fa fa-globe"></i>
+                          <span>Liste des médias</span>
                       </a>
                   </li>
-                  <li>
-                      <a  href="{{ path('hermesuser_generate') }}">
-                          <i class="fa fa-list"></i>
-                          <span>Liste des réponses</span>
-                      </a>
-                  </li>
-
                   <li class="sub-menu">
                       <a href="{{ path ('field') }}" >
                           <i class="fa fa-globe"></i>
                           <span>Liste des champs</span>
                       </a>
                   </li>
-
                   <li>
                       <a  href="{{ path('fos_user_security_logout') }}">
                           <i class="fa fa-power-off"></i>

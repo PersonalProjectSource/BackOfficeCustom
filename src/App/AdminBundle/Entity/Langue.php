@@ -36,14 +36,6 @@ class Langue
     */
     private $code;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\AdminBundle\Entity\QuestionTranslation", mappedBy="langues")
-     */
-    private $questions;
-
-    public function __construct() {
-        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     public function __toString() {
         return $this->libelle;
     }
@@ -89,44 +81,5 @@ class Langue
     public function getLibelle()
     {
         return $this->libelle;
-    }
-
-    /**
-     * @param mixed $questions
-     */
-    public function setQuestions($questions)
-    {
-        $this->questions = $questions;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getQuestions()
-    {
-        return $this->questions;
-    }
-
-    /**
-     * Add questions
-     *
-     * @param \App\AdminBundle\Entity\QuestionTranslation $questions
-     * @return Langue
-     */
-    public function addQuestion(\App\AdminBundle\Entity\QuestionTranslation $questions)
-    {
-        $this->questions[] = $questions;
-
-        return $this;
-    }
-
-    /**
-     * Remove questions
-     *
-     * @param \App\AdminBundle\Entity\QuestionTranslation $questions
-     */
-    public function removeQuestion(\App\AdminBundle\Entity\QuestionTranslation $questions)
-    {
-        $this->questions->removeElement($questions);
     }
 }
