@@ -10,7 +10,7 @@
                Édition d'un média
            </header>
           <div class="panel-body">
-            <form method="post" class="form-horizontal tasi-form" action="{{ path ('user_update', {'id' : entity.id}) }}">
+            <form method="post" class="form-horizontal tasi-form" action="{{ path ('media_update', {'id' : entity.id}) }}" {{ form_enctype(edit_form) }}>
                {{ form(edit_form) }}
            </div>
             </form>

@@ -6,7 +6,7 @@ app_admin:
 root:
     pattern: /
     defaults:
-        _controller: AppAdminBundle:Question:index
+        _controller: AppAdminBundle:Users/User:index
         path: /
         permanent: true
 

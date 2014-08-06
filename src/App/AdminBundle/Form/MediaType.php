@@ -19,7 +19,7 @@ class MediaType extends AbstractType
             ->add('libelle')
             ->add('dateCreation')
             ->add('dateModification')
-            ->add('path')
+            ->add('file')
         ;
     }
     

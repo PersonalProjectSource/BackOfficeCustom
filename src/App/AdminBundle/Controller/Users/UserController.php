@@ -13,7 +13,7 @@ use App\AdminBundle\Form\UserType;
 /**
  * User controller.
  *
- * @Route("/user", name="user_list")
+ * @Route("/user")
  */
 class UserController extends Controller
 {

@@ -179,7 +179,6 @@ class MediaController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
 
         if (!$entity) {
@@ -189,12 +188,20 @@ class MediaController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
+        
+        $entity->upload();
+        $em->persist($entity);
+        $em->flush();
+        
+        
+        
         if ($editForm->isValid()) {
+            
             $em->flush();
 
             return $this->redirect($this->generateUrl('media_edit', array('id' => $id)));
         }
+                        
 
         return array(
             'entity'      => $entity,
