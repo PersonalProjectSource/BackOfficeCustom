@@ -1,0 +1,139 @@
+
+{% extends 'AppAdminBundle:Layout:admin_layout.html.twig' %}
+{% form_theme form 'AppAdminBundle:Form:fields.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="{{ path ('question_update', {'id' : entity.id}) }}" method="post">
+                <input name="_method" value="PUT" type="hidden">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Edition de la question
+                    </header>
+                    <div class="panel-body">
+                    {{ form_row(form.type) }}
+                    </div>
+                </section>
+
+                <div class="form-group ">
+                    <label class="col-sm-2 col-sm-2 control-label">Traductions</label>
+                    <div class="col-sm-10">
+                        <ul class="translations" data-prototype="{{ form_widget(form.translations.vars.prototype)|e }}">
+                            {% for translation in form.translations %}
+                            <li>
+                              <section class="panel">
+                                  <header class="panel-heading">
+                                      Traduction
+                                  </header>
+                                  <div class="panel-body">
+                                      {{ form_row(translation.langue) }}
+                                      {{ form_row(translation.libelle) }}
+                                      {{ form_row(translation.reponse1) }}
+                                      {{ form_row(translation.reponse2) }}
+                                      {{ form_row(translation.reponse3) }}
+                                      {{ form_row(translation.reponse4) }}
+                                      {{ form_row(translation.reponse5) }}
+                                      {{ form_row(translation.reponse6) }}
+                                  </div>
+                              </section>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                     <button class="btn btn-success" type="submit">Modifier</button>
+                     <a href="{{ path('question_delete_translation', { 'id': entity.id, 'sEcraseAll': 'true' }) }}" name="bts-sup" class="btn btn-danger">Supprimer la question</a>
+
+                {{ form(form._token) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+        var reponseVisibility = false;
+        if($("#app_adminbundle_question_type").val() == "0") {
+            $("[info='reponse']").parent().parent().hide();
+        } else {
+            var reponseVisibility = true;
+        }
+
+        $("#app_adminbundle_question_type").on("change",function(){
+            if($(this).val() == "1") {
+                reponseVisibility = true;
+                $("[info='reponse']").parent().parent().show();
+            } else {
+                reponseVisibility = false;
+                $("[info='reponse']").parent().parent().hide();
+            }
+        })
+
+        // Récupère le div qui contient la collection de tags
+        var collectionHolder = $('ul.translations');
+
+        // ajoute un lien de suppression à tous les éléments li de
+        // formulaires de tag existants
+    /*    collectionHolder.find('section > div').each(function() {
+            addTranslationFormDeleteLink($(this));
+        });*/
+
+
+        // ajoute un lien « Ajouter une traduction »
+        var $addTranslationLink = $('<button type="button" class="btn btn-info btn-sm">Ajouter une traduction</button>');
+        var $newLinkLi = $('<li></li>').append($addTranslationLink);
+
+
+        // ajoute l'ancre « Ajouter une traduction » et li à la balise ul
+        collectionHolder.append($newLinkLi);
+
+        $addTranslationLink.on('click', function(e) {
+            // empêche le lien de créer un « # » dans l'URL
+            e.preventDefault();
+
+            // ajoute un nouveau formulaire translation (voir le prochain bloc de code)
+            addTranslationForm(collectionHolder, $newLinkLi);
+        });
+
+        function addTranslationForm(collectionHolder, $newLinkLi) {
+            // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+            var prototype = collectionHolder.attr('data-prototype');
+            //var prototype = $("#app_adminbundle_question_translations").attr('data-prototype');
+
+            // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+            // la longueur de la collection courante
+            var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+            var newForm = "<section class='panel'><header class='panel-heading'>Traduction</header><div class='panel-body'><li>" + newForm + "</li></div></section>";
+
+
+            // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un tag"
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newFormLi.find('section > div').each(function() {
+                addTranslationFormDeleteLink($(this));
+            });
+
+            $newLinkLi.before($newFormLi);
+            if(!reponseVisibility) {
+                $("[info='reponse']").parent().parent().hide();
+            }
+        }
+
+        function addTranslationFormDeleteLink($translationFormLi) {
+            var $removeFormA = $('<button type="button" class="btn btn-warning btn-sm">Supprimer</button>');
+            $translationFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // empêche le lien de créer un « # » dans l'URL
+                e.preventDefault();
+
+                // supprime l'élément li pour le formulaire de tag
+                $translationFormLi.parent().parent().remove();
+            });
+        }
+    </script>
+{% endblock %}
+
