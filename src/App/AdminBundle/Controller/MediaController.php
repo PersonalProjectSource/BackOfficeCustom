@@ -29,10 +29,12 @@ class MediaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $sDirPath = 'uploads/documents/';
         $entities = $em->getRepository('AppAdminBundle:Media')->findAll();
 
         return array(
-            'entities' => $entities,
+            'sDirePath' => $sDirPath,
+            'entities' => $entities
         );
     }
     /**
@@ -44,17 +46,22 @@ class MediaController extends Controller
      */
     public function createAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $entity = new Media();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('media_show', array('id' => $entity->getId())));
-        }
+        $entity->upload();
+        $em->persist($entity);
+        $em->flush();
+        
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($entity);
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('media_show', array('id' => $entity->getId())));
+//        }
 
         return array(
             'entity' => $entity,
@@ -133,21 +140,32 @@ class MediaController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
+//        die('methode edit');
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
+//
+//        if (!$entity) {
+//            throw $this->createNotFoundException('Unable to find Media entity.');
+//        }
+//
+//        $editForm   = $this->createEditForm($entity);
+//        $deleteForm = $this->createDeleteForm($id);
+//
+//        return array(
+//            'entity'      => $entity,
+//            'edit_form'   => $editForm->createView(),
+//            'delete_form' => $deleteForm->createView(),
+//        );
+        
+        $em     = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Media entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
+        
+        $sDirPath = 'uploads/documents/';
+        
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
+            'path'   => $sDirPath,
         );
     }
 
@@ -164,7 +182,13 @@ class MediaController extends Controller
             'action' => $this->generateUrl('media_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
+        
+//        $form->add('path', 'text', array(
+//            'attr' => array (
+//                'value' => $entity->getPath()
+//            )
+//        ));
+        
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
@@ -178,7 +202,7 @@ class MediaController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em     = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
 
         if (!$entity) {
@@ -186,22 +210,20 @@ class MediaController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm   = $this->createEditForm($entity);
         $editForm->handleRequest($request);
         
+        // TODO lbrau : Voir pour gerer l'exception en commentaire au dessous.
         $entity->upload();
         $em->persist($entity);
         $em->flush();
-        
-        
-        
-        if ($editForm->isValid()) {
-            
-            $em->flush();
 
-            return $this->redirect($this->generateUrl('media_edit', array('id' => $id)));
-        }
-                        
+//        if ($editForm->isValid()) {
+//            
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('media_edit', array('id' => $id)));
+//        }
 
         return array(
             'entity'      => $entity,
@@ -255,4 +277,19 @@ class MediaController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * Displays a form to edit an existing Media entity.
+     *
+     * @Route("/crop", name="media_crop")
+     * @Method("POST")
+     * @Template()
+     */
+    public function cropAction(Request $request)
+    {
+        $request->get('datat');
+        var_dump($expression);
+        die ('fin');
+    }
+    
 }

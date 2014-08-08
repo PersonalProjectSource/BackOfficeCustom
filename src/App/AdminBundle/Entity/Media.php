@@ -78,7 +78,6 @@ class Media
     {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
         //var_dump(__DIR__.'/../../../../web/'.$this->getUploadDir());die;
-        $this->setPath(__DIR__.'/../../../../web/'.$this->getUploadDir());
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
@@ -90,34 +89,19 @@ class Media
     }
     
     public function upload()
-{
-    // la propriété « file » peut être vide si le champ n'est pas requis
-    if (null === $this->file) {
-        return;
+    {
+        // la propriété « file » peut être vide si le champ n'est pas requis
+        if (null === $this->file) {
+            return;
+        }
+
+        $this->setPath($this->file->getClientOriginalName());
+        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+
+        // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
+        $this->file = null;
     }
-
-    // utilisez le nom de fichier original ici mais
-    // vous devriez « l'assainir » pour au moins éviter
-    // quelconques problèmes de sécurité
-
-    // la méthode « move » prend comme arguments le répertoire cible et
-    // le nom de fichier cible où le fichier doit être déplacé
-    $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-
-    // définit la propriété « path » comme étant le nom de fichier où vous
-    // avez stocké le fichier
-    $this->path = $this->file->getClientOriginalName();
-
-    // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
-    $this->file = null;
-}
     
-    
-    
-    
-    
-    
-
 
     /**
      * Get id
@@ -181,10 +165,9 @@ class Media
      * @param \DateTime $dateCreation
      * @return Media
      */
-    public function setDateCreation($dateCreation)
+    public function setDateCreation()
     {
-        $this->dateCreation = $dateCreation;
-
+        $this->dateCreation = new \DateTime();
         return $this;
     }
 
