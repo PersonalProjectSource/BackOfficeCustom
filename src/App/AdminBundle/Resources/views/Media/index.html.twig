@@ -50,7 +50,7 @@
                               <td>{% if entity.dateCreation %}{{ entity.dateCreation|date('Y-m-d H:i:s') }}{% endif %}</td>
                               <td>{% if entity.dateModification %}{{ entity.dateModification|date('Y-m-d H:i:s') }}{% endif %}</td>
                               <td>{{ entity.file }}</td>
-                              <td><i>apercu de l'image</i></td>
+                              <td><img src="{{ asset(sDirePath~entity.path) }}" width="50" height="50" /></td>
                               <td class="center">
                                  <div class="hidden-phon">
                                     <a class="btn btn-success btn-sm" href="{{ path('media_show', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
@@ -67,6 +67,7 @@
        </section>
        <!-- page end-->
    </section>
+                        
 {% endblock %}
 
 {% block javascripts %}

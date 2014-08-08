@@ -18,7 +18,9 @@
       <link href="{{ asset('bundles/appadmin/css/style-responsive.css') }}" rel="stylesheet">
       <link href="{{ asset('bundles/appadmin/css/assets/jquery-multi-select/css/multi-select.css') }}" rel="stylesheet"/>
       <link href="{{ asset('bundles/appadmin/css/assets/advanced-datatable/media/css/demo_table.css') }}" rel="stylesheet" />
-        <link href="{{ asset('bundles/appadmin/css/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css') }}" rel="stylesheet" />
+      <link href="{{ asset('bundles/appadmin/css/assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css') }}" rel="stylesheet" />
+      <link href="{{ asset('bundles/appadmin/js/jcrop/css/jquery.Jcrop.min.css') }}" rel="stylesheet" />
+      
    {% endblock %}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
@@ -121,12 +123,15 @@
     <script src="{{ asset('bundles/appadmin/js/count.js') }}" ></script>
     <script src="{{ asset('bundles/appadmin/js/common-scripts.js') }}" ></script>
     <script src="{{ asset('bundles/appadmin/js/assets/fuelux/js/spinner.min.js') }}"></script>
+    
+    <script src="{{ asset('bundles/appadmin/js/jcrop/js/jquery.Jcrop.min.js') }}"></script>
+    
     <script class="include" type="text/javascript" src="{{ asset('bundles/appadmin/js/jquery.dcjqaccordion.2.7.js') }}" ></script>
 
     <script>
      var Script = function () { $('#spinner4').spinner({value:0, step: 1, min: 0, max: 200000});}();
     </script>
-
+    
 
 {% endblock %}
 <!-- END JAVASCRIPTS -->

@@ -9,7 +9,7 @@
                Création d'un média
            </header>
           <div class="panel-body">
-            <form method="post" class="form-horizontal tasi-form" action="{{ path ('media') }}">
+          <form method="post" class="form-horizontal tasi-form" action="{{ path ('media') }}" {{ form_enctype(form) }}>
               {{ form(form) }}
           </div>
             </form>
@@ -20,8 +20,8 @@
                    </a>
                </li>
             </ul>
-      
        </section>
+      <img src="{{ asset('/../../../../web/bundles/appadmin/documents/') }}" id="target" />
    </div>
 </div>
 {% endblock %}

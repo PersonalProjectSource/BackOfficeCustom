@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\AdminBundle\Entity\Media;
 use App\AdminBundle\Form\MediaType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Media controller.
@@ -286,10 +287,80 @@ class MediaController extends Controller
      * @Template()
      */
     public function cropAction(Request $request)
-    {
-        $request->get('datat');
-        var_dump($expression);
-        die ('fin');
+    {     
+        if($request->isXmlHttpRequest()) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $x    = $request->get('x');
+            $y    = $request->get('y');
+            $x2   = $request->get('x2');
+            $y2   = $request->get('y2');
+            $w    = $request->get('w');
+            $h    = $request->get('h');
+            $id   = $request->get('id');
+            $slug = $request->get('slug');
+            
+            $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
+            
+            $targ_w = $targ_h = 150;
+            $jpeg_quality     = 90;
+            
+            
+            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath();   
+            $extension =  pathinfo($src, PATHINFO_EXTENSION);
+            
+            $destcrop = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath(); 
+            $destcrop = explode('.'.$extension, $destcrop);
+            $destcrop = $destcrop[0].'_'. $slug . '.' . $extension;
+            
+            switch ($extension) {
+                case 'jpg':
+                    $img_r = imagecreatefromjpeg($src);
+                    break;
+                case 'jpeg':
+                    $img_r = imagecreatefromjpeg($src);
+                    break;
+                case 'gif':
+                    $img_r = imagecreatefromgif($src);
+                    break;
+                case 'png':
+                    $img_r = imagecreatefrompng($src);
+                    break;
+                default:
+                    echo "L'image n'est pas dans un format reconnu. Extensions autorisÃ©es : jpg, jpeg, gif, png";
+                    break;
+            }
+            
+            $dst_r = imagecreatetruecolor($w, $h);
+            imagecopyresampled($dst_r, $img_r, 0, 0, $x, $y, $w, $h, $w, $h);
+            
+            switch ($extension) {
+                case 'jpg':
+                    imagejpeg($dst_r, $destcrop , $jpeg_quality);
+                    break;
+                case 'jpeg':
+                    imagejpeg($dst_r, $destcrop , $jpeg_quality);
+                    break;
+                case 'gif':
+                    imagegif($dst_r, $destcrop);
+                    break;
+                case 'png':
+                    imagepng($dst_r, $destcrop);
+                    break;
+                default:
+                    echo "L'image n'est pas dans un format reconnu. Extensions autorisÃ©es : jpg, gif, png";
+                    break;
+            }
+            @chmod($destcrop, 0777);
+            
+            $response = new JsonResponse();
+            $response->setData(array(
+                'path' => $entity->getPath()
+            ));
+            return $response;
+            //die ('fin');
+        }
+        
     }
     
 }
