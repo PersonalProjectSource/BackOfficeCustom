@@ -10,24 +10,26 @@
                Édition d'un média
            </header>
           <div class="panel-body">
-             {{ entity.type }}
                <div>
-                  <img src="{{ asset('uploads/documents/'~entity.path)}}" id="target" />
-                  <a onclick="crop('{{entity.id}}');">Crop</a>
+                  <img src="{{ asset('uploads/documents/' ~ entity.path) }}" id="target" />
+                  <a class="btn btn-success" onclick="crop('{{ entity.id }}');">Crop</a>
                </div>
           </div>
-
-            <ul class="record_actions">
-               <li>
-                   <a href="{{ path('media') }}">
-                       Back to the list
-                   </a>
-               </li>
-            </ul>
-      
+          <select id="format_crop" name="format_crop">
+            {% for format in formats %}
+               <option value="{{format.slug}}">{{format.name}}</option>
+            {% endfor %}
+          </select>
        </section>
+          <div id="formats">
+          {% for format in formats %}
+ <img src="{{ asset('uploads/documents/' ~ entity.path ~'_'~ format.slug) }}" />
+ {% endfor %}
+          </div>
    </div>
 </div>
+
+
 
 {#
 <div>
@@ -42,19 +44,26 @@
    {{ parent() }}
    
    <script language="Javascript">
+      
+      var cropTab = [];
+   
+   {% for format in formats %}
+      cropTab['{{format.slug}}_width'] = {{ format.width }};
+      cropTab['{{format.slug}}_height'] = {{ format.height }};
+      cropTab['{{format.slug}}_quality'] = {{ format.quality }};
+      cropTab['{{format.slug}}_ratio'] = {{ format.width / format.height}};
+    {% endfor %}  
+       
+       
        var x    = 0;
        var y    = 0;
        var x2   = 0;
        var y2   = 0;
        var w    = 0;
        var h    = 0;
-       var slug = "crop1";
+       var slug = "";
        
-      jQuery(function($) {
-          $('#target').Jcrop({
-              onChange: changeCoords
-          });
-      });
+    
 
      function changeCoords(c)
      {
@@ -66,12 +75,39 @@
         w  = c.w;
         h  = c.h;
      };
+  
      function crop($id)
      {
          $.post("{{path('media_crop')}}", { x : x, y : y, x2 : x2, y2 : y2, w : w, h : h, id : $id, slug : slug })
-                 .done(function(data){     
+                 .done(function(data){
+                    
                      alert(data.path);
+                     
                   });
      }
+            
+   $('#target').css({'max-width':'none'}).Jcrop({
+       onSelect: changeCoords,
+    
+       animateTo: [ 0,0,{{ formats.0.width}},{{ formats.0.height}} ],
+       aspectRatio: {{ formats.0.width / formats.0.height }}
+   },function(){
+       jcrop_api = this;
+   });
+     
+     $("#format_crop").on('change', function(){
+         var name = $("#format_crop option:selected").val();
+         slug = name;
+         console.log('.' + name);
+         console.log(cropTab[name + "_width"]);
+         console.log(cropTab[name + "_width"]/cropTab[name + "_height"]);
+         $("#img_width").val(cropTab[name + "_width"]);
+         $("#img_height").val(cropTab[name + "_height"]);
+         $("#img_quality").val(cropTab[name + "_quality"]);
+         $("#img_name").val(name);
+         jcrop_api.setOptions({
+          aspectRatio: cropTab[name + "_ratio"]
+         });
+     }); 
    </script>
   {% endblock %}

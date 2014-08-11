@@ -21,6 +21,11 @@ class Media
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+    * @ORM\ManyToMany(targetEntity="App\AdminBundle\Entity\Croping", inversedBy="media")
+    */
+    protected $croping;
 
     /**
      * @var string
@@ -59,6 +64,14 @@ class Media
     
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="extension", type="string", length=255, nullable=true)
+     */
+    private $extension;
+    
+    
+    /**
      * @Assert\File(maxSize="6000000000000")
      */
     public $file;
@@ -88,35 +101,85 @@ class Media
         return 'uploads/documents';
     }
     
+//    public function upload()
+//    {
+//        // la propriété « file » peut être vide si le champ n'est pas requis
+//        if (null === $this->file) {
+//            return;
+//        }
+//
+//        //$this->setPath($this->file->getClientOriginalName());
+//        
+//        //$this->setPath(uniqid());
+//        
+//        $finfo = new \finfo;
+//        
+//        
+////        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+////        $mime=finfo_file($finfo, $this->file->getClientOriginalName());
+////        var_dump($mime);
+////        var_dump(uniqid().".".pathinfo($this->file->getClientOriginalName(), PATHINFO_EXTENSION));die;
+////        var_dump($this->getUploadRootDir() ."/". $this->file->getClientOriginalName());die;
+//        
+//        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+//        $fileinfo = $finfo->file($this->getUploadRootDir().'/'.$this->file->getClientOriginalName(), FILEINFO_MIME);
+//        
+//        $fileNameExploded = explode('.', $this->file->getClientOriginalName());
+//        
+//        $this->setPath(uniqid());
+//        $this->setExtension($fileNameExploded[1]);
+//
+//        $this->file = null;
+//    }
+    
+    
+    
+    
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->file) {
+           
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename;
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
     public function upload()
     {
-        // la propriété « file » peut être vide si le champ n'est pas requis
         if (null === $this->file) {
             return;
         }
-
-        //$this->setPath($this->file->getClientOriginalName());
         
-        //$this->setPath(uniqid());
+        $this->preUpload();
         
-        $finfo = new \finfo;
-
-//        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-//        $mime=finfo_file($finfo, $this->file->getClientOriginalName());
-//        var_dump($mime);
+        $this->setType($this->file->getMimeType());
+        $this->setExtension($this->file->guessExtension());
         
-        
-//        var_dump(uniqid().".".pathinfo($this->file->getClientOriginalName(), PATHINFO_EXTENSION));die;
-//        var_dump($this->getUploadRootDir() ."/". $this->file->getClientOriginalName());die;
-        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-        $fileinfo = $finfo->file($this->getUploadRootDir().'/'.$this->file->getClientOriginalName(), FILEINFO_MIME);
-        $this->setPath($this->file->getClientOriginalName());
-       // var_dump(finfo_file ( $this->getUploadRootDir().'/'.$this->file->getClientOriginalName() ));die;
+        $this->file->move($this->getUploadRootDir(), $this->path);
 
         $this->file = null;
+        
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            unlink($file);
+        }
     }
     
-
     /**
      * Get id
      *
@@ -241,5 +304,91 @@ class Media
     public function getPath()
     {
         return $this->path;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->croping = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add croping
+     *
+     * @param \App\AdminBundle\Entity\Croping $croping
+     * @return Media
+     */
+    public function addCroping(\App\AdminBundle\Entity\Croping $croping)
+    {
+        $this->croping[] = $croping;
+
+        return $this;
+    }
+
+    /**
+     * Remove croping
+     *
+     * @param \App\AdminBundle\Entity\Croping $croping
+     */
+    public function removeCroping(\App\AdminBundle\Entity\Croping $croping)
+    {
+        $this->croping->removeElement($croping);
+    }
+
+    /**
+     * Get croping
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCroping()
+    {
+        return $this->croping;
+    }
+
+    /**
+     * Set extension
+     *
+     * @param string $extension
+     * @return Media
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get extension
+     *
+     * @return string 
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * Set temp
+     *
+     * @param string $temp
+     * @return Media
+     */
+    public function setTemp($temp)
+    {
+        $this->temp = $temp;
+
+        return $this;
+    }
+
+    /**
+     * Get temp
+     *
+     * @return string 
+     */
+    public function getTemp()
+    {
+        return $this->temp;
     }
 }

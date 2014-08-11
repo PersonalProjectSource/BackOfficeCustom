@@ -151,21 +151,14 @@ class MediaController extends Controller
 
         $editForm   = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
+        
+        $formats = $em->getRepository('AppAdminBundle:Croping')->findAll();
 
         return array(
             'entity'      => $entity,
+            'formats' => $formats,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
-        
-        $em     = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
-        
-        $sDirPath = 'uploads/documents/';
-        
-        return array(
-            'entity' => $entity,
-            'path'   => $sDirPath,
         );
     }
 
