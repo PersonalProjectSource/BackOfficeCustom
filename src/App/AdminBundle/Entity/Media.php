@@ -95,10 +95,24 @@ class Media
             return;
         }
 
-        $this->setPath($this->file->getClientOriginalName());
-        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+        //$this->setPath($this->file->getClientOriginalName());
+        
+        //$this->setPath(uniqid());
+        
+        $finfo = new \finfo;
 
-        // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
+//        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+//        $mime=finfo_file($finfo, $this->file->getClientOriginalName());
+//        var_dump($mime);
+        
+        
+//        var_dump(uniqid().".".pathinfo($this->file->getClientOriginalName(), PATHINFO_EXTENSION));die;
+//        var_dump($this->getUploadRootDir() ."/". $this->file->getClientOriginalName());die;
+        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
+        $fileinfo = $finfo->file($this->getUploadRootDir().'/'.$this->file->getClientOriginalName(), FILEINFO_MIME);
+        $this->setPath($this->file->getClientOriginalName());
+       // var_dump(finfo_file ( $this->getUploadRootDir().'/'.$this->file->getClientOriginalName() ));die;
+
         $this->file = null;
     }
     

@@ -141,23 +141,22 @@ class MediaController extends Controller
      */
     public function editAction($id)
     {
-//        die('methode edit');
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
-//
-//        if (!$entity) {
-//            throw $this->createNotFoundException('Unable to find Media entity.');
-//        }
-//
-//        $editForm   = $this->createEditForm($entity);
-//        $deleteForm = $this->createDeleteForm($id);
-//
-//        return array(
-//            'entity'      => $entity,
-//            'edit_form'   => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-//        );
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Media entity.');
+        }
+
+        $editForm   = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
         
         $em     = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
@@ -290,7 +289,6 @@ class MediaController extends Controller
     {     
         if($request->isXmlHttpRequest()) {
             $em = $this->getDoctrine()->getManager();
-            
             $x    = $request->get('x');
             $y    = $request->get('y');
             $x2   = $request->get('x2');

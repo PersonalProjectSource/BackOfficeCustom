@@ -2,19 +2,21 @@
 {#{% form_theme edit_form 'AppAdminBundle:Form:fields.html.twig' %}#}
 
 {% block body %}
-{# 
-<div class="row">
+
+   
    <div class="col-lg-12">
        <section class="panel">
            <header class="panel-heading">
                Édition d'un média
            </header>
           <div class="panel-body">
-            <form method="post" class="form-horizontal tasi-form" action="{{ path ('media_update', {'id' : entity.id}) }}" {{ form_enctype(edit_form) }}>
-               {{ form(edit_form) }}
-           </div>
-           <img src="{{ asset(entity.path) }}" />
-            </form>
+             {{ entity.type }}
+               <div>
+                  <img src="{{ asset('uploads/documents/'~entity.path)}}" id="target" />
+                  <a onclick="crop('{{entity.id}}');">Crop</a>
+               </div>
+          </div>
+
             <ul class="record_actions">
                <li>
                    <a href="{{ path('media') }}">
@@ -26,15 +28,14 @@
        </section>
    </div>
 </div>
-#}
 
+{#
 <div>
-   <img src="{{ asset('uploads/documents/novedia2.png')}}" id="target" />
-   <img  src="{{ asset(path ~ entity.path)}}" />
+   <img src="{{ asset('uploads/documents/'~entity.path)}}" id="target" />
 </div>
 
 <a onclick="crop('{{entity.id}}');">Crop</a>
-
+#}
 {% endblock %}
 
 {% block javascripts %} 
@@ -68,9 +69,9 @@
      function crop($id)
      {
          $.post("{{path('media_crop')}}", { x : x, y : y, x2 : x2, y2 : y2, w : w, h : h, id : $id, slug : slug })
-                 .done(function(data){    
-            alert(data.path);
-         });
+                 .done(function(data){     
+                     alert(data.path);
+                  });
      }
    </script>
   {% endblock %}
