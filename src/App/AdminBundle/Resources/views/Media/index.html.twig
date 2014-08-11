@@ -12,7 +12,7 @@
                      <a href="{{ path('media_new') }}">
                       <div class="btn-group">
                           <button  class="btn green">
-                              Ajouter un nouvel utilisateur <i class="fa fa-plus"></i>
+                              Ajouter un nouveau média <i class="fa fa-plus"></i>
                           </button>
                       </div>
                      </a>
@@ -34,8 +34,6 @@
                           <th>Id</th>
                           <th>Type média</th>
                           <th>Libellé</th>
-                          <th>Date création</th>
-                          <th>Date modification</th>
                           <th>Chemin</th>
                           <th>Apercu</th>
                           <th>Actions</th>
@@ -47,13 +45,10 @@
                               <td><a href="{{ path('media_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                               <td>{{ entity.type }}</td>
                               <td>{{ entity.libelle }}</td>
-                              <td>{% if entity.dateCreation %}{{ entity.dateCreation|date('Y-m-d H:i:s') }}{% endif %}</td>
-                              <td>{% if entity.dateModification %}{{ entity.dateModification|date('Y-m-d H:i:s') }}{% endif %}</td>
                               <td>{{ entity.file }}</td>
                               <td><img src="{{ asset(sDirePath~entity.path) }}" width="50" height="50" /></td>
                               <td class="center">
                                  <div class="hidden-phon">
-                                    <a class="btn btn-success btn-sm" href="{{ path('media_show', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-primary btn-sm" href="{{ path('media_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
                                    <a class="btn btn-danger btn-sm" onclick="confirmbox('{{ path('media', { 'iId': entity.id}) }})"><i class="fa fa-trash-o "></i></a>
                                  </div>

@@ -49,13 +49,6 @@ class Media
     private $dateCreation;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_modification", type="datetime")
-     */
-    private $dateModification;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="path", type="string", length=255)
@@ -101,40 +94,6 @@ class Media
         return 'uploads/documents';
     }
     
-//    public function upload()
-//    {
-//        // la propriété « file » peut être vide si le champ n'est pas requis
-//        if (null === $this->file) {
-//            return;
-//        }
-//
-//        //$this->setPath($this->file->getClientOriginalName());
-//        
-//        //$this->setPath(uniqid());
-//        
-//        $finfo = new \finfo;
-//        
-//        
-////        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-////        $mime=finfo_file($finfo, $this->file->getClientOriginalName());
-////        var_dump($mime);
-////        var_dump(uniqid().".".pathinfo($this->file->getClientOriginalName(), PATHINFO_EXTENSION));die;
-////        var_dump($this->getUploadRootDir() ."/". $this->file->getClientOriginalName());die;
-//        
-//        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-//        $fileinfo = $finfo->file($this->getUploadRootDir().'/'.$this->file->getClientOriginalName(), FILEINFO_MIME);
-//        
-//        $fileNameExploded = explode('.', $this->file->getClientOriginalName());
-//        
-//        $this->setPath(uniqid());
-//        $this->setExtension($fileNameExploded[1]);
-//
-//        $this->file = null;
-//    }
-    
-    
-    
-    
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -143,7 +102,6 @@ class Media
     {
         if (null !== $this->file) {
            
-            // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
             $this->path = $filename;
         }
@@ -159,15 +117,16 @@ class Media
             return;
         }
         
+        // Génère une codification du nom du fichier uploaded
         $this->preUpload();
         
         $this->setType($this->file->getMimeType());
+        $this->setDateCreation(new \DateTime("now"));
         $this->setExtension($this->file->guessExtension());
         
         $this->file->move($this->getUploadRootDir(), $this->path);
 
         $this->file = null;
-        
     }
 
     /**
@@ -280,8 +239,6 @@ class Media
     {
         return $this->dateModification;
     }
-
-
 
     /**
      * Set path

@@ -15,10 +15,12 @@ class MediaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type')
             ->add('libelle')
-            ->add('dateCreation')
-            ->add('dateModification')
+            ->add('dateCreation', 'date', array(
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd',
+                    'disabled' => true,
+                    'data' => new \DateTime("now")))
             ->add('file')
         ;
     }
