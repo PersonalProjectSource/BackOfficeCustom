@@ -4,6 +4,7 @@ namespace App\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Tms\Bundle\MediaBundle\Exception\ImagickException;
 
 /**
  * Media
@@ -13,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Media
 {
+    
+    const PICTURE_WIDTH_SIZE_MAX = 500;
+    const PLACEMENT_VALIDATION_DELAY_ID = 1;
+    
     /**
      * @var integer
      *
@@ -119,14 +124,86 @@ class Media
         
         // Génère une codification du nom du fichier uploaded
         $this->preUpload();
-        
+//        var_dump(getimagesize($this->file));
+//        var_dump(getimagesize($this->file));die;
         $this->setType($this->file->getMimeType());
         $this->setDateCreation(new \DateTime("now"));
         $this->setExtension($this->file->guessExtension());
         
-        $this->file->move($this->getUploadRootDir(), $this->path);
+        $this->file->move($this->getUploadRootDir(), $this->path.'.'.$this->file->guessExtension());
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//        var_dump($_FILES['app_adminbundle_media']['tmp_name']);
+        //$size = getimagesize($_FILES['app_adminbundle_media']['tmp_name']['file']);
+//        $nouvelleimage = imagecreatefromjpeg($this->file);
+//        var_dump($nouvelleimage);
+//        $imagecouleursvraies = imagecreatetruecolor(800, 600);
+        
+       // var_dump(__DIR__.'/../../../../web/uploads/documents/novedia2.png');
+//        $stream = fopen(__DIR__.'/../../../../web/uploads/documents/novedia2.png', 'r+');
+//        $str = fread($stream, filesize(__DIR__.'/../../../../web/uploads/documents/novedia2.png'));
+//        
+//        header('Content-Type: image/jpeg');
+//        echo $str;
+
+
+
+//        var_dump("<PRE>",$str);
+//        
+//        die;
+//        
+//        var_dump("<PRE>",$_FILES['app_adminbundle_media']['tmp_name']['file']);die;
+//        
+//        // var_dump(imagecreatefromjpeg($_FILES['app_adminbundle_media']['tmp_name']['file']));
+//        
+//        var_dump("<PRE>",$size, self::PICTURE_WIDTH_SIZE_MAX); // TODO lbrau: resize les images.
+//        $size[0] = 300;
+//        var_dump($this->getUploadRootDir().'/'.$_FILES['app_adminbundle_media']['name']['file']);
+//        //var_dump($_FILES['app_adminbundle_media']['file'].'.'.$this->extension);
+//        echo '<img src="' . $this->getUploadRootDir().'/'.$_FILES['app_adminbundle_media']['name']['file'] . '" />';
+//        var_dump(getimagesize($_FILES['app_adminbundle_media']['tmp_name']['file']));die;
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         $this->file = null;
+    }
+    
+    
+    private function definePictureFormat() 
+    {
+        $iRatio = 0;
+        
+        
     }
 
     /**

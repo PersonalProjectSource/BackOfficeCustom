@@ -287,7 +287,7 @@ class UserController extends Controller
      *
      * @Route("/delete/{iIdUser}/", name="delete_user_from_list")
      */
-    public function deleteQuestionListAction($iIdUser)
+    public function deleteUserListAction($iIdUser)
     {
         $oEm     = $this->getDoctrine()->getManager();
         $oHermesUser  = $oEm->getRepository('AppAdminBundle:User')->find($iIdUser);
@@ -302,7 +302,4 @@ class UserController extends Controller
 
         return $this->redirect($this->generateUrl('user_list'));
     }
-    
-    
-    
 }
