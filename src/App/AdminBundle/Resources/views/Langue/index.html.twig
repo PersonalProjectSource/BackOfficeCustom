@@ -23,16 +23,16 @@
                     <table class="display table table-striped table-hover table-bordered" id="editable-sample">
                         <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Position</th>
                             <th>Libellé</th>
                             <th>Code</th>
                             <th style="width:90px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for entity in entities %}
+                        {% for key,entity in entities %}
                             <tr>
-                                <td class="center"><a href="{{ path('user_show2', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td class="center">{{ key + 1 }}</td>
                                 <td>{{ entity.libelle }}</td>
                                 <td>{{ entity.code }}</td>
 

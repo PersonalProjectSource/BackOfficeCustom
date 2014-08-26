@@ -30,23 +30,6 @@ fos_user:
     group:
         group_class: App\AdminBundle\Entity\Group
         
-        
-fm_elfinder:
-    locale: %locale%
-    editor: simple
-    #showhidden: false
-    fullscreen: true
-    include_assets: true
-    compression: false
-    connector:
-        debug: false
-        roots:
-            uploads:
-                driver: LocalFileSystem
-                path: uploads
-                upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
-                upload_deny: ['all']
-                upload_max_size: 2M
 
 # Twig Configuration
 twig:
@@ -58,7 +41,6 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     java: /usr/bin/java
-    bundles:        [ FMElfinderBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
