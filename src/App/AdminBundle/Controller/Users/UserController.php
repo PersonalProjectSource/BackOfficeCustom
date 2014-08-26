@@ -13,7 +13,7 @@ use App\AdminBundle\Form\UserType;
 /**
  * User controller.
  *
- * @Route("/user")
+ * @Route("/user", name="user_list")
  */
 class UserController extends Controller
 {
@@ -287,7 +287,7 @@ class UserController extends Controller
      *
      * @Route("/delete/{iIdUser}/", name="delete_user_from_list")
      */
-    public function deleteUserListAction($iIdUser)
+    public function deleteQuestionListAction($iIdUser)
     {
         $oEm     = $this->getDoctrine()->getManager();
         $oHermesUser  = $oEm->getRepository('AppAdminBundle:User')->find($iIdUser);
@@ -302,4 +302,7 @@ class UserController extends Controller
 
         return $this->redirect($this->generateUrl('user_list'));
     }
+    
+    
+    
 }
