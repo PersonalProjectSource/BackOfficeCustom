@@ -155,9 +155,22 @@ class MediaController extends Controller
             
         $formats = $em->getRepository('AppAdminBundle:Croping')->findAll();
         
+        // Recuperation des metadonnées de l'image.
+        $filename = 'uploads/documents/'.$entity->getPath().'.'.$entity->getExtension();
+        $aDataImageOrigin = getimagesize($filename, $infos);
+        $iCoeffCrop = $aDataImageOrigin[0] / 500;
+        $iImageWidth =  $aDataImageOrigin[0];
+
+        if ( $aDataImageOrigin[0] > 500) {
+            
+            $iImageWidth = 500;
+        }
+        
         return array(
+            'iImageWith'  => $iImageWidth,
+            'dCoeffCrop'  => $iCoeffCrop,
             'entity'      => $entity,
-            'formats' => $formats,
+            'formats'     => $formats,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

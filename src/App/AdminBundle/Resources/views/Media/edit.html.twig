@@ -10,13 +10,14 @@
              </header>
             <div class="panel-body">
                  <div>
-                    <img  src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
+                    <img  width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
+
                     <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
             </div>
             <select id="format_crop" name="format_crop">
               {% for format in formats %}
-                 <option value="{{format.slug}}">{{format.name}}</option>
+                 <option value="{{ format.slug }}">{{format.name}}</option>
               {% endfor %}
             </select>
           {#  <div id="formats">
@@ -81,20 +82,27 @@
      function changeCoords(c)
      {
         console.log(c);
-        x  = c.x;
-        y  = c.y;
-        x2 = c.x2;
-        y2 = c.y2;
-        w  = c.w;
-        h  = c.h;
+        x  = c.x * {{ dCoeffCrop }};
+        y  = c.y * {{ dCoeffCrop }};
+        x2 = c.x2 * {{ dCoeffCrop }};
+        y2 = c.y2 * {{ dCoeffCrop }};
+        w  = c.w * {{ dCoeffCrop }};
+        h  = c.h * {{ dCoeffCrop }};
      };
   
      function crop($id)
      {
         
         slug = $("#format_crop option:selected").val();
-        console.log(name);
-         $.post("{{path('media_crop')}}", { x : x, y : y, x2 : x2, y2 : y2, w : w, h : h, id : $id, slug : slug })
+        console.log('coucou');
+        console.log(x / {{ dCoeffCrop }});
+        {#$.post("{{path('media_crop')}}", { x : x / {{ dCoeffCrop }} , y : y / {{ dCoeffCrop }}, x2 : x2 / {{ dCoeffCrop }}, y2 : y2 / {{ dCoeffCrop }}, w : w , h : h , id : $id, slug : slug })
+                 .done(function(data){
+                    
+                     alert(data.path);
+                     
+                  });#}
+         $.post("{{path('media_crop')}}", { x : x , y : y , x2 : x2 , y2 : y2 , w : w , h : h , id : $id, slug : slug })
                  .done(function(data){
                     
                      alert(data.path);
