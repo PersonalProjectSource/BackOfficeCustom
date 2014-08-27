@@ -30,28 +30,30 @@
                  <header class="panel-heading">
                      Images cropées
                  </header>
-                        
-                     <div id="container">
+                     <div id="container" class="panel-body">
                         {% set i = 1 %}
+                        <ul class="grid cs-style-3">
                         {% for format in formats %}
-                           
-                           <div ><img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" /></div>
-                           
-                           {#<li>
+                           {#<div ><img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" /></div>
+                           #}
+                           <li>
                              <figure>
                                  <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
                                  <figcaption>
                                      <h3>Mindblowing</h3>
                                      <span>lorem ipsume </span>
-                                     <a class="fancybox" rel="group" href="img/gallery/4.jpg">Take a look</a>
+                                     <a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>
                                  </figcaption>
                              </figure>
-                         </li>#}
+                           </li>
                         {% endfor %}
+                        </ul>
                      </div>
-
-             </section>
-          
+         </section>
+                        
+                        
+                        
+            
    </div>
 </div>
 {% endblock %}
