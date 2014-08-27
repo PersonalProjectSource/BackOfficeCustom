@@ -40,8 +40,8 @@
                              <figure>
                                  <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
                                  <figcaption>
-                                     <h3>Mindblowing</h3>
-                                     <span>lorem ipsume </span>
+                                     <h3>{{ format.slug }}</h3>
+                                     <span>{{ format.width }} x {{ format.height }}</span>
                                      <a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>
                                  </figcaption>
                              </figure>
@@ -50,10 +50,6 @@
                         </ul>
                      </div>
          </section>
-                        
-                        
-                        
-            
    </div>
 </div>
 {% endblock %}
