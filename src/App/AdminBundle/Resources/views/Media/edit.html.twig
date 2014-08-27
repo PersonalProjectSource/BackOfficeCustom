@@ -82,26 +82,19 @@
      function changeCoords(c)
      {
         console.log(c);
-        x  = c.x * {{ dCoeffCrop }};
-        y  = c.y * {{ dCoeffCrop }};
+        x  = c.x *  {{ dCoeffCrop }};
+        y  = c.y *  {{ dCoeffCrop }};
         x2 = c.x2 * {{ dCoeffCrop }};
         y2 = c.y2 * {{ dCoeffCrop }};
-        w  = c.w * {{ dCoeffCrop }};
-        h  = c.h * {{ dCoeffCrop }};
+        w  = c.w *  {{ dCoeffCrop }};
+        h  = c.h *  {{ dCoeffCrop }};
      };
   
      function crop($id)
      {
         
         slug = $("#format_crop option:selected").val();
-        console.log('coucou');
-        console.log(x / {{ dCoeffCrop }});
-        {#$.post("{{path('media_crop')}}", { x : x / {{ dCoeffCrop }} , y : y / {{ dCoeffCrop }}, x2 : x2 / {{ dCoeffCrop }}, y2 : y2 / {{ dCoeffCrop }}, w : w , h : h , id : $id, slug : slug })
-                 .done(function(data){
-                    
-                     alert(data.path);
-                     
-                  });#}
+        
          $.post("{{path('media_crop')}}", { x : x , y : y , x2 : x2 , y2 : y2 , w : w , h : h , id : $id, slug : slug })
                  .done(function(data){
                     

@@ -295,6 +295,7 @@ class MediaController extends Controller
     public function cropAction(Request $request)
     {     
         if($request->isXmlHttpRequest()) {
+//            var_dump("coucou",$request->isXmlHttpRequest());die;
             $em      = $this->getDoctrine()->getManager();
             $x       = $request->get('x');
             $y       = $request->get('y');
@@ -309,10 +310,8 @@ class MediaController extends Controller
             $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
           
             $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' . $entity->getExtension();   
-            //var_dump("le path de src : ", $src);die;
             $extension = pathinfo($src, PATHINFO_EXTENSION);
             $destcrop = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' .$entity->getExtension(); 
-//            var_dump($destcrop);die;
             $destcrop = explode('.'.$extension, $destcrop);
             $destcrop = $destcrop[0].'_'. $slug . '.' . $extension;
             
