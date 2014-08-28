@@ -53,9 +53,13 @@ class MediaController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-        $entity->upload();
-        $em->persist($entity);
-        $em->flush();
+        if ($form->isValid()) {
+            $entity->upload();
+            $em->persist($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('media'));
         
 //        if ($form->isValid()) {
 //            $em = $this->getDoctrine()->getManager();
@@ -85,7 +89,7 @@ class MediaController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Créer'));
 
         return $form;
     }
@@ -277,7 +281,7 @@ class MediaController extends Controller
             ->setAction($this->generateUrl('media_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array(
-                'label' => 'Delete',
+                'label' => 'Supprimer',
                 'attr'  => array(
                     'class' => 'btn btn-xs btn-danger'
                 )))
@@ -365,6 +369,28 @@ class MediaController extends Controller
             //die ('fin');
         }
         
+    }
+
+    /**
+     * Delete langue entity.
+     *
+     * @Route("/deletemedia/{id}", name="delete_media_datatable")
+     */
+    public function deleteMediaAction($id)
+    {
+        $oEm = $this->getDoctrine()->getManager();
+        $oMediaSelected = $oEm->getRepository('AppAdminBundle:Media')->find($id);
+
+
+        if (!$oMediaSelected) {
+            throw $this->createNotFoundException('Unable to find Field entity.');
+        }
+
+
+        $oEm->remove($oMediaSelected);
+        $oEm->flush();
+
+        return $this->redirect($this->generateUrl('media'));
     }
     
 }
