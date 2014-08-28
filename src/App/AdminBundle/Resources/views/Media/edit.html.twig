@@ -7,8 +7,8 @@
                  Édition d'un média
              </header>
             <div class="panel-body">
-                 <div>
-                    <img  width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
+                 <div class="tip4">
+                    <img width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
                     <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
             </div>
@@ -32,7 +32,19 @@
                                  <figcaption>
                                      <h3>{{ format.slug }}</h3>
                                      <span>{{ format.width }} x {{ format.height }}</span>
-                                     <a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>
+                                     <p>{{ asset(format.slug ~ '.' ~ entity.extension) }}</p>
+                                     
+                                     
+                                     <a class="tip5" href="#login_form_{{ format.slug }}">details image</a>
+                                     <div style="display:none">
+                                       <form id="login_form_{{ format.slug }}" method="post" action="">
+                                          <p>
+                                             <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}"  />
+                                             <p>{{ format.width }} x {{ format.height }}</p>
+                                          </p>
+                                       </form>
+                                    </div>
+                                     {#<a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>#}
                                  </figcaption>
                              </figure>
                            </li>
@@ -41,13 +53,40 @@
                      </div>
          </section>
    </div>
-</div>
+                        
+   <div id="titi" class="fancybox-overlay fancybox-overlay-fixed" style="width: auto; height: auto; display: none;">
+      <div class="fancybox-wrap fancybox-desktop fancybox-type-inline fancybox-opened" tabindex="-1" style="width: 403px; height: auto; position: absolute; top: 20px; left: 511px; opacity: 1; overflow: visible;"><div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;"><div class="fancybox-outer"><div class="fancybox-inner" style="overflow: hidden; width: 373px; height: 238px;"><form id="login_form_mini" method="post" action="">
+                                          <p>
+                                             <img src="/BO_custom/web/uploads/documents/1d13f46660275d858c6903ab5c1debba36d805ca_mini.jpeg">
+                                             </p><p>100 x 100</p>
+                                          <p></p>
+                                       </form>
+              </div></div><a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a></div></div>
+   </div>
 {% endblock %}
 
 {% block javascripts %} 
    {{ parent() }}
    
    <script language="Javascript">
+      /*test fancy*/
+      
+      $(".tip5").fancybox({
+      'scrolling'		: 'no',
+      'titleShow'		: false,
+         'onClosed'		: function() {
+             $("#login_error").hide();
+         }
+      });
+      
+      
+      
+      
+      /*fin de test*/
+      
+      
+      
+      
       
       var cropTab = [];
    
