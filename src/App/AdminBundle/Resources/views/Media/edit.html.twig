@@ -1,8 +1,6 @@
 {% extends 'AppAdminBundle:Layout:admin_layout.html.twig' %}
-{#{% form_theme edit_form 'AppAdminBundle:Form:fields.html.twig' %}#}
 
 {% block body %}
-   
    <div class="col-lg-12">
          <section class="panel">
              <header class="panel-heading">
@@ -11,7 +9,6 @@
             <div class="panel-body">
                  <div>
                     <img  width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
-
                     <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
             </div>
@@ -20,11 +17,6 @@
                  <option value="{{ format.slug }}">{{format.name}}</option>
               {% endfor %}
             </select>
-          {#  <div id="formats">
-              {% for format in formats %}
-                <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
-              {% endfor %}
-            </div> #}
          </section>
          <section id="formats" class="panel">
                  <header class="panel-heading">
@@ -34,14 +26,12 @@
                         {% set i = 1 %}
                         <ul class="grid cs-style-3">
                         {% for format in formats %}
-                           {#<div ><img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" /></div>
-                           #}
                            <li>
                              <figure>
                                  <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
                                  <figcaption>
-                                     <h3>Mindblowing</h3>
-                                     <span>lorem ipsume </span>
+                                     <h3>{{ format.slug }}</h3>
+                                     <span>{{ format.width }} x {{ format.height }}</span>
                                      <a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>
                                  </figcaption>
                              </figure>
@@ -50,10 +40,6 @@
                         </ul>
                      </div>
          </section>
-                        
-                        
-                        
-            
    </div>
 </div>
 {% endblock %}
