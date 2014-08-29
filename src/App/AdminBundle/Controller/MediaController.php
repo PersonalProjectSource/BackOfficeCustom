@@ -56,23 +56,24 @@ class MediaController extends Controller
         if ($form->isValid()) {
             $entity->upload();
             $em->persist($entity);
+
             $em->flush();
+
+            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' . $entity->getExtension();
+            $aDataImageOrigin = getimagesize($src);
+            if($aDataImageOrigin[0] > $aDataImageOrigin[1]) {
+                $newWidth = 50;
+                $newHeight = round(50 / $aDataImageOrigin[0] * $aDataImageOrigin[1]);
+            } else {
+                $newWidth = round(50 / $aDataImageOrigin[1] * $aDataImageOrigin[0]);
+                $newHeight = 50;
+            }
+
+            $this->cropAction($request, $x = 0, $y = 0,$w_new = $newWidth, $h_new = $newHeight, $w = $aDataImageOrigin[0], $h = $aDataImageOrigin[1], $id = $entity->getId(), $slug = "thumb");
         }
 
         return $this->redirect($this->generateUrl('media'));
-        
-//        if ($form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($entity);
-//            $em->flush();
-//
-//            return $this->redirect($this->generateUrl('media_show', array('id' => $entity->getId())));
-//        }
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
     }
 
     /**
@@ -296,20 +297,20 @@ class MediaController extends Controller
      * @Method("POST")
      * @Template()
      */
-    public function cropAction(Request $request)
-    {     
+    public function cropAction(Request $request, $x = 0, $y = 0, $w_new = 0, $h_new = 0, $w = 0, $h = 0, $id = 0, $slug = "")
+    {
+        $em      = $this->getDoctrine()->getManager();
+        $jpeg_quality = 100;
         if($request->isXmlHttpRequest()) {
-//            var_dump("coucou",$request->isXmlHttpRequest());die;
-            $em      = $this->getDoctrine()->getManager();
             $x       = $request->get('x');
             $y       = $request->get('y');
-            $x2      = $request->get('x2');
-            $y2      = $request->get('y2');
+            $w_new       = $request->get('w');
+            $h_new       = $request->get('h');
             $w       = $request->get('w');
             $h       = $request->get('h');
             $id      = $request->get('id');
             $slug    = $request->get('slug');
-            $jpeg_quality = 100;
+        }
             
             $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
           
@@ -336,8 +337,8 @@ class MediaController extends Controller
                     echo "L'image n'est pas dans un format reconnu. Extensions autorisÃ©es : jpg, jpeg, gif, png";
                     break;
             }
-            $dst_r = imagecreatetruecolor($w, $h);
-            imagecopyresampled($dst_r, $img_r, 0, 0, $x, $y, $w, $h, $w, $h);
+            $dst_r = imagecreatetruecolor($w_new, $h_new);
+            imagecopyresampled($dst_r, $img_r, 0, 0, $x, $y, $w_new, $h_new, $w, $h);
             
             switch ($extension) {
                 case 'jpg':
@@ -367,7 +368,7 @@ class MediaController extends Controller
             
             return $response;
             //die ('fin');
-        }
+
         
     }
 
@@ -392,5 +393,5 @@ class MediaController extends Controller
 
         return $this->redirect($this->generateUrl('media'));
     }
-    
+
 }

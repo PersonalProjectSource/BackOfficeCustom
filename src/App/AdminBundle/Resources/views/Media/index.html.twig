@@ -44,7 +44,11 @@
                               <td><a href="{{ path('media_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                               <td>{{ entity.type }}</td>
                               <td>{{ entity.libelle }}</td>
-                              <td><img src="{{ asset(sDirePath ~ entity.path ~ '.' ~ entity.extension)  }}" width="50" height="50" /></td>
+                              <td>
+                                  <button class="popover-dismiss" id="<img src='{{ asset(sDirePath ~ entity.path ~ '.' ~ entity.extension)  }}' width='200'/>" data-container="body" data-toggle="popover" data-placement="left" title="Aperçu de l'image" data-content="" style="background: none; border: none;">
+                                    <img src="{{ asset(sDirePath ~ entity.path ~ '_thumb.' ~ entity.extension)  }}" width="50"/>
+                                  </button>
+                              </td>
                               <td class="center">
                                  <div class="hidden-phon">
                                     <a class="btn btn-primary btn-sm" href="{{ path('media_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
@@ -84,6 +88,16 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+        $('.popover-dismiss').popover({
+            html: true,
+            trigger: 'hover',
+            container: 'body'
+        })
+        $('.popover-dismiss').on('show.bs.popover', function () {
+            $(this).attr('id');
+            $(this).attr('data-content', $(this).attr('id'));
+        })
+
         function confirmbox(location, media){
             $("#myModal").modal();
             content = "Voulez-vous supprimer ce média ? ("+ media +")";
