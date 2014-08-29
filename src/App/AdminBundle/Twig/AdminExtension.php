@@ -46,6 +46,22 @@ class AdminExtension extends \Twig_Extension
         return $slug;
     }
 
+    public static function imgFormat($id, $format)
+    {
+
+        $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
+
+
+        $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '._' . $format .$entity->getExtension();
+        if (!$src) {
+            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' .$entity->getExtension();
+        }
+
+        $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
+        $img = "<img src=".$src."/>";
+        return $img;
+    }
+
     public function getName()
     {
         return 'admin_extension';
