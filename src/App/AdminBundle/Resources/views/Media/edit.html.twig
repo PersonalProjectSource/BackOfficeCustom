@@ -19,50 +19,59 @@
             </select>
          </section>
          <section id="formats" class="panel">
-                 <header class="panel-heading">
-                     Images cropées
-                 </header>
-                     <div id="container" class="panel-body">
-                        {% set i = 1 %}
-                        <ul class="grid cs-style-3">
-                        {% for format in formats %}
-                           <li>
-                             <figure>
-                                 <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
-                                 <figcaption>
-                                     <h3>{{ format.slug }}</h3>
-                                     <span>{{ format.width }} x {{ format.height }}</span>
-                                     <p>{{ asset(format.slug ~ '.' ~ entity.extension) }}</p>
-                                     
-                                     
-                                     <a class="tip5" href="#login_form_{{ format.slug }}">details image</a>
-                                     <div style="display:none">
-                                       <form id="login_form_{{ format.slug }}" method="post" action="">
-                                          <p>
-                                             <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}"  />
-                                             <p>{{ format.width }} x {{ format.height }}</p>
-                                          </p>
-                                       </form>
-                                    </div>
-                                     {#<a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>#}
-                                 </figcaption>
-                             </figure>
-                           </li>
-                        {% endfor %}
-                        </ul>
-                     </div>
+            <header class="panel-heading">
+                Images cropées
+            </header>
+                <div id="container" class="panel-body">
+                   {% set i = 1 %}
+                   <ul class="grid cs-style-3">
+                   {% for format in formats %}
+                      <li>
+                        <figure>
+                            <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
+                            <figcaption>
+                                <h3>{{ format.slug }}</h3>
+                                <span>{{ format.width }} x {{ format.height }}</span>
+                                <p>{{ asset(format.slug ~ '.' ~ entity.extension) }}</p>
+                                <a class="tip5" href="#login_form_{{ format.slug }}">details image</a>
+                                <div style="display:none">
+                                  <form id="login_form_{{ format.slug }}" method="post" action="">
+                                     <p>
+                                        <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}"  />
+                                        <p>{{ format.width }} x {{ format.height }}</p>
+                                     </p>
+                                  </form>
+                               </div>
+                                {#<a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>#}
+                            </figcaption>
+                        </figure>
+                      </li>
+                   {% endfor %}
+                   </ul>
+                </div>
          </section>
    </div>
                         
-   <div id="titi" class="fancybox-overlay fancybox-overlay-fixed" style="width: auto; height: auto; display: none;">
-      <div class="fancybox-wrap fancybox-desktop fancybox-type-inline fancybox-opened" tabindex="-1" style="width: 403px; height: auto; position: absolute; top: 20px; left: 511px; opacity: 1; overflow: visible;"><div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;"><div class="fancybox-outer"><div class="fancybox-inner" style="overflow: hidden; width: 373px; height: 238px;"><form id="login_form_mini" method="post" action="">
-                                          <p>
-                                             <img src="/BO_custom/web/uploads/documents/1d13f46660275d858c6903ab5c1debba36d805ca_mini.jpeg">
-                                             </p><p>100 x 100</p>
-                                          <p></p>
-                                       </form>
-              </div></div><a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a></div></div>
+   <div id="titi" style="display: none;" class="fancybox-overlay fancybox-overlay-fixed" style="width: auto; height: auto; display: block;">
+      <div class="fancybox-wrap fancybox-desktop fancybox-type-inline fancybox-opened" tabindex="-1" style="width: 403px; height: auto; position: absolute; top: 20px; left: 511px; opacity: 1; overflow: visible;">
+         <div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;">
+            <div class="fancybox-outer">
+               <div class="fancybox-inner" style="overflow: hidden; width: 373px; height: 154px;">
+                  <div id="login_form_mini">
+                         <p>
+                            <img src="{{ asset('bundles/appadmin/images/progressbar.gif') }}" />
+                         </p>
+                  </div>
+               </div>
+            </div>
+            <a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>
+         </div>
+       </div>
    </div>
+                        
+   <button id="aaa" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">
+      Tooltip on left
+   </button>
 {% endblock %}
 
 {% block javascripts %} 
@@ -70,7 +79,6 @@
    
    <script language="Javascript">
       /*test fancy*/
-      
       $(".tip5").fancybox({
       'scrolling'		: 'no',
       'titleShow'		: false,
@@ -79,14 +87,19 @@
          }
       });
       
+      $.('#aaa').on('click', function(){
+         alert('coucou');
+      });
       
-      
+      $("#titi").fancybox({
+      'scrolling'		: 'no',
+      'titleShow'		: false,
+         'onClosed'		: function() {
+             $("#login_error").hide();
+         }
+      });
       
       /*fin de test*/
-      
-      
-      
-      
       
       var cropTab = [];
    
@@ -118,14 +131,10 @@
   
      function crop($id)
      {
-        
         slug = $("#format_crop option:selected").val();
-        
          $.post("{{path('media_crop')}}", { x : x , y : y , x2 : x2 , y2 : y2 , w : w , h : h , id : $id, slug : slug })
                  .done(function(data){
-                    
                      alert(data.path);
-                     
                   });
      }
    
