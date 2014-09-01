@@ -3,24 +3,44 @@
 
 namespace App\AdminBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AdminExtension extends \Twig_Extension
 {
-
+    /*
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+     protected $container;
+     
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+    
     public function getFilters()
     {
         return array(
-            //new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
+            'priceFilter' => new \Twig_SimpleFilter('size', array($this, 'sizeFilter')),
         );
     }
 
-    /*public function priceFilter($number, $decimals = 0, $decPoint = '.', $thousandsSep = ',')
+    public function sizeFilter($entity, $format = "", $width = null)
     {
-        $price = number_format($number, $decimals, $decPoint, $thousandsSep);
-        $price = '$' . $price;
-
-        return $price;
-    }*/
+        
+        $rootPath = $this->container->get('request')->getBasePath();
+        if (is_file ( $rootPath."/uploads/documents/".$entity->getPath().'_'.$format.'.'.$entity->getExtension() )) {
+            
+            $format = '_'.$format;
+        }
+        else {
+            
+            $format = "";
+        }
+        $imagePath = $rootPath."/uploads/documents/".$entity->getPath().$format.'.'.$entity->getExtension();
+        $imageFiltered = '<img width="'.$width.'" src="'.$imagePath.'" id="target" />';
+        
+        return $imageFiltered;
+    }
 
     /**
      * slugify a text
@@ -48,13 +68,10 @@ class AdminExtension extends \Twig_Extension
 
     public static function imgFormat($id, $format)
     {
-
         $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
-
-
         $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '._' . $format .$entity->getExtension();
         if (!$src) {
-            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' .$entity->getExtension();
+            $src   = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' .$entity->getExtension();
         }
 
         $entity = $em->getRepository('AppAdminBundle:Media')->find($id);

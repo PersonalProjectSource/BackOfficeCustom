@@ -8,9 +8,11 @@
              </header>
             <div class="panel-body">
                  <div class="tip4">
-                    <img width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
-                    <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
+                    {#<img width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>#}
+                    {{ entity | size | raw}}
+                    <br><a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
+                 
             </div>
             <select id="format_crop" name="format_crop">
               {% for format in formats %}

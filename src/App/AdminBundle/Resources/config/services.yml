@@ -8,5 +8,7 @@ services:
 
     app.twig.admin_extension:
         class: App\AdminBundle\Twig\AdminExtension
+        arguments:           
+          - "@service_container"
         tags:
             - { name: twig.extension }
