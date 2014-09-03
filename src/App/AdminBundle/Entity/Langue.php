@@ -24,7 +24,7 @@ class Langue
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=50)
+     * @ORM\Column(name="libelle", type="text", length=50)
      */
     private $libelle;
 

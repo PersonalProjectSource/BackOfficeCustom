@@ -15,7 +15,7 @@ class LangueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle', 'text', array("label" => "libellé"))
+            ->add('libelle', 'textarea', array("label" => "libellé"))
             ->add('code')
         ;
     }

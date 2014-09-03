@@ -8,10 +8,6 @@
     },
     "repositories": [
     {
-        "type": "vcs",
-        "url": "https://github.com/Tessi-Tms/TmsMediaClientBundle.git",
-        "type": "vcs",
-        "url": "https://github.com/Tessi-Tms/TmsMediaBundle.git"
     }
    ],
     "require": {
@@ -28,15 +24,7 @@
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
         "symfony/icu": "1.0.*@dev",
-        "friendsofsymfony/user-bundle": "~2.0dev",
-        "helios-ag/fm-elfinder-bundle": "1.x",
-        "liuggio/excelbundle": "~2.0",
-        
-        "knplabs/knp-gaufrette-bundle": "*@dev",
-        "knplabs/gaufrette": "0.2.*@dev",
-        "knplabs/knp-gaufrette-bundle": "dev-master",
-        "idci/exporter-bundle": "dev-master",
-        "tms/media-bundle": "dev-master"
+        "friendsofsymfony/user-bundle": "~2.0dev"
     },
     "scripts": {
         "post-install-cmd": [
