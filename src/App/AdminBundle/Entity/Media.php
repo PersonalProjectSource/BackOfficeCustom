@@ -9,7 +9,7 @@ use Tms\Bundle\MediaBundle\Exception\ImagickException;
 /**
  * Media
  *
- * @ORM\Table()
+ * @ORM\Table(name="media")
  * @ORM\Entity(repositoryClass="App\AdminBundle\Entity\MediaRepository")
  */
 class Media

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Croping
  *
- * @ORM\Table()
+ * @ORM\Table(name="croping")
  * @ORM\Entity(repositoryClass="App\AdminBundle\Entity\CropingRepository")
  */
 class Croping

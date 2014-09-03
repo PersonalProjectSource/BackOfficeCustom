@@ -1,11 +1,10 @@
 
 # Symfony directories
-vendor/*
-*/logs/*
-*/cache/*
-*/cache/*
-web/uploads/*
-web/bundles/*
+/vendor/
+/app/logs/*
+/app/cache/*
+web/uploads/
+web/bundles/
 
 # Configuration files
 app/config/parameters.ini
