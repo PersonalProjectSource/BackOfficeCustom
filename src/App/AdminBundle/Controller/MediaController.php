@@ -297,24 +297,24 @@ class MediaController extends Controller
      * @Method("POST")
      * @Template()
      */
-    public function cropAction(Request $request, $x = 0, $y = 0, $w_new = 0, $h_new = 0, $w = 0, $h = 0, $id = 0, $slug = "")
+    public function cropAction(Request $request, $x = 0, $y = 0, $w_new = 0, $h_new = 0, $w = 0, $h = 0, $id = 5, $slug = "")
     {
         $em      = $this->getDoctrine()->getManager();
         $jpeg_quality = 100;
         if($request->isXmlHttpRequest()) {
-            $x       = $request->get('x');
-            $y       = $request->get('y');
-            $w_new       = $request->get('w');
-            $h_new       = $request->get('h');
-            $w       = $request->get('w');
-            $h       = $request->get('h');
-            $id      = $request->get('id');
-            $slug    = $request->get('slug');
+            $x       = $request->get('ajax_x');
+            $y       = $request->get('ajax_y');
+            $w_new       = $request->get('ajax_w');
+            $h_new       = $request->get('ajax_h');
+            $w       = $request->get('ajax_w');
+            $h       = $request->get('ajax_h');
+            $id      = $request->get('ajax_id');
+            $slug    = $request->get('ajax_slug');
         }
             
             $entity = $em->getRepository('AppAdminBundle:Media')->find($id);
-          
             $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' . $entity->getExtension();   
+
             $extension = pathinfo($src, PATHINFO_EXTENSION);
             $destcrop = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' .$entity->getExtension(); 
             $destcrop = explode('.'.$extension, $destcrop);

@@ -7,10 +7,10 @@
                  Édition d'un média
              </header>
             <div class="panel-body">
-                 <div class="tip4">
-                    {#<img width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>#}
-                    {{ entity | size | raw}}
-                    <br><a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
+                 <div class="tip4e">
+                    <img width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
+                    <br>
+                    <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
                  
             </div>
@@ -70,10 +70,6 @@
          </div>
        </div>
    </div>
-                        
-   <button id="aaa" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">
-      Tooltip on left
-   </button>
 {% endblock %}
 
 {% block javascripts %} 
@@ -87,10 +83,6 @@
          'onClosed'		: function() {
              $("#login_error").hide();
          }
-      });
-      
-      $.('#aaa').on('click', function(){
-         alert('coucou');
       });
       
       $("#titi").fancybox({
@@ -122,7 +114,7 @@
 
      function changeCoords(c)
      {
-        console.log(c);
+        //console.log(c);
         x  = c.x *  {{ dCoeffCrop }};
         y  = c.y *  {{ dCoeffCrop }};
         x2 = c.x2 * {{ dCoeffCrop }};
@@ -134,7 +126,16 @@
      function crop($id)
      {
         slug = $("#format_crop option:selected").val();
-         $.post("{{path('media_crop')}}", { x : x , y : y , x2 : x2 , y2 : y2 , w : w , h : h , id : $id, slug : slug })
+         $.post("{{path('media_crop')}}", { 
+          ajax_x : x,
+           ajax_y : y,
+            ajax_x2 : x2,
+             ajax_y2 : y2,
+              ajax_w : w,
+               ajax_h : h,
+                ajax_id : $id,
+                 ajax_slug : slug }
+                 )
                  .done(function(data){
                      alert(data.path);
                   });
