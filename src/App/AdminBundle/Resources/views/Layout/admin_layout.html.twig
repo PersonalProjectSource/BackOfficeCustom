@@ -140,17 +140,12 @@
     <script>
 
      // Encapsulation du wywsywyg dans une div pour le design.
-     $('#app_adminbundle_langue_libelle').wrap('<div class="col-sm-10"></div>');
+     $('textarea').wrap('<div class="col-sm-10"></div>');
 
      var Script = function () { $('.spinner4').spinner({value:0, step: 1, min: 0, max: 200000});}();
      tinymce.init({
          selector: "textarea",
          theme: "modern",
-         plugins: [
-             "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-             "save table contextmenu directionality emoticons template paste textcolor"
-         ],
          content_css: "css/content.css",
          toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
          style_formats: [
@@ -165,8 +160,6 @@
      });
     
     </script>
-    
-
 {% endblock %}
 <!-- END JAVASCRIPTS -->
   </body>
