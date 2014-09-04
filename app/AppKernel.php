@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             /*-- SRC/APP/BUNDLE -----------------------*/
             new App\AdminBundle\AppAdminBundle(),
             new App\FrontBundle\AppFrontBundle(),
-
+            new App\ECommerceBundle\AppECommerceBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

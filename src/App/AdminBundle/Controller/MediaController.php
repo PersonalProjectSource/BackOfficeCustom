@@ -33,6 +33,12 @@ class MediaController extends Controller
         $sDirPath = 'uploads/documents/';
         $entities = $em->getRepository('AppAdminBundle:Media')->findAll();
 
+        // $aclProvider    = $this->get('doctrine.orm.default_entity_manager');
+        // $objectIdentity = objectIdentity::fromDomainObject($param);
+        // $acl = $aclProvider->createAcl($objectIdentity) 
+
+        var_dump($comment);die;
+
         return array(
             'sDirePath' => $sDirPath,
             'entities' => $entities

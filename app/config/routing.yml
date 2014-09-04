@@ -1,3 +1,13 @@
+app_e_commerce:
+    resource: "@AppECommerceBundle/Controller/"
+    type:     annotation
+    prefix:   /ecommerce
+
+# app_ecommerce:
+#     resource: "@AppEcommerceBundle/Controller"
+#     type: annotation
+#     prefix:   /
+
 app_admin:
     resource: "@AppAdminBundle/Controller/"
     type:     annotation
