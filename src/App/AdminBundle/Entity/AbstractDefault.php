@@ -3,34 +3,24 @@
 namespace App\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * AbstractDefault
+ * @ORM\MappedSuperclass
  *
- * @ORM\Table()
- * @ORM\Entity
  */
-class AbstractDefault
+abstract class AbstractDefault
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdAt", type="date")
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updatedAt", type="date")
      */
     private $updatedAt;
@@ -38,7 +28,7 @@ class AbstractDefault
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="archivedAt", type="date")
+     * @ORM\Column(name="archivedAt", type="date", nullable=true)
      */
     private $archivedAt;
 
@@ -47,38 +37,15 @@ class AbstractDefault
      *
      * @ORM\Column(name="enabled", type="boolean")
      */
-    private $enabled;
+    private $enabled = true;
 
     /**
      * @var integer
      *
+     * @Gedmo\SortablePosition
      * @ORM\Column(name="position", type="integer")
      */
     private $position;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return AbstractDefault
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
 
     /**
      * Get createdAt
@@ -88,19 +55,6 @@ class AbstractDefault
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return AbstractDefault
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**

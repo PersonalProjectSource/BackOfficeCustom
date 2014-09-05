@@ -46,7 +46,7 @@
                               <td>{{ entity.libelle }}</td>
                               <td>
                                   <button class="popover-dismiss" id="<img src='{{ asset(sDirePath ~ entity.path ~ '.' ~ entity.extension)  }}' width='200'/>" data-container="body" data-toggle="popover" data-placement="left" title="Aperçu de l'image" data-content="" style="background: none; border: none;">
-                                    {{ entity | size("thumb", 50) | raw}}
+                                    {{ entity | formatImage("thumb", 50) | raw}}
                                   </button>
                               </td>
                               <td class="center">
