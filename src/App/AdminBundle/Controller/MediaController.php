@@ -37,7 +37,7 @@ class MediaController extends Controller
         // $objectIdentity = objectIdentity::fromDomainObject($param);
         // $acl = $aclProvider->createAcl($objectIdentity) 
 
-        var_dump($comment);die;
+        //var_dump($comment);die;
 
         return array(
             'sDirePath' => $sDirPath,
