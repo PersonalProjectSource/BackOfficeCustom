@@ -22,6 +22,14 @@ class Price
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Customer")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="customer_id", referencedColumnName="id", onDelete="CASCADE")
+     * })
+     */
+    private $customer;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
