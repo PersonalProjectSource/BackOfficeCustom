@@ -28,6 +28,7 @@ class MediaController extends Controller
      */
     public function indexAction()
     {
+        
         $em = $this->getDoctrine()->getManager();
 
         $sDirPath = 'uploads/documents/';

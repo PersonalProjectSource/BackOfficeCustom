@@ -24,14 +24,18 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category", referencedColumnName="id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
-    private $parent;
+    private $category;
 
-
-
-
+    /**
+     * @ORM\ManyToMany(targetEntity="Supplier", mappedBy="product", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="supplier_id", referencedColumnName="id")
+     * })
+     */
+    private $supplier;
 
     /**
      * @var string
