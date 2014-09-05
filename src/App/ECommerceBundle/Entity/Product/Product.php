@@ -30,6 +30,14 @@ class Product
     private $category;
 
     /**
+     * @ORM\OneToMany(targetEntity="Feature", mappedBy="product")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="feature_id", referencedColumnName="id", onDelete="CASCADE")
+     * })
+     */
+    private $feature;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Supplier", mappedBy="product", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="supplier_id", referencedColumnName="id")

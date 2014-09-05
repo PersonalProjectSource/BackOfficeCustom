@@ -22,6 +22,14 @@ class Feature
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
+     * })
+     */
+    private $product;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
