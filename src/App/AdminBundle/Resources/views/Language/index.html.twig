@@ -17,7 +17,7 @@
                                 </button>
                             </div>
                         </a>
-                        {{ render(controller('AppAdminBundle:Language:list', {'lang' : lang, 'routing' : 'language'})) }}
+                        {{ render(controller('AppAdminBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'language'})) }}
                     </div>
                     <br>
                     <div class="space15"></div>
@@ -32,19 +32,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for entity in entities %}
-                            <tr>
-                                <td>{{ entity.id }}</td>
-                                <td class="center"> {{ entity.position }}</td>
-                                <td>{{ entity.isoCode | language(lang) }}</td>
-                                <td>{{ entity.isoCode }}</td>
-
-                                <td class="center">
-                                    <a class="btn btn-primary btn-sm" href="{{ path('language_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-danger btn-sm" onclick="confirmbox('')"><i class="fa fa-trash-o "></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -52,7 +39,7 @@
         </section>
         </div>
 
-        {{ render(controller('AppAdminBundle:Language:filter', {'filters':filters})) }}
+        {{ render(controller('AppAdminBundle:Language:filter', {'request': app.request})) }}
 
         <!-- page end-->
     </section>
@@ -94,9 +81,19 @@
                 [6, 15, 20, 50, 100, "Tous"] // change per page values here
             ],
             'bAutoWidth': false,
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "{{ path('language') }}",
+            "fnServerParams": function ( aoData ) {
+                {% for key, filter in app.request.get('app_adminbundle_language_filter') %}
+                    aoData.push( { "name": "filters[{{ key }}]", "value": "{{ filter }}" } );
+                {% endfor %}
+                aoData.push( { "name": "lang", "value": "{{ app.request.get("lang")}}" } );
+
+            },
             // set the initial value
             "iDisplayLength": 6,
-            "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
+            "sDom": "<'row'<'col-lg-8'l><'col-lg-4'>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
             "sPaginationType": "bootstrap",
             "oLanguage": {
                 "sProcessing":     "Traitement en cours...",
@@ -123,7 +120,7 @@
             "aoColumnDefs": [
                 { "bSortable": false,"sWidth": "90px", "aTargets" : [ 3 ] }
             ]
-        }).rowReordering();
+        });
 
     </script>
 {% endblock %}
