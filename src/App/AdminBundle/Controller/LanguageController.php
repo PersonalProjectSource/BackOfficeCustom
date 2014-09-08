@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\AdminBundle\Entity\Language;
 use App\AdminBundle\Form\LanguageType;
+use App\AdminBundle\Form\LanguageFilterType;
 
 /**
  * Language controller.
@@ -27,22 +28,82 @@ class LanguageController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $lang = $request->query->get('lang','');
-        $em = $this->getDoctrine()->getManager();
+        $filters = $request->query->get("app_adminbundle_language_filter");
+        if(empty($filters)) {
+            $em = $this->getDoctrine()->getManager();
+            $entities = $em->getRepository('AppAdminBundle:Language')->findAll();
+        } else {
+            $entities = $this->filterEntitiesAction($filters);
 
-        $entities = $em->getRepository('AppAdminBundle:Language')->findAll();
-        $languages = $em->getRepository('AppAdminBundle:Language')->findAll();
-
-        if(empty($lang)) {
-            $lang = $this->container->getParameter('locale');
         }
 
         return array(
-            'lang' => $lang,
-            'languages' => $languages,
+            'lang' => $this->container->get('app.adminbundle.services.language')->getCurrent(),
             'entities' => $entities,
+            'filters' =>  $request
         );
     }
+
+    public function filterEntitiesAction($filter)
+    {
+        $em        = $this->getDoctrine()->getManager();
+        $query	= $em->getRepository("AppAdminBundle:Language")->createQueryBuilder('a');
+        if(isset($filter['enabled'])) {
+            $query->where("a.enabled = 1");
+        } else {
+            $query->where("a.enabled = 0");
+        }
+        $andModule = $query->expr()->andx();
+        if(isset($filter['isoCode']) && !empty($filter['isoCode'])) {
+            $andModule->add($query->expr()->like('LOWER(a.isoCode)',  $query->expr()->literal('%'.strtolower(addslashes($filter['isoCode'])).'%')));
+        }
+        $query->andWhere($andModule);
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Displays a form to create a new Filter Language entity.
+     *
+     * @Route("/filter", name="language_filter")
+     * @Method("GET")
+     * @Template()
+     */
+    public function filterAction(Request $request)
+    {
+       $filters = $request->get('filters');
+
+        $entity = new Language();
+        $form   = $this->createFilterForm($entity);
+        if(!empty($filters)) {
+            $form->handleRequest($request->get('filters'));
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Creates a form to create a Language entity.
+     *
+     * @param Language $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createFilterForm(Language $entity)
+    {
+        $form = $this->createForm(new LanguageFilterType(), $entity, array(
+            'action' => $this->generateUrl('language'),
+            'method' => 'GET',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Rechercher'));
+
+        return $form;
+    }
+
     /**
      * Creates a new Language entity.
      *
@@ -251,5 +312,24 @@ class LanguageController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * Lists all Language entities.
+     *
+     * @Route("/list", name="language_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function listAction($lang, $routing)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $languages = $em->getRepository('AppAdminBundle:Language')->findAll();
+
+        return array(
+            'lang' => $lang,
+            'languages' => $languages,
+            'routing' => $routing
+        );
     }
 }

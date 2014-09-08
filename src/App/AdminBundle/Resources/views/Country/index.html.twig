@@ -1,4 +1,4 @@
-{% extends 'AppAdminBundle:Layout:admin_layout.html.twig' %}
+{% extends 'AppAdminBundle:Layout:admin.html.twig' %}
 {% block body %}
     <section class="site-min-height">
         <!-- page start-->
@@ -16,14 +16,7 @@
                                 </button>
                             </div>
                         </a>
-                        <div class="btn-group pull-right">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">Sélection de la langue : <span id="langue_selected" >{{ lang | language }} </span><i class="fa fa-angle-down"></i></button>
-                            <ul class="dropdown-menu pull-right">
-                                {% for language in languages %}
-                                    <li><a class="langue_choice" href="{{ path('country',{'lang' : language.isoCode}) }}">{{ language.isoCode | language }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        {{ render(controller('AppAdminBundle:Language:list', {'lang' : lang, 'routing' : 'country'})) }}
                     </div>
                     <br>
                     <div class="space15"></div>

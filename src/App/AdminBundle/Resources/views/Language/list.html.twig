@@ -1,0 +1,8 @@
+<div class="btn-group pull-right">
+    <button class="btn dropdown-toggle" data-toggle="dropdown">Sélection de la langue : <span id="langue_selected" >{{ lang | language }} </span><i class="fa fa-angle-down"></i></button>
+    <ul class="dropdown-menu pull-right">
+        {% for language in languages %}
+            <li><a class="langue_choice" href="{{ path(routing,{'lang' : language.isoCode}) }}">{{ language.isoCode | language }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -25,21 +25,13 @@ class CountryController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        $lang = $request->query->get('lang','');
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppAdminBundle:Country')->findAll();
-        $languages = $em->getRepository('AppAdminBundle:Language')->findAll();
-
-        if(empty($lang)) {
-            $lang = $this->container->getParameter('locale');
-        }
 
         return array(
-            'lang' => $lang,
-            'languages' => $languages,
+            'lang' => $this->container->get('app.adminbundle.services.language')->getCurrent(),
             'entities' => $entities,
         );
     }

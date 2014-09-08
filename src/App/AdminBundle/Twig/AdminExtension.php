@@ -46,21 +46,29 @@ class AdminExtension extends \Twig_Extension
     }
 
     /**
-     * @param $key
+     * @param $code
      * @return mixed
      */
-    public function country($key, $lang = "" )
+    public function country($code, $lang = "" )
     {
-        return Intl::getRegionBundle()->getCountryName($key, $lang);
+        return Intl::getRegionBundle()->getCountryName($code, $lang);
     }
 
     /**
-    * @param $key
+    * @param $code
     * @return mixed
     */
-    public function language($key, $lang = "")
+    public function language($code, $lang = "")
     {
-        return $countries = Intl::getLanguageBundle()->getLanguageName($key, $lang);
+        if(empty($lang)) {
+            return Intl::getLanguageBundle()->getLanguageName($code);
+        }
+        $languages = Intl::getLanguageBundle()->getLanguageNames($lang);
+        if (array_key_exists($code, $languages)) {
+            return $languages[$code];
+        }
+
+        return '';
     }
 
 

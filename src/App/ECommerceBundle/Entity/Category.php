@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ECommerceBundle\Entity\Product;
+namespace App\ECommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

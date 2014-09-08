@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class FieldType extends AbstractType
+class LanguageFilterType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,12 +15,8 @@ class FieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('cle', 'text', array('label' => 'Clé'))
-            ->add('fieldTranslation', 'collection', array(
-               'type' => new FieldTranslationType(),
-               'by_reference' => false,
-               'allow_add' => true,
-               'allow_delete' => true))
+            ->add('isoCode','text',array("label" => "Langue / Code ISO", 'required' => false))
+            ->add('enabled','checkbox', array("label" => "Activé",'required' => false));
         ;
     }
     
@@ -30,7 +26,7 @@ class FieldType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\AdminBundle\Entity\Field'
+            'data_class' => 'App\AdminBundle\Entity\Language'
         ));
     }
 
@@ -39,6 +35,6 @@ class FieldType extends AbstractType
      */
     public function getName()
     {
-        return 'app_adminbundle_field';
+        return 'app_adminbundle_language_filter';
     }
 }
