@@ -5520,3 +5520,13 @@ a.guest-on i {
 .pagination{
     margin: 0;
 }
+
+.panel-heading {
+    background: #d5d7de;
+    color: rgba(116, 117, 120, 1);
+}
+.dataTables_processing {
+    line-height: 0px;
+    background: none repeat scroll 0% 0% #2A3542;
+    color: #AEB2B7;
+}
