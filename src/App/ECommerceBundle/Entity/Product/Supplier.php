@@ -69,4 +69,44 @@ class Supplier
     {
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->supplier = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add supplier
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Product $supplier
+     * @return Supplier
+     */
+    public function addSupplier(\App\ECommerceBundle\Entity\Product\Product $supplier)
+    {
+        $this->supplier[] = $supplier;
+
+        return $this;
+    }
+
+    /**
+     * Remove supplier
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Product $supplier
+     */
+    public function removeSupplier(\App\ECommerceBundle\Entity\Product\Product $supplier)
+    {
+        $this->supplier->removeElement($supplier);
+    }
+
+    /**
+     * Get supplier
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSupplier()
+    {
+        return $this->supplier;
+    }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\AdminBundle\Form;
+namespace App\ECommerceBundle\Form\Product;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class CountryType extends AbstractType
+class ProductType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,7 +15,13 @@ class CountryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('isoCode','country',array("label" => "Pays"))
+            ->add('name')
+            ->add('reference')
+            ->add('quantity')
+            ->add('state')
+            ->add('slug')
+            ->add('category')
+            ->add('supplier')
         ;
     }
     
@@ -25,7 +31,7 @@ class CountryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\AdminBundle\Entity\Country'
+            'data_class' => 'App\ECommerceBundle\Entity\Product\Product'
         ));
     }
 
@@ -34,6 +40,6 @@ class CountryType extends AbstractType
      */
     public function getName()
     {
-        return 'app_adminbundle_country';
+        return 'app_ecommercebundle_product_product';
     }
 }

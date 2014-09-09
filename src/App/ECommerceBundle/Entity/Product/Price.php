@@ -77,4 +77,50 @@ class Price
     {
         return $this->price;
     }
+
+    /**
+     * Set customer
+     *
+     * @param \App\ECommerceBundle\Entity\Customer $customer
+     * @return Price
+     */
+    public function setCustomer(\App\ECommerceBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \App\ECommerceBundle\Entity\Customer 
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Product $product
+     * @return Price
+     */
+    public function setProduct(\App\ECommerceBundle\Entity\Product\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \App\ECommerceBundle\Entity\Product\Product 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
 }

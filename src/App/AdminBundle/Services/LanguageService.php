@@ -16,13 +16,12 @@ class LanguageService
     }
 
     public function getCurrent() {
+        
         $lang = $this->_container->get('request')->query->get('lang','');
         if(empty($lang)) {
             $lang = $this->_container->getParameter('locale');
         }
+
         return $lang;
     }
-
-
-
 }

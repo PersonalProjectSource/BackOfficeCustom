@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\MappedSuperclass
  *
  */
-abstract class AbstractDefault
+class AbstractDefault
 {
     /**
      * @var \DateTime
