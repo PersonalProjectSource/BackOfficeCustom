@@ -33,30 +33,42 @@ class LanguageController extends Controller
 
         if ($request->isXmlHttpRequest()) {
 
-            $qb = $em->getRepository('AppAdminBundle:Language')->createQueryBuilder('a');
-            $qb->select('a');
-
+            /* DataTable Parameters*/
             $filters = $request->get('filters');
             $lang = $request->get('lang');
-            if(empty($lang)){
-                $lang = $this->container->getParameter('locale');
-            }
+            if(empty($lang)){$lang = $this->container->getParameter('locale');}
+            $sortCol = $request->get('iSortCol_0');
+            $sortDir = $request->get('iSortDir_0');
+            $start = $request->get('iDisplayStart');
+            $limit = $request->get('iDisplayLength');
+
+            /* Columns */
+            $columns = array();
+            $columns[0] = 'id';
+            $columns[1] = 'position';
+            $columns[2] = 'isoCode';
+            $columns[3] = 'isoCode';
+            $columns[4] = 'enabled';
+
+            /* Query Result */
+            $qb = $em->getRepository('AppAdminBundle:Language')->createQueryBuilder('a');
+            $qb->select('a');
             if(!empty($filters)) {
-                (isset($filters['enabled'])) ? $qb->where("a.enabled = 1") : $qb->where("a.enabled = 0");
+                (isset($filters[$columns[4]])) ? $qb->where('a.'.$columns[4].' = 1') : $qb->where('a.'.$columns[4].' = 0');
                 $andModule = $qb->expr()->andx();
-                if(isset($filters['isoCode']) && !empty($filters['isoCode'])) {
-                    $andModule->add($qb->expr()->like('LOWER(a.isoCode)',  $qb->expr()->literal('%'.strtolower(addslashes($filters['isoCode'])).'%')));
+                if(isset($filters[$columns[2]]) && !empty($filters[$columns[2]])) {
+                    $andModule->add($qb->expr()->like('LOWER(a.'.$filters[$columns[2]].')',  $qb->expr()->literal('%'.strtolower(addslashes($filters[$columns[2]])).'%')));
                 }
                 $qb->andWhere($andModule);
             }
-
             $qb_count = clone $qb;
-            $qb->setFirstResult($request->get('iDisplayStart'));
-            $qb->setMaxResults($request->get('iDisplayLength'));
+            $qb->setFirstResult($start);
+            $qb->setMaxResults($limit);
+            $qb->orderBy('a.'.$columns[$sortCol], $sortDir);
             $result =  $qb->getQuery()->getResult();
 
+            /* Query Count */
             $qb_count->select('COUNT(a)');
-            //var_dump($qb->getQuery()->getSQL());die;
             $total =  $qb_count->getQuery()->getSingleScalarResult();
 
             $output = array(
@@ -66,18 +78,15 @@ class LanguageController extends Controller
                 "aaData" => array()
             );
 
+            /* Parse Result */
             foreach ($result as $e) {
                 $row = array();
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getPosition();
                 $languages = Intl::getLanguageBundle()->getLanguageNames($lang);
-                if (array_key_exists($e->getIsoCode(), $languages)) {
-                    $row[] = (string) $languages[$e->getIsoCode()];
-                } else {
-                    $row[] = "";
-                }
-
+                (array_key_exists($e->getIsoCode(), $languages)) ? $row[] = (string) $languages[$e->getIsoCode()] : $row[] = "";
                 $row[] = (string) $e->getIsoCode();
+                ($e->getEnabled()==0) ? $row[] = '<span class="label label-danger label-mini"><i class="fa fa-times"></i></span>' : $row[] = '<span class="label label-success label-mini"><i class="fa fa-check"></i></span>';
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("language_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;
