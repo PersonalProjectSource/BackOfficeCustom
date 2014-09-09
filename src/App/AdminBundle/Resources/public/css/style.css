@@ -434,7 +434,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     .dropdown-menu.extended  {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.176) !important;
     };
-    }
+}
 
 .dropdown-menu.extended li p {
     background-color: #F1F2F7;
@@ -1397,7 +1397,7 @@ h3.timeline-title {
     .panel-footer.revenue-foot {
         margin-bottom: -4px;
     };
-    }
+}
 
 
 .panel-footer.revenue-foot ul  {
@@ -2803,8 +2803,6 @@ ul.amounts li {
 .dataTables_paginate.paging_bootstrap.pagination {
     float: right;
     margin-top: -5px;
-    margin-bottom: 15px;
-
 }
 
 .dataTable tr:last-child {
@@ -4254,12 +4252,12 @@ span.customSelect.changed {
 /*advanced table*/
 
 .adv-table table tr td {
-    padding: 10px;
+    padding: 5px;
 }
 
 .adv-table table.display thead th {
     border-bottom: 1px solid #DDDDDD;
-    padding: 10px;
+    padding: 5px;
 }
 
 tr.odd.gradeA td.sorting_1, tr.odd td.sorting_1, tr.even.gradeA td.sorting_1 {
@@ -4296,7 +4294,7 @@ td.details table tr td, .dataTable tr:last-child {
 .adv-table .dataTables_length select {
     display: inline-block;
     margin: 0 10px 0 0;
-    padding: 5px 8px;
+    padding: 2px 5px;
     width: 65px;
 }
 
@@ -5183,9 +5181,9 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 
 
 .chat-room .user-head i {
-   float: left;
-   font-size: 40px;
-   margin-right: 10px;
+    float: left;
+    font-size: 40px;
+    margin-right: 10px;
 }
 
 .chat-room .user-head h3 {
@@ -5500,18 +5498,25 @@ a.guest-on i {
 
 
 
-/*modif lbrau*/
+/* CUSTOM MODIF */
 .white-color {
-   color: white;
+    color: white;
 }
 
 .align-btn {
-   margin-top: 10px;
+    margin-top: 10px;
 }
 .margin-top {
-   width: 100px;
-   margin-top: 5px;
+    width: 100px;
+    margin-top: 5px;
 }
 .align-right {
-   float: right;
+    float: right;
+}
+
+.btn{
+    padding: 3px 6px ;
+}
+.pagination{
+    margin: 0;
 }

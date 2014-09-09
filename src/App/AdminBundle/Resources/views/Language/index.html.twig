@@ -2,10 +2,17 @@
 {% block body %}
     <section class="site-min-height">
         <!-- page start-->
-        <div class="col-sm-9">
+        {{ render(controller('AppAdminBundle:Language:filter', {'request': app.request})) }}
+
+        <div class="col-sm-12">
         <section class="panel">
             <header class="panel-heading">
+                <div class="clearfix">
                 Liste des langues
+                <div class="btn-group pull-right">
+                    <button class="btn btn-infos" onclick="filtersShow();">Recherche <i class="fa fa-search"></i></button>
+                </div>
+                </div>
             </header>
             <div class="panel-body">
                 <div class="adv-table editable-table">
@@ -39,7 +46,7 @@
         </section>
         </div>
 
-        {{ render(controller('AppAdminBundle:Language:filter', {'request': app.request})) }}
+
 
         <!-- page end-->
     </section>
@@ -73,6 +80,18 @@
             $("#myModal .modal-footer .btn-danger").on('click', function(){
                 document.location.href= location;
             });
+        }
+
+        function filtersShow(){
+            console.log($('#filters').attr('filters'))
+            if($('#filters').attr('filters') == 'false') {
+                $("#filters").show();
+                $('#filters').attr('filters', 'true');
+            } else {
+                $("#filters").hide();
+                $('#filters').attr('filters', 'false');
+            }
+
         }
 
         var oTable = $('table').dataTable({
@@ -118,7 +137,9 @@
                 }
             },
             "aoColumnDefs": [
-                { "bSortable": false,"sWidth": "90px", "aTargets" : [ 3 ] }
+                { "sWidth": "80px", "aTargets" : [ 0 ] },
+                { "sWidth": "80px", "aTargets" : [ 1 ] },
+                { "bSortable": false,"sWidth": "65px", "aTargets" : [ 4 ] }
             ]
         });
 

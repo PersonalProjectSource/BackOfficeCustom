@@ -38,6 +38,9 @@ class LanguageController extends Controller
 
             $filters = $request->get('filters');
             $lang = $request->get('lang');
+            if(empty($lang)){
+                $lang = $this->container->getParameter('locale');
+            }
             if(!empty($filters)) {
                 (isset($filters['enabled'])) ? $qb->where("a.enabled = 1") : $qb->where("a.enabled = 0");
                 $andModule = $qb->expr()->andx();
@@ -75,7 +78,7 @@ class LanguageController extends Controller
                 }
 
                 $row[] = (string) $e->getIsoCode();
-                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("language").'"><i class="fa fa-pencil"></i></a>
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("language_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;
 
