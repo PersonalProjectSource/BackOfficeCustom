@@ -13,20 +13,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class LangueRepository extends EntityRepository
 {
-    public function removeCustom ($id) {
-        
-        
-        $rsm = new ResultSetMapping();
-        $rsm->addEntityResult('App\AdminBundle\AdminBundle\Entity\Langue', 'p');
-    //    $rsm->addFieldResult('l', 'id', 'id');
-    //    $rsm->addFieldResult('l', 'title', 'title');
 
-    //    $sql = 'delete FROM project p JOIN project_related pr ON p.id = pr.related_project_id WHERE pr.project_id = ?';
-        $sql = 'delete FROM Langue p WHERE langue_id = ?';
-        $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameter($id, $idProject);
-
-        $projects = $query->getResult();
-    }
    
 }

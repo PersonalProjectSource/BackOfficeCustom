@@ -88,7 +88,6 @@ class LanguageController extends Controller
 
             return $response;
         }
-
     }
 
     public function filterEntitiesAction($filter)

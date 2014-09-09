@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\ECommerceBundle\Entity\Product\Product;
 use App\ECommerceBundle\Form\Product\ProductType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Product\Product controller.
@@ -25,15 +26,65 @@ class ProductController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppECommerceBundle:Product\Product')->findAll();
+        if ($request->isXmlHttpRequest()) {
 
-        return array(
-            'entities' => $entities,
-        );
+            $qb = $em->getRepository('AppECommerceBundle:Product\Product')->createQueryBuilder('a');
+            $qb->select('a');
+
+            $filters = $request->get('filters');
+            $lang = $request->get('lang');
+            if(empty($lang)){
+                $lang = $this->container->getParameter('locale');
+            }
+            if(!empty($filters)) {
+                (isset($filters['enabled'])) ? $qb->where("a.enabled = 1") : $qb->where("a.enabled = 0");
+               /* $andModule = $qb->expr()->andx();
+                if(isset($filters['isoCode']) && !empty($filters['isoCode'])) {
+                    $andModule->add($qb->expr()->like('LOWER(a.isoCode)',  $qb->expr()->literal('%'.strtolower(addslashes($filters['isoCode'])).'%')));
+                }
+                $qb->andWhere($andModule);*/
+            }
+
+            $qb_count = clone $qb;
+            $qb->setFirstResult($request->get('iDisplayStart'));
+            $qb->setMaxResults($request->get('iDisplayLength'));
+            $result =  $qb->getQuery()->getResult();
+
+            $qb_count->select('COUNT(a)');
+            $total =  $qb_count->getQuery()->getSingleScalarResult();
+
+            $output = array(
+                "sEcho" => intval($request->get('sEcho')),
+                "iTotalRecords" => intval($total),
+                "iTotalDisplayRecords" => intval($total),
+                "aaData" => array()
+            );
+
+            foreach ($result as $e) {
+                $row = array();
+                $row[] = (string) $e->getId();
+                $row[] = (string) $e->getPosition();
+                $row[] = (string) $e->getName();
+                $row[] = (string) $e->getReference();
+                $row[] = (string) $e->getQuantity();
+                $row[] = (string) $e->getState();
+                $row[] = (string) $e->getSlug();
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("product_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
+                $output['aaData'][] = $row ;
+
+            }
+            $response = new JsonResponse();
+            $response->setData($output);
+
+            return $response;
+        }
+
     }
     /**
      * Creates a new Product\Product entity.

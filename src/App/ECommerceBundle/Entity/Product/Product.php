@@ -3,14 +3,15 @@
 namespace App\ECommerceBundle\Entity\Product;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\AdminBundle\Entity\AbstractDefault as Def;
+use App\AdminBundle\Entity\AbstractDefault as AbstractDefault;
 
 /**
  * Product
  *
  * @ORM\Table(name="product")
+ * @ORM\Entity
  */
-class Product extends Def
+class Product extends AbstractDefault
 {
     /**
      * @var integer
@@ -205,4 +206,54 @@ class Product extends Def
     {
         return $this->slug;
     }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $supplier
+     */
+    public function setSupplier($supplier)
+    {
+        $this->supplier = $supplier;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSupplier()
+    {
+        return $this->supplier;
+    }
+
+    /**
+     * @param mixed $feature
+     */
+    public function setFeature($feature)
+    {
+        $this->feature = $feature;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFeature()
+    {
+        return $this->feature;
+    }
+
 }
+
