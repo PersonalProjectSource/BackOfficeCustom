@@ -1,50 +1,50 @@
 <?php
 
-namespace App\AdminBundle\Controller;
+namespace App\ECommerceBundle\Controller\Product;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use App\AdminBundle\Entity\Country;
-use App\AdminBundle\Form\CountryType;
+use App\ECommerceBundle\Entity\Product\Product;
+use App\ECommerceBundle\Form\Product\ProductType;
 
 /**
- * Country controller.
+ * Product\Product controller.
  *
- * @Route("/country")
+ * @Route("/product")
  */
-class CountryController extends Controller
+class ProductController extends Controller
 {
 
     /**
-     * Lists all Country entities.
+     * Lists all Product\Product entities.
      *
-     * @Route("/", name="country")
+     * @Route("/", name="product")
      * @Method("GET")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('AppAdminBundle:Country')->findAll();
+
+        $entities = $em->getRepository('AppECommerceBundle:Product\Product')->findAll();
 
         return array(
-            'lang' => $this->container->get('app.adminbundle.services.language')->getCurrent(),
             'entities' => $entities,
         );
     }
     /**
-     * Creates a new Country entity.
+     * Creates a new Product\Product entity.
      *
-     * @Route("/", name="country_create")
+     * @Route("/", name="product_create")
      * @Method("POST")
-     * @Template("AppAdminBundle:Country:new.html.twig")
+     * @Template("AppECommerceBundle:Product\Product:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Country();
+        $entity = new Product();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -53,7 +53,7 @@ class CountryController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('country'));
+            return $this->redirect($this->generateUrl('product_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -63,16 +63,16 @@ class CountryController extends Controller
     }
 
     /**
-     * Creates a form to create a Country entity.
+     * Creates a form to create a Product\Product entity.
      *
-     * @param Country $entity The entity
+     * @param Product $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Country $entity)
+    private function createCreateForm(Product $entity)
     {
-        $form = $this->createForm(new CountryType(), $entity, array(
-            'action' => $this->generateUrl('country_create'),
+        $form = $this->createForm(new ProductType(), $entity, array(
+            'action' => $this->generateUrl('product_create'),
             'method' => 'POST',
         ));
 
@@ -82,15 +82,15 @@ class CountryController extends Controller
     }
 
     /**
-     * Displays a form to create a new Country entity.
+     * Displays a form to create a new Product\Product entity.
      *
-     * @Route("/new", name="country_new")
+     * @Route("/new", name="product_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Country();
+        $entity = new Product();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -100,9 +100,9 @@ class CountryController extends Controller
     }
 
     /**
-     * Finds and displays a Country entity.
+     * Finds and displays a Product\Product entity.
      *
-     * @Route("/{id}", name="country_show")
+     * @Route("/{id}", name="product_show")
      * @Method("GET")
      * @Template()
      */
@@ -110,10 +110,10 @@ class CountryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppAdminBundle:Country')->find($id);
+        $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Country entity.');
+            throw $this->createNotFoundException('Unable to find Product\Product entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -125,9 +125,9 @@ class CountryController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Country entity.
+     * Displays a form to edit an existing Product\Product entity.
      *
-     * @Route("/{id}/edit", name="country_edit")
+     * @Route("/{id}/edit", name="product_edit")
      * @Method("GET")
      * @Template()
      */
@@ -135,10 +135,10 @@ class CountryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppAdminBundle:Country')->find($id);
+        $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Country entity.');
+            throw $this->createNotFoundException('Unable to find Product\Product entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -152,16 +152,16 @@ class CountryController extends Controller
     }
 
     /**
-    * Creates a form to edit a Country entity.
+    * Creates a form to edit a Product\Product entity.
     *
-    * @param Country $entity The entity
+    * @param Product $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Country $entity)
+    private function createEditForm(Product $entity)
     {
-        $form = $this->createForm(new CountryType(), $entity, array(
-            'action' => $this->generateUrl('country_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ProductType(), $entity, array(
+            'action' => $this->generateUrl('product_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -170,20 +170,20 @@ class CountryController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Country entity.
+     * Edits an existing Product\Product entity.
      *
-     * @Route("/{id}", name="country_update")
+     * @Route("/{id}", name="product_update")
      * @Method("PUT")
-     * @Template("AppAdminBundle:Country:edit.html.twig")
+     * @Template("AppECommerceBundle:Product\Product:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppAdminBundle:Country')->find($id);
+        $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Country entity.');
+            throw $this->createNotFoundException('Unable to find Product\Product entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -193,7 +193,7 @@ class CountryController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('country'));
+            return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
         }
 
         return array(
@@ -203,9 +203,9 @@ class CountryController extends Controller
         );
     }
     /**
-     * Deletes a Country entity.
+     * Deletes a Product\Product entity.
      *
-     * @Route("/{id}", name="country_delete")
+     * @Route("/{id}", name="product_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -215,21 +215,21 @@ class CountryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppAdminBundle:Country')->find($id);
+            $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Country entity.');
+                throw $this->createNotFoundException('Unable to find Product\Product entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('country'));
+        return $this->redirect($this->generateUrl('product'));
     }
 
     /**
-     * Creates a form to delete a Country entity by id.
+     * Creates a form to delete a Product\Product entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -238,7 +238,7 @@ class CountryController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('country_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('product_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

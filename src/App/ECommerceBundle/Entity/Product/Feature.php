@@ -99,4 +99,27 @@ class Feature
     {
         return $this->value;
     }
+
+    /**
+     * Set product
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Product $product
+     * @return Feature
+     */
+    public function setProduct(\App\ECommerceBundle\Entity\Product\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \App\ECommerceBundle\Entity\Product\Product 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
 }
