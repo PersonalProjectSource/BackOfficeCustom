@@ -2,10 +2,17 @@
 {% block body %}
     <section class="site-min-height">
         <!-- page start-->
-        <div class="col-sm-9">
+        {{ render(controller('AppAdminBundle:Language:filter', {'request': app.request})) }}
+
+        <div class="col-sm-12">
         <section class="panel">
             <header class="panel-heading">
+                <div class="clearfix">
                 Liste des langues
+                <div class="btn-group pull-right">
+                    <button class="btn btn-infos" onclick="filtersShow();">Recherche <i class="fa fa-search"></i></button>
+                </div>
+                </div>
             </header>
             <div class="panel-body">
                 <div class="adv-table editable-table">
@@ -17,7 +24,7 @@
                                 </button>
                             </div>
                         </a>
-                        {{ render(controller('AppAdminBundle:Language:list', {'lang' : lang, 'routing' : 'language'})) }}
+                        {{ render(controller('AppAdminBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'language'})) }}
                     </div>
                     <br>
                     <div class="space15"></div>
@@ -32,26 +39,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for entity in entities %}
-                            <tr>
-                                <td>{{ entity.id }}</td>
-                                <td class="center"> {{ entity.position }}</td>
-                                <td>{{ entity.isoCode | language(lang) }}</td>
-                                <td>{{ entity.isoCode }}</td>
-
-                                <td class="center">
-                                    <a class="btn btn-primary btn-sm" href="{{ path('language_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-danger btn-sm" onclick="confirmbox('')"><i class="fa fa-trash-o "></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
         </div>
-
 
         <!-- page end-->
     </section>
@@ -87,15 +80,37 @@
             });
         }
 
+        function filtersShow(){
+            console.log($('#filters').attr('filters'))
+            if($('#filters').attr('filters') == 'false') {
+                $("#filters").show();
+                $('#filters').attr('filters', 'true');
+            } else {
+                $("#filters").hide();
+                $('#filters').attr('filters', 'false');
+            }
+
+        }
+
         var oTable = $('table').dataTable({
             "aLengthMenu": [
                 [6, 15, 20, 50, 100, -1],
                 [6, 15, 20, 50, 100, "Tous"] // change per page values here
             ],
             'bAutoWidth': false,
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "{{ path('language') }}",
+            "fnServerParams": function ( aoData ) {
+                {% for key, filter in app.request.get('app_adminbundle_language_filter') %}
+                    aoData.push( { "name": "filters[{{ key }}]", "value": "{{ filter }}" } );
+                {% endfor %}
+                aoData.push( { "name": "lang", "value": "{{ app.request.get("lang")}}" } );
+
+            },
             // set the initial value
             "iDisplayLength": 6,
-            "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
+            "sDom": "<'row'<'col-lg-8'l><'col-lg-4'>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
             "sPaginationType": "bootstrap",
             "oLanguage": {
                 "sProcessing":     "Traitement en cours...",
@@ -120,9 +135,11 @@
                 }
             },
             "aoColumnDefs": [
-                { "bSortable": false,"sWidth": "90px", "aTargets" : [ 3 ] }
+                { "sWidth": "80px", "aTargets" : [ 0 ] },
+                { "sWidth": "80px", "aTargets" : [ 1 ] },
+                { "bSortable": false,"sWidth": "65px", "aTargets" : [ 4 ] }
             ]
-        }).rowReordering();
+        });
 
     </script>
 {% endblock %}
