@@ -9,10 +9,113 @@
                     Ajouter un Produit
                 </header>
                 {{ form(form) }}
+
+                <input class="media-btn" type="button" name="media_list_btn" value="liste des medias">
+                <input class="add-media-btn" type="button" name="add_media_btn" value="ajouter un média">
             </section>
         </div>
     </div>
+
+    <div class="media-btn">
+        <input type="button" name="media-btn" value="afficher la mediatheque"/>
+        
+    </div>
+
+     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #56b2d6;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Mediathèque</h4>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('AppAdminBundle:Media:list')) }}
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger" type="button">Annuler</button>
+                    <button class="btn btn-info" type="button"> Selectionner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="addMyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #56b2d6;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Ajouter un media</h4>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('AppAdminBundle:Media:addMediaFromUpdate')) }}
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger" type="button">Annuler</button>
+                    <button id="media_selection_btn" class="btn btn-info" type="button"> Selectionner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $('.media-btn').on('click', function (e) {
+        confirmboxmedialist();
+    });
+
+    $('.add-media-btn').on('click', function (e) {
+        confirmboxaddmedia();
+    });
+
+    $('#media_selection_btn').on('click', function (e) {
+        
+        
+        //confirmboxaddmedia();
+        sendMediaToProductForAjax(1);
+
+    });
+
+    
+
+
+        function confirmboxmedialist(id){
+            alert('check : ' + id)
+            $("#myModal").modal();
+            /*$("#myModal .modal-footer .btn-danger").on('click', function(){
+                document.location.href= location;
+            });*/
+        }
+
+        function confirmboxaddmedia(){
+            $("#addMyModal").modal();
+        }
+
+        function filtersShow(){
+
+            console.log($('#filters').attr('filters'))
+            if($('#filters').attr('filters') == 'false') {
+                $("#filters").show();
+                $('#filters').attr('filters', 'true');
+            } else {
+                $("#filters").hide();
+                $('#filters').attr('filters', 'false');
+            }
+        }
+
+        function sendMediaToProductForAjax(iIdMedia) {
+
+            alert('check id : '+iIdMedia);
+        }
+
+        
+
+    </script>
+{% endblock %}
+
 
 
 

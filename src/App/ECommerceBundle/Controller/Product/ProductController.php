@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\ECommerceBundle\Entity\Product\Product;
 use App\ECommerceBundle\Form\Product\ProductType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Product\Product controller.
@@ -66,7 +67,7 @@ class ProductController extends Controller
             );
 
             foreach ($result as $e) {
-                $row = array();
+                $row   = array();
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getPosition();
                 $row[] = (string) $e->getName();
@@ -84,6 +85,7 @@ class ProductController extends Controller
 
             return $response;
         }
+
 
     }
     /**
@@ -126,7 +128,6 @@ class ProductController extends Controller
             'action' => $this->generateUrl('product_create'),
             'method' => 'POST',
         ));
-
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;

@@ -26,17 +26,138 @@ class MediaController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $sDirPath = 'uploads/documents/';
-        $entities = $em->getRepository('AppAdminBundle:Media')->findAll();
+        if ($request->isXmlHttpRequest()) {
 
-        return array(
-            'sDirePath' => $sDirPath,
-            'entities' => $entities
-        );
+            /* DataTable Parameters*/
+            $filters = $request->get('filters');
+            $lang = $request->get('lang');
+            if(empty($lang)){$lang = $this->container->getParameter('locale');}
+            $sortCol = $request->get('iSortCol_0');
+            $sortDir = $request->get('iSortDir_0');
+            $start = $request->get('iDisplayStart');
+            $limit = $request->get('iDisplayLength');
+
+            /* Columns */
+            $columns = array();
+            $columns[0] = 'id';
+            $columns[1] = 'type';
+            $columns[2] = 'libelle';
+
+            /* Query Result */
+            $qb = $em->getRepository('AppAdminBundle:Media')->createQueryBuilder('a');
+            $qb_count = clone $qb;
+            $qb->setFirstResult($start);
+            $qb->setMaxResults($limit);
+            $qb->orderBy('a.'.$columns[$sortCol], $sortDir);
+            $result =  $qb->getQuery()->getResult();
+
+            /* Query Count */
+            $qb_count->select('COUNT(a)');
+            $total =  $qb_count->getQuery()->getSingleScalarResult();
+
+            $output = array(
+                "sEcho" => intval($request->get('sEcho')),
+                "iTotalRecords" => intval($total),
+                "iTotalDisplayRecords" => intval($total),
+                "aaData" => array()
+            );
+
+            /* Parse Result */
+
+            foreach ($result as $e) {
+                $row = array();
+                $row[] = (string) $e->getId();
+                $row[] = (string) $e->getType();
+                $row[] = (string) $e->getLibelle();
+
+
+                $row[] = $this->container->get('app.twig.admin_extension')->formatImage($e, 'thumb', 50);
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
+                $output['aaData'][] = $row ;
+
+            }
+            $response = new JsonResponse();
+            $response->setData($output);
+
+            return $response;
+        }
+    }
+
+
+    /**
+     * Lists all Media entities.
+     *
+     * @Route("/list", name="media_list")
+     * @Method("GET")
+     * @Template()
+     */
+     public function listAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($request->isXmlHttpRequest()) {
+            /* DataTable Parameters*/
+            $filters = $request->get('filters');
+            $lang = $request->get('lang');
+            if(empty($lang)){$lang = $this->container->getParameter('locale');}
+            $sortCol = $request->get('iSortCol_0');
+            $sortDir = $request->get('iSortDir_0');
+            $start = $request->get('iDisplayStart');
+            $limit = $request->get('iDisplayLength');
+
+            /* Columns */
+            $columns = array();
+            $columns[0] = 'id';
+            $columns[1] = 'type';
+            $columns[2] = 'libelle';
+
+            /* Query Result */
+            $qb = $em->getRepository('AppAdminBundle:Media')->createQueryBuilder('a');
+            $qb_count = clone $qb;
+            $qb->setFirstResult($start);
+            $qb->setMaxResults($limit);
+            $qb->orderBy('a.'.$columns[$sortCol], $sortDir);
+            $result =  $qb->getQuery()->getResult();
+
+            
+
+
+            /* Query Count */
+            $qb_count->select('COUNT(a)');
+            $total =  $qb_count->getQuery()->getSingleScalarResult();
+
+            $output = array(
+                "sEcho" => intval($request->get('sEcho')),
+                "iTotalRecords" => intval($total),
+                "iTotalDisplayRecords" => intval($total),
+                "aaData" => array()
+            );
+
+            /* Parse Result */
+
+            foreach ($result as $e) {
+                $row = array();
+                $row[] = (string) $e->getId();
+                $row[] = (string) $e->getType();
+                $row[] = (string) $e->getLibelle();
+
+                $row[] = $this->container->get('app.twig.admin_extension')->formatImage($e, 'thumb', 50);
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-danger btn-sm" data="'.$e->getId().'" onclick="confirmboxmedialist('.$e->getId().')"><i class="fa fa-trash-o "></i></a>';
+                $output['aaData'][] = $row ;
+
+            }
+            $response = new JsonResponse();
+            $response->setData($output);
+
+            return $response;
+        }
     }
     
     /**
@@ -393,5 +514,24 @@ class MediaController extends Controller
 
         return $this->redirect($this->generateUrl('media'));
     }
+
+    /**
+     * Fonctionne avec le bouton de l'interface Product:new
+     *
+     * @Route("/formupdate", name="form_media_update")
+     * @Template()
+     */
+    public function addMediaFromUpdateAction()
+    {
+        $entity = new Media();
+        $form   = $this->createCreateForm($entity);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+
+    }
+
 
 }

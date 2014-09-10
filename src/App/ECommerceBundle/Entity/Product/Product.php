@@ -56,6 +56,13 @@ class Product extends AbstractDefault
     /**
      * @var string
      *
+     * @ORM\Column(name="media", type="string", length=255)
+     */
+    private $media;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="reference", type="string", length=255)
      */
     private $reference;
@@ -255,5 +262,81 @@ class Product extends AbstractDefault
         return $this->feature;
     }
 
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->feature = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->supplier = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Set media
+     *
+     * @param string $media
+     * @return Product
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
+
+        return $this;
+    }
+
+    /**
+     * Get media
+     *
+     * @return string 
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
+    /**
+     * Add feature
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Feature $feature
+     * @return Product
+     */
+    public function addFeature(\App\ECommerceBundle\Entity\Product\Feature $feature)
+    {
+        $this->feature[] = $feature;
+
+        return $this;
+    }
+
+    /**
+     * Remove feature
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Feature $feature
+     */
+    public function removeFeature(\App\ECommerceBundle\Entity\Product\Feature $feature)
+    {
+        $this->feature->removeElement($feature);
+    }
+
+    /**
+     * Add supplier
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Supplier $supplier
+     * @return Product
+     */
+    public function addSupplier(\App\ECommerceBundle\Entity\Product\Supplier $supplier)
+    {
+        $this->supplier[] = $supplier;
+
+        return $this;
+    }
+
+    /**
+     * Remove supplier
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Supplier $supplier
+     */
+    public function removeSupplier(\App\ECommerceBundle\Entity\Product\Supplier $supplier)
+    {
+        $this->supplier->removeElement($supplier);
+    }
+}

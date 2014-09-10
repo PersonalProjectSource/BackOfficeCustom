@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Form\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use App\AdminBundle\Form\MediaType;
 
 class ProductType extends AbstractType
 {
@@ -17,6 +18,7 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('reference')
+            ->add('media', 'text')
             ->add('quantity')
             ->add('state')
             ->add('slug')
