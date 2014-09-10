@@ -18,11 +18,6 @@ app_e_commerce:
     type:     annotation
     prefix:   /admin
 
-# app_ecommerce:
-#     resource: "@AppEcommerceBundle/Controller"
-#     type: annotation
-#     prefix:   /
-
 app_admin:
     resource: "@AppAdminBundle/Controller/"
     type:     annotation

@@ -10,8 +10,6 @@ use Symfony\Component\Validator\Constraints;
 
 class UserType extends AbstractType
 {
-    
-   
     /**
      * @param FormBuilderInterface $builder
      * @param array $options

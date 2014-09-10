@@ -10,7 +10,7 @@
                       </a>
                       <ul class="sub">
                           <li {% if app.request.get('_route') == 'user_list' %}class='active'{% endif %}><a  href="{{ path ('user_list') }}">Liste des utilisateurs</a></li>
-                          <li {% if app.request.get('_route') == 'fos_user_group_list' %}class='active'{% endif %}><a  href="{{ path ('fos_user_group_list') }}">Groupes de Rôle</a></li>
+                          <li {% if app.request.get('_route') == 'fos_user_group_list' %}class='active'{% endif %}><a  href="{{ path ('fos_user_group_list') }}">Groupes de Rôles</a></li>
                       </ul>
                   </li>
                   {% endif %}

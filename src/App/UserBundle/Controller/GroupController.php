@@ -36,7 +36,6 @@ class GroupController extends BaseController
     public function listAction()
     {
         $groups = $this->container->get('fos_user.group_manager')->findGroups();
-
         return $this->container->get('templating')->renderResponse('AppUserBundle:Group:list.html.'.$this->getEngine(), array('groups' => $groups));
     }
 
