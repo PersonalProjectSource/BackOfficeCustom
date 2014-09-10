@@ -3,14 +3,15 @@
 namespace App\ECommerceBundle\Entity\Product;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Feature
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\Product\FeatureRepository")
+ * @ORM\Table(name="feature")
+ * @ORM\Entity()
  */
-class Feature
+class Feature extends AbstractDefault
 {
     /**
      * @var integer

@@ -14,21 +14,21 @@ class AbstractDefault
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="createdAt", type="date")
+     * @ORM\Column(name="created_at", type="date")
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updatedAt", type="date")
+     * @ORM\Column(name="updated_at", type="date")
      */
     private $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="archivedAt", type="date", nullable=true)
+     * @ORM\Column(name="archived_at", type="date", nullable=true)
      */
     private $archivedAt;
 

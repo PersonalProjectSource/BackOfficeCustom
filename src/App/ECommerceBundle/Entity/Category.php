@@ -3,6 +3,7 @@
 namespace App\ECommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Category
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="category")
  * @ORM\Entity()
  */
-class Category
+class Category extends AbstractDefault
 {
     /**
      * @var integer

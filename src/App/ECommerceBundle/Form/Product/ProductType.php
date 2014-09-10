@@ -40,6 +40,6 @@ class ProductType extends AbstractType
      */
     public function getName()
     {
-        return 'app_ecommercebundle_product_product';
+        return 'app_ecommercebundle_product_form_product';
     }
 }

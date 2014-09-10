@@ -3,14 +3,15 @@
 namespace App\ECommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Address
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\AddressRepository")
+ * @ORM\Table(name="address")
+ * @ORM\Entity()
  */
-class Address
+class Address extends AbstractDefault
 {
     /**
      * @var integer
@@ -80,7 +81,7 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(name="phoneMobile", type="string", length=255)
+     * @ORM\Column(name="phone_mobile", type="string", length=255)
      */
     private $phoneMobile;
 

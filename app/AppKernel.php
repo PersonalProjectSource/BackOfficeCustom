@@ -23,6 +23,9 @@ class AppKernel extends Kernel
             new App\AdminBundle\AppAdminBundle(),
             new App\FrontBundle\AppFrontBundle(),
             new App\ECommerceBundle\AppECommerceBundle(),
+            new App\UserBundle\AppUserBundle(),
+            new App\LanguageBundle\AppLanguageBundle(),
+            new App\MediaBundle\AppMediaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -4,6 +4,12 @@
               <ul class="sidebar-menu" id="nav-accordion">
                   {% if is_granted("ROLE_SUPER_ADMIN") %}
                   <li class="sub-menu">
+                      <a href="{{ path ('fos_user_group_list') }}" >
+                          <i class="fa fa-users"></i>
+                          <span>Gérer les groupes</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
                       <a href="{{ path ('user_list') }}" >
                           <i class="fa fa-users"></i>
                           <span>Gérer les administrateurs</span>
