@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\AdminBundle\Entity\Category;
 use App\AdminBundle\Form\CategoryType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Category controller.
@@ -70,8 +71,25 @@ class CategoryController extends Controller
      * @Method("POST")
      * @Template()
      */
-    public function createAction(Request $request) {
+    public function saveAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
 
+        if ($request->isXmlHttpRequest()) {
+            $parentid = $request->request->get('parentid');
+            $name = $request->request->get('name');
+
+            $parentCategory = $em->getRepository('AppAdminBundle:Category')->find($parentid);
+            $category = new Category();
+            $category->setTitle($name);
+            $category->setParent($parentCategory);
+
+            $em->persist($category);
+            $em->flush();
+
+            $response = new JsonResponse();
+            $response->setData(array('id' => $category->getId()));
+            return $response;
+        }
     }
 
     /**

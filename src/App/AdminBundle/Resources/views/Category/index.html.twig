@@ -57,6 +57,13 @@
 
         })
         .bind("rename_node.jstree", function (e, data) {
+            infos = {};
+            infos.parentid = data.node.parent;
+            infos.name = data.text
+                    $.post('{{ path('category_save') }}', infos, function(resp){
+                        $('#'+data.node.id).attr('id',resp.id)
+                        console.log(resp.id);
+                    })
             console.log("rename_node.jstree");
             console.log(data);
         });
