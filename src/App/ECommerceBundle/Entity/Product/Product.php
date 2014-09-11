@@ -3,13 +3,13 @@
 namespace App\ECommerceBundle\Entity\Product;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\AdminBundle\Entity\AbstractDefault as AbstractDefault;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Product
  *
  * @ORM\Table(name="product")
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class Product extends AbstractDefault
 {

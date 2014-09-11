@@ -3,14 +3,15 @@
 namespace App\ECommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Customer
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\CustomerRepository")
+ * @ORM\Table(name="customer")
+ * @ORM\Entity()
  */
-class Customer
+class Customer extends AbstractDefault
 {
     /**
      * @var integer

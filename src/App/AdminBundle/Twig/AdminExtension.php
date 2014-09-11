@@ -21,9 +21,7 @@ class AdminExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'formatImage' => new \Twig_SimpleFilter('formatImage', array($this, 'formatImage')),
-            'country' => new \Twig_Filter_Method($this, 'country'),
-            'language' => new \Twig_Filter_Method($this, 'language')
+
         );
     }
 

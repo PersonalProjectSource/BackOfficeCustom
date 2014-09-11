@@ -4,35 +4,35 @@
               <ul class="sidebar-menu" id="nav-accordion">
                   {% if is_granted("ROLE_SUPER_ADMIN") %}
                   <li class="sub-menu">
-                      <a href="{{ path ('user_list') }}" >
+                      <a href="javascript:;" {% if app.request.get('_route') == 'user_list' or app.request.get('_route') == 'fos_user_group_list' %}class='active'{% endif %}>
                           <i class="fa fa-users"></i>
-                          <span>Gérer les administrateurs</span>
+                          <span>Utilisateurs / Rôles</span>
                       </a>
+                      <ul class="sub">
+                          <li {% if app.request.get('_route') == 'user_list' %}class='active'{% endif %}><a  href="{{ path ('user_list') }}">Liste des utilisateurs</a></li>
+                          <li {% if app.request.get('_route') == 'fos_user_group_list' %}class='active'{% endif %}><a  href="{{ path ('fos_user_group_list') }}">Groupes de Rôles</a></li>
+                      </ul>
                   </li>
                   {% endif %}
                   <li class="sub-menu">
-                      <a href="{{ path ('country') }}" >
+                      <a href="javascript:;" {% if app.request.get('_route') == 'country' or app.request.get('_route') == 'language' %}class='active'{% endif %}>
                           <i class="fa fa-globe"></i>
-                          <span>Liste des pays</span>
+                          <span>Langues / Pays</span>
                       </a>
+                      <ul class="sub">
+                          <li {% if app.request.get('_route') == 'country' %}class='active'{% endif %}><a  href="{{ path ('country') }}">Liste des pays</a></li>
+                          <li {% if app.request.get('_route') == 'language' %}class='active'{% endif %}><a  href="{{ path ('language') }}">Liste des langues</a></li>
+                      </ul>
                   </li>
                   <li class="sub-menu">
-                      <a href="{{ path ('product') }}" >
-                          <i class="fa fa-globe"></i>
-                          <span>Liste des produits</span>
+                      <a href="javascript:;" {% if app.request.get('_route') == 'media' or app.request.get('_route') == 'croping' %}class='active'{% endif %}>
+                          <i class="fa fa-film"></i>
+                          <span>Médiathèque</span>
                       </a>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="{{ path ('language') }}" >
-                          <i class="fa fa-globe"></i>
-                          <span>Liste des langues</span>
-                      </a>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="{{ path ('media') }}" >
-                          <i class="fa fa-globe"></i>
-                          <span>Liste des médias</span>
-                      </a>
+                      <ul class="sub">
+                          <li {% if app.request.get('_route') == 'media' %}class='active'{% endif %}><a  href="{{ path ('media') }}">Liste des médias</a></li>
+                          <li {% if app.request.get('_route') == 'croping' %}class='active'{% endif %}><a  href="{{ path ('croping') }}">Formats de croping</a></li>
+                      </ul>
                   </li>
                   <li>
                       <a  href="{{ path('fos_user_security_logout') }}">
