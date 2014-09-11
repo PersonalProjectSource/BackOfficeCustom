@@ -3,7 +3,6 @@
     <section class="site-min-height">
         <!-- page start-->
 
-        {{ render(controller('AppAdminBundle:Language:filter', {'request': app.request})) }}
         <div class="col-sm-12">
             <section class="panel">
                 <header class="panel-heading">
@@ -24,7 +23,7 @@
                                     </button>
                                 </div>
                             </a>
-                            {{ render(controller('AppAdminBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product'})) }}
+                            {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product'})) }}
                         </div>
                         <br>
                         <div class="space15"></div>
@@ -105,9 +104,6 @@
             "bServerSide": true,
             "sAjaxSource": "{{ path('product') }}",
             "fnServerParams": function ( aoData ) {
-                {% for key, filter in app.request.get('app_adminbundle_language_filter') %}
-                aoData.push( { "name": "filters[{{ key }}]", "value": "{{ filter }}" } );
-                {% endfor %}
                 aoData.push( { "name": "lang", "value": "{{ app.request.get("lang")}}" } );
 
             },

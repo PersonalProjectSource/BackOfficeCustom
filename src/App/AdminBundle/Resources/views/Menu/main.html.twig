@@ -24,6 +24,23 @@
                           <li {% if app.request.get('_route') == 'language' %}class='active'{% endif %}><a  href="{{ path ('language') }}">Liste des langues</a></li>
                       </ul>
                   </li>
+                  <li>
+                      <a  href="{{ path('category') }}">
+                          <i class="fa fa-pagelines"></i>
+                          <span>Gestion des Categories</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;" {% if app.request.get('_route') == 'product' or app.request.get('_route') == 'product' %}class='active'{% endif %}>
+                          <i class="fa fa-flask"></i>
+                          <span>Produits</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if app.request.get('_route') == 'product' %}class='active'{% endif %}><a  href="{{ path ('product') }}">Catalogue produits</a></li>
+                          <li {% if app.request.get('_route') == 'croping' %}class='active'{% endif %}><a  href="{{ path ('croping') }}">Formats de croping</a></li>
+                      </ul>
+                  </li>
+
                   <li class="sub-menu">
                       <a href="javascript:;" {% if app.request.get('_route') == 'media' or app.request.get('_route') == 'croping' %}class='active'{% endif %}>
                           <i class="fa fa-film"></i>

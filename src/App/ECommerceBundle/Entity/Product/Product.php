@@ -23,7 +23,7 @@ class Product extends AbstractDefault
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="App\AdminBundle\Entity\Category")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      * })

@@ -45,10 +45,10 @@ class MediaController extends Controller
             $columns = array();
             $columns[0] = 'id';
             $columns[1] = 'type';
-            $columns[2] = 'libelle';
+            $columns[2] = 'name';
 
             /* Query Result */
-            $qb = $em->getRepository('AppAdminBundle:Media')->createQueryBuilder('a');
+            $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('a');
             $qb_count = clone $qb;
             $qb->setFirstResult($start);
             $qb->setMaxResults($limit);
@@ -67,12 +67,11 @@ class MediaController extends Controller
             );
 
             /* Parse Result */
-
             foreach ($result as $e) {
                 $row = array();
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getType();
-                $row[] = (string) $e->getLibelle();
+                $row[] = (string) $e->getName();
 
 
                 $row[] = $this->container->get('app.twig.admin_extension')->formatImage($e, 'thumb', 50);
@@ -116,18 +115,15 @@ class MediaController extends Controller
             $columns = array();
             $columns[0] = 'id';
             $columns[1] = 'type';
-            $columns[2] = 'libelle';
+            $columns[2] = 'name';
 
             /* Query Result */
-            $qb = $em->getRepository('AppAdminBundle:Media')->createQueryBuilder('a');
+            $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('a');
             $qb_count = clone $qb;
             $qb->setFirstResult($start);
             $qb->setMaxResults($limit);
             $qb->orderBy('a.'.$columns[$sortCol], $sortDir);
             $result =  $qb->getQuery()->getResult();
-
-            
-
 
             /* Query Count */
             $qb_count->select('COUNT(a)');
@@ -141,12 +137,11 @@ class MediaController extends Controller
             );
 
             /* Parse Result */
-
             foreach ($result as $e) {
                 $row = array();
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getType();
-                $row[] = (string) $e->getLibelle();
+                $row[] = (string) $e->getName();
 
                 $row[] = $this->container->get('app.twig.admin_extension')->formatImage($e, 'thumb', 50);
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>

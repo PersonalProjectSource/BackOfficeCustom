@@ -39,28 +39,6 @@
                        </tr>
                        </thead>
                        <tbody>
-<<<<<<< HEAD:src/App/AdminBundle/Resources/views/Media/index.html.twig
-
-=======
-                        {% for entity in entities %}
-                          <tr>
-                              <td><a href="{{ path('media_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                              <td>{{ entity.type }}</td>
-                              <td>{{ entity.name }}</td>
-                              <td>
-                                  <button class="popover-dismiss" id="<img src='{{ asset(sDirePath ~ entity.path ~ '.' ~ entity.extension)  }}' width='200'/>" data-container="body" data-toggle="popover" data-placement="left" title="Aperçu de l'image" data-content="" style="background: none; border: none;">
-                                    {{ entity | formatImage("thumb", 50) | raw}}
-                                  </button>
-                              </td>
-                              <td class="center">
-                                 <div class="hidden-phon">
-                                    <a class="btn btn-primary btn-sm" href="{{ path('media_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
-                                   <a class="btn btn-danger btn-sm" onclick="confirmbox('{{ path('delete_media_datatable', { 'id': entity.id}) }}', '{{ entity.name }}')"><i class="fa fa-trash-o "></i></a>
-                                 </div>
-                              </td>
-                          </tr>
-                        {% endfor %}
->>>>>>> 147d1e28ccac8c54599b1de8c27876c0a2bf0b1b:src/App/MediaBundle/Resources/views/Media/index.html.twig
                        </tbody>
                    </table>
                </div>

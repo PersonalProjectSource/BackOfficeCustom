@@ -1,12 +1,12 @@
 <?php
 
-namespace App\MediaBundle\Form;
+namespace App\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MediaType extends AbstractType
+class CategoryType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,14 +15,12 @@ class MediaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // ->add('media')
-            // ->add('reference')
-            // ->add('quantity')
-            // ->add('state')
-            // ->add('slug')
-            ->add('name', 'text', array("label" => "Nom"))
-            ->add('file','file', array('label' => 'Fichier'))
-
+            ->add('title')
+            ->add('lft')
+            ->add('lvl')
+            ->add('rgt')
+            ->add('root')
+            ->add('parent')
         ;
     }
     
@@ -32,7 +30,7 @@ class MediaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'App\MediaBundle\Entity\Media'
+            'data_class' => 'App\AdminBundle\Entity\Category'
         ));
     }
 
@@ -41,6 +39,6 @@ class MediaType extends AbstractType
      */
     public function getName()
     {
-        return 'app_adminbundle_media';
+        return 'app_adminbundle_category';
     }
 }
