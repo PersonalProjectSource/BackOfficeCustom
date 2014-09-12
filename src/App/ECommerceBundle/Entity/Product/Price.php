@@ -31,7 +31,7 @@ class Price extends AbstractDefault
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Product\Product")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      * })
@@ -49,7 +49,7 @@ class Price extends AbstractDefault
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -72,7 +72,7 @@ class Price extends AbstractDefault
     /**
      * Get price
      *
-     * @return integer 
+     * @return integer
      */
     public function getPrice()
     {
@@ -95,7 +95,7 @@ class Price extends AbstractDefault
     /**
      * Get customer
      *
-     * @return \App\ECommerceBundle\Entity\Customer 
+     * @return \App\ECommerceBundle\Entity\Customer
      */
     public function getCustomer()
     {
@@ -118,7 +118,7 @@ class Price extends AbstractDefault
     /**
      * Get product
      *
-     * @return \App\ECommerceBundle\Entity\Product\Product 
+     * @return \App\ECommerceBundle\Entity\Product\Product
      */
     public function getProduct()
     {

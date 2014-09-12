@@ -23,7 +23,7 @@ class Supplier extends AbstractDefault
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", inversedBy="supplier", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product\Product", inversedBy="supplier", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      * })

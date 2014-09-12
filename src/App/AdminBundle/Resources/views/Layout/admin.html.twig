@@ -104,7 +104,7 @@
     <script src="{{ asset('bundles/appadmin/js/assets/jquery-multi-select/js/jquery.multi-select.js') }}"></script>
 
     <!-- --- BOOTSTRAP --- -->
-
+    <script src="{{ asset('bundles/appadmin/js/bootstrap-switch.js') }}"></script>
     <script src="{{ asset('bundles/appadmin/js/bootstrap.min.js') }}" ></script>
     <script src="{{ asset('bundles/appadmin/js/bootstrap-switch.js') }}" ></script>
 
@@ -137,9 +137,6 @@
     <script src="{{ asset('bundles/appadmin/js/toucheffects.js') }}"></script>
    
     <script>
-
-     // Encapsulation du wywsywyg dans une div pour le design.
-     $('textarea').wrap('<div class="col-sm-10"></div>');
 
      var Script = function () { $('.spinner4').spinner({value:0, step: 1, min: 0, max: 200000});}();
      tinymce.init({

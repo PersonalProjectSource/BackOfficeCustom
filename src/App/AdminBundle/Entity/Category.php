@@ -69,6 +69,10 @@ class Category
      */
     private $slug;
 
+    public function __toString(){
+     return $this->title;
+    }
+
     public function getId()
     {
         return $this->id;

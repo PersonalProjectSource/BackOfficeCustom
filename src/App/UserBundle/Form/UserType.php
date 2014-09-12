@@ -10,6 +10,14 @@ use Symfony\Component\Validator\Constraints;
 
 class UserType extends AbstractType
 {
+
+    protected $roles;
+
+    public function __construct($roles)
+    {
+        $this->roles = $roles;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -36,6 +44,13 @@ class UserType extends AbstractType
                 'required'  => true,
                 'multiple' => true,
                 'expanded'  => false,
+            ))
+            ->add('roles', 'choice', array(
+                'label' => 'Roles',
+                'choices' => $this->roles,
+                'expanded' => true,
+                'multiple' => true,
+                'required' => false
             ))
         ;
     }

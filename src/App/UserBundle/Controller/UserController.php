@@ -86,7 +86,8 @@ class UserController extends Controller
      */
     private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new UserType(), $entity, array(
+        $roles = $this->get('app.userbundle.services.roles')->getRoles();
+        $form = $this->createForm(new UserType($roles), $entity, array(
             'action' => $this->generateUrl('user_create'),
             'method' => 'POST',
         ));
@@ -187,7 +188,8 @@ class UserController extends Controller
     */
     private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new UserType(), $entity, array(
+        $roles = $this->get('app.userbundle.services.roles')->getRoles();
+        $form = $this->createForm(new UserType($roles), $entity, array(
             'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));

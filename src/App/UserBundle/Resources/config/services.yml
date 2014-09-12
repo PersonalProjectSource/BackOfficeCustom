@@ -1,0 +1,4 @@
+services:
+    app.userbundle.services.roles:
+            class: App\UserBundle\Services\RolesService
+            arguments: ['%security.role_hierarchy.roles%']
