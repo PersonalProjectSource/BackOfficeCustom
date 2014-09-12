@@ -75,19 +75,62 @@ class CategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->isXmlHttpRequest()) {
-            $parentid = $request->request->get('parentid');
-            $name = $request->request->get('name');
+            $id = $request->request->get('id','');
+            $name = $request->request->get('name','');
+            $action = $request->request->get('action','');
+            $parentid = $request->request->get('parentid','');
+            $position = $request->request->get('position','');
+            $old_position = $request->request->get('old_position','');
+            $category = null;
 
-            $parentCategory = $em->getRepository('AppAdminBundle:Category')->find($parentid);
-            $category = new Category();
-            $category->setTitle($name);
-            $category->setParent($parentCategory);
+            switch ($action) {
+                case "create" :
+                    $parentCategory = $em->getRepository('AppAdminBundle:Category')->find($id);
+                    if($parentCategory) {
+                        $category = new Category();
+                        $category->setTitle($name);
+                        $category->setParent($parentCategory);
+                        $em->persist($category);
+                        $em->flush();
+                    }
+                    break;
+                case "rename" :
+                    $category = $em->getRepository('AppAdminBundle:Category')->find($id);
+                    if($category) {
+                        $category->setTitle($name);
+                        $em->persist($category);
+                        $em->flush();
+                    }
+                    break;
+                case "delete" :
+                    $category = $em->getRepository('AppAdminBundle:Category')->find($id);
+                    $em->remove($category);
+                    $em->flush();
+                    break;
+                case "move" :
+                    $category = $em->getRepository('AppAdminBundle:Category')->find($id);
+                    $parentCategory = $em->getRepository('AppAdminBundle:Category')->find($parentid);
+                    $category->setParent($parentCategory);
+                    $em->persist($category);
+                    $em->flush();
+                    $move = (int) $position - (int) $old_position;
+                    if($move < 0){
+                        $move =  abs($move);
+                        $em->getRepository('AppAdminBundle:Category')->moveUp($category, $move);
+                    } else if($move >0) {
+                        $em->getRepository('AppAdminBundle:Category')->moveDown($category, $move);
+                    }
+                    break;
+            }
 
-            $em->persist($category);
-            $em->flush();
+            if($category) {
+                $id = $category->getId();
+            } else {
+                $id = null;
+            }
 
             $response = new JsonResponse();
-            $response->setData(array('id' => $category->getId()));
+            $response->setData(array('id' => $id));
             return $response;
         }
     }

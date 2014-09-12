@@ -11,7 +11,7 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <label class="col-sm-2 col-sm-2 control-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+        <label class="col-sm-2 control-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
     {% endif %}
 {% endspaceless %}
 {% endblock form_label %}
@@ -49,7 +49,7 @@
 
 {% block form_row %}
 {% spaceless %}
-    <div class="form-group {% if errors|length > 0 %}has-error{% endif %}">
+    <div class="form-group{% if errors|length > 0 %} has-error{% endif %}">
         {{ form_label(form) }}
         {{ form_widget(form) }}
     </div>
