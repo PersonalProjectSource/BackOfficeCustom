@@ -17,7 +17,7 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('label' => 'Nom'))
+            /*->add('name', 'text', array('label' => 'Nom'))
             ->add('reference', 'text', array('label' => 'Référence'))
             ->add('quantity', 'number', array('label' => 'Quantité'))
             ->add('state', 'text', array('label' => 'Etat'))
@@ -29,10 +29,13 @@ class ProductType extends AbstractType
                     'expanded'  => false))
             ->add('supplier', 'entity',
                 array('label' => 'Fournisseur',
+                    'required' => false,
                     'class' => 'AppECommerceBundle:Product\Supplier',
                     'property' => 'title',
                     'multiple' => true,
                     'expanded'  => false))
+           ->add('price','collection', array('type' => new PriceType()))
+           */
             ->add('medias', 'collection',array(
                 'type' => 'text',
                 'allow_add' => true,
@@ -40,7 +43,7 @@ class ProductType extends AbstractType
                 'by_reference' => false,
                 'prototype' => true,
             ))
-            ->add('price','collection', array('type' => new PriceType()))
+
 
         ;
     }

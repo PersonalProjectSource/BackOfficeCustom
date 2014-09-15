@@ -8,15 +8,53 @@
             <section class="panel">
                 <ul class="nav nav-pills nav-stacked nav-tabs">
                     <li class="active">
-                        <a data-toggle="tab" href="#image">
+                        <a data-toggle="tab" href="#infos">
                             <i class="fa fa-user"></i> Informations
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#price">
+                            <i class="fa fa-calendar"></i> Prix
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#image">
+                            <i class="fa fa-edit"></i> Images
                         </a>
                     </li>
                 </ul>
             </section>
         </div>
 
+        <div class="tab-content">
+            <div id="infos" class="col-lg-10 tab-pane active">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Informations
+                    </header>
+                    <div class="panel-body">
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.reference) }}
+                        {{ form_row(form.quantity) }}
+                        {{ form_row(form.state) }}
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.supplier) }}
+                        <button type="submit" id="app_ecommercebundle_product_form_product_submit" name="app_ecommercebundle_product_form_product[submit]" class="btn btn-success">Créer</button>
+                    </div>
+                </section>
+            </div>
 
+            <div id="price" class="col-lg-10 tab-pane">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Prix
+                    </header>
+                    <div class="panel-body">
+                        {{ form_row(form.price) }}
+                        <button type="submit" id="app_ecommercebundle_product_form_product_submit" name="app_ecommercebundle_product_form_product[submit]" class="btn btn-success">Créer</button>
+                    </div>
+                </section>
+            </div>
 
             <div id="image" class="col-lg-10 tab-pane">
                 <section class="panel">
