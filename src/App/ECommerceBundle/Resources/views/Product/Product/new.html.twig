@@ -62,7 +62,11 @@
                         Images
                     </header>
                     <div class="panel-body">
-                        {{ form_row(form.media) }}
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" id="media-autocomplete" placeholder="rechercher un média">
+                            <ul class="medias" data-prototype="{{ form_widget(form.medias.vars.prototype)|e }}"></ul>
+                        </div>
+
                     </div>
                 </section>
             </div>
@@ -76,12 +80,18 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-            $( "#app_ecommercebundle_product_form_product_media" ).autocomplete({
+
+        var collectionHolder = $('ul.medias');
+
+            $( "#media-autocomplete" ).autocomplete({
                 minLength: 0,
                 source: '{{  path('media_ajax',{'type':'image'}) }}',
                 select: function(event, ui) {
                     event.preventDefault();
                     console.log(ui);
+                    var prototype = collectionHolder.attr('data-prototype');
+                    var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+                    var $newFormLi = $('<li></li>').append(newForm);
                 }
             })
             .data("ui-autocomplete")._renderItem = function (ul, item) {

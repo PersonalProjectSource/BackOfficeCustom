@@ -63,11 +63,12 @@ class Product extends AbstractDefault
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="media", type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", mappedBy="product", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="media_id", referencedColumnName="id")
+     * })
      */
-    private $media;
+    private $medias;
 
     /**
      * @var string
@@ -280,28 +281,6 @@ class Product extends AbstractDefault
         $this->supplier = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Set media
-     *
-     * @param string $media
-     * @return Product
-     */
-    public function setMedia($media)
-    {
-        $this->media = $media;
-
-        return $this;
-    }
-
-    /**
-     * Get media
-     *
-     * @return string 
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
 
     /**
      * Add feature
@@ -364,6 +343,24 @@ class Product extends AbstractDefault
     {
         return $this->price;
     }
+
+    /**
+     * @param mixed $medias
+     */
+    public function setMedias($medias)
+    {
+        $this->medias = $medias;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+
 
 
 }

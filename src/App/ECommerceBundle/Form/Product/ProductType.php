@@ -33,7 +33,13 @@ class ProductType extends AbstractType
                     'property' => 'title',
                     'multiple' => true,
                     'expanded'  => false))
-            ->add('media', 'text')
+            ->add('medias', 'collection',array(
+                'type' => 'text',
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+            ))
             ->add('price','collection', array('type' => new PriceType()))
 
         ;
