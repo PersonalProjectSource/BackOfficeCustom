@@ -1,8 +1,9 @@
 {% extends 'AppAdminBundle:Layout:admin.html.twig' %}
-{% form_theme form 'AppAdminBundle:Form:fields.html.twig' %}
+{% form_theme form 'AppAdminBundle:Form:fields-tabs.html.twig' %}
 
 {% block body %}
     <div class="row">
+        {{ form_start(form) }}
         <div class="col-lg-2">
             <section class="panel">
                 <ul class="nav nav-pills nav-stacked nav-tabs">
@@ -31,9 +32,16 @@
                     <header class="panel-heading">
                         Informations
                     </header>
-                    {{ form(form) }}
-                    <input class="media-btn" type="button" name="media_list_btn" value="liste des medias">
-                    <input class="add-media-btn" type="button" name="add_media_btn" value="ajouter un média">
+                    <div class="panel-body">
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.reference) }}
+                        {{ form_row(form.quantity) }}
+                        {{ form_row(form.state) }}
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.supplier) }}
+                        <input class="media-btn" type="button" name="media_list_btn" value="liste des medias">
+                        <input class="add-media-btn" type="button" name="add_media_btn" value="ajouter un média">
+                    </div>
                 </section>
             </div>
 
@@ -42,6 +50,9 @@
                     <header class="panel-heading">
                         Prix
                     </header>
+                    <div class="panel-body">
+                        {{ form(form.price) }}
+                    </div>
                 </section>
             </div>
 
@@ -50,10 +61,13 @@
                     <header class="panel-heading">
                         Images
                     </header>
+                    <div class="panel-body">
+                        {{ form_row(form.media) }}
+                    </div>
                 </section>
             </div>
         </div>
-
+        {{ form_end(form) }}
     </div>
 
     <div class="media-btn">
@@ -102,6 +116,20 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+            $( "#app_ecommercebundle_product_form_product_media" ).autocomplete({
+                minLength: 2,
+                source: '{{  path('media_ajax',{'type':'image'}) }}'
+            })
+            .data("ui-autocomplete")._renderItem = function (ul, item) {
+                    return $("<li></li>").data("item.autocomplete", item).append(
+                                    item.img + ' ' + item.label)
+                            .appendTo(ul.addClass('list-row'));
+
+            };
+
+    </script>
+
     <script>
     $('.media-btn').on('click', function (e) {
         confirmboxmedialist();

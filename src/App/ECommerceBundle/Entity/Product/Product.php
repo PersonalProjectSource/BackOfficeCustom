@@ -3,6 +3,7 @@
 namespace App\ECommerceBundle\Entity\Product;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use App\AdminBundle\Entity\AbstractDefault;
 
 /**
@@ -47,6 +48,14 @@ class Product extends AbstractDefault
     private $supplier;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Price")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="price_id", referencedColumnName="id", onDelete="CASCADE")
+     * })
+     */
+    private $price;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -82,9 +91,9 @@ class Product extends AbstractDefault
     private $state;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @Gedmo\Translatable
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=128)
      */
     private $slug;
 
@@ -339,4 +348,22 @@ class Product extends AbstractDefault
     {
         $this->supplier->removeElement($supplier);
     }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+
 }

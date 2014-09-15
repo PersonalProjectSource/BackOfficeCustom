@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\UserBundle\Entity\User;
 use App\UserBundle\Form\UserType;
+use Symfony\Component\Form\FormError;
 
 /**
  * User controller.
@@ -51,7 +52,7 @@ class UserController extends Controller
         $form->handleRequest($request);
      
         $data = $request->get($form->getName(), array());
-        /*   $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('email' => $data["email"]));
+           $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('email' => $data["email"]));
         if ($user) {
            var_dump('HELL');
             $form->get('email')->addError(new FormError('Cet email est déjà existant'));
@@ -61,7 +62,7 @@ class UserController extends Controller
         if ($user) {
             $form->get('username')->addError(new FormError('Ce nom d\'utilisateur est déjà existant'));
         }
-*/
+
         if ($form->isValid()) {
             $entity->setUsernameCanonical($data["username"]);
             $entity->setEmailCanonical($data["email"]);

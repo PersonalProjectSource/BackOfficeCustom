@@ -178,15 +178,18 @@ class MediaController extends Controller
 
             $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' . $entity->getExtension();
             $aDataImageOrigin = getimagesize($src);
-            if($aDataImageOrigin[0] > $aDataImageOrigin[1]) {
-                $newWidth = 50;
-                $newHeight = round(50 / $aDataImageOrigin[0] * $aDataImageOrigin[1]);
-            } else {
-                $newWidth = round(50 / $aDataImageOrigin[1] * $aDataImageOrigin[0]);
-                $newHeight = 50;
+
+            if (strpos($aDataImageOrigin['mime'],'image') !== false) {
+                if($aDataImageOrigin[0] > $aDataImageOrigin[1]) {
+                    $newWidth = 50;
+                    $newHeight = round(50 / $aDataImageOrigin[0] * $aDataImageOrigin[1]);
+                } else {
+                    $newWidth = round(50 / $aDataImageOrigin[1] * $aDataImageOrigin[0]);
+                    $newHeight = 50;
+                }
+                $this->cropAction($request, $x = 0, $y = 0,$w_new = $newWidth, $h_new = $newHeight, $w = $aDataImageOrigin[0], $h = $aDataImageOrigin[1], $id = $entity->getId(), $slug = "thumb");
             }
 
-            $this->cropAction($request, $x = 0, $y = 0,$w_new = $newWidth, $h_new = $newHeight, $w = $aDataImageOrigin[0], $h = $aDataImageOrigin[1], $id = $entity->getId(), $slug = "thumb");
         }
 
         return $this->redirect($this->generateUrl('media'));
@@ -230,30 +233,6 @@ class MediaController extends Controller
         );
     }
 
-    /**
-     * Finds and displays a Media entity.
-     *
-     * @Route("/{id}", name="media_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AppMediaBundle:Media')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Media entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
 
     /**
      * Displays a form to edit an existing Media entity.
@@ -527,6 +506,45 @@ class MediaController extends Controller
             'form'   => $form->createView(),
         );
 
+    }
+
+    /**
+     * Displays a form to edit an existing Media entity.
+     *
+     * @Route("/ajax", name="media_ajax")
+     * @Method("GET")
+     * @Template()
+     */
+    public function ajaxAction(Request $request)
+    {
+        $em      = $this->getDoctrine()->getManager();
+        if($request->isXmlHttpRequest()) {
+
+            $type = $request->get('type');
+            $search = $request->get('term');
+
+            $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('m');
+            //$qb->select('m');
+            $qb->where($qb->expr()->like('LOWER(m.type)',  $qb->expr()->literal('%'.$type.'%')));
+            $qb->andWhere($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
+            $result =  $qb->getQuery()->getResult();
+
+            $data = array();
+            foreach($result as $key => $res) {
+                $tmp = array();
+                $tmp['value'] = $res->getId();
+                $tmp['label'] = $res->getName();
+                $tmp['img'] = $this->container->get('app.twig.admin_extension')->formatImage($res, 'thumb', 50);
+                $data[$key] = $tmp;
+            }
+
+
+            $response = new JsonResponse();
+            $response->setData($data);
+
+            return $response;
+
+        }
     }
 
 
