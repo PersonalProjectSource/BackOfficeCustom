@@ -70,47 +70,6 @@
         {{ form_end(form) }}
     </div>
 
-    <div class="media-btn">
-        <input type="button" name="media-btn" value="afficher la mediatheque"/>
-        
-    </div>
-
-     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #56b2d6;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Mediathèque</h4>
-                </div>
-                <div class="modal-body">
-                    {{ render(controller('AppMediaBundle:Media:list')) }}
-                </div>
-                <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn btn-danger" type="button">Annuler</button>
-                    <button class="btn btn-info" type="button"> Selectionner</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-     <div class="modal fade" id="addMyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #56b2d6;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Ajouter un media</h4>
-                </div>
-                <div class="modal-body">
-                    {{ render(controller('AppMediaBundle:Media:addMediaFromUpdate')) }}
-                </div>
-                <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn btn-danger" type="button">Annuler</button>
-                    <button id="media_selection_btn" class="btn btn-info" type="button"> Selectionner</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 {% endblock %}
 
@@ -118,68 +77,18 @@
     {{ parent() }}
     <script>
             $( "#app_ecommercebundle_product_form_product_media" ).autocomplete({
-                minLength: 2,
-                source: '{{  path('media_ajax',{'type':'image'}) }}'
+                minLength: 0,
+                source: '{{  path('media_ajax',{'type':'image'}) }}',
+                select: function(event, ui) {
+                    event.preventDefault();
+                    console.log(ui);
+                }
             })
             .data("ui-autocomplete")._renderItem = function (ul, item) {
-                    return $("<li></li>").data("item.autocomplete", item).append(
-                                    item.img + ' ' + item.label)
-                            .appendTo(ul.addClass('list-row'));
-
+                    return $("<li></li>").data("item.autocomplete", item)
+                            .append("<a class='" + item.value + "'></a><a>" + item.img + item.label + "</a>")
+                            .appendTo(ul);
             };
-
-    </script>
-
-    <script>
-    $('.media-btn').on('click', function (e) {
-        confirmboxmedialist();
-    });
-
-    $('.add-media-btn').on('click', function (e) {
-        confirmboxaddmedia();
-    });
-
-    $('#media_selection_btn').on('click', function (e) {
-        
-        
-        //confirmboxaddmedia();
-        sendMediaToProductForAjax(1);
-
-    });
-
-    
-
-
-        function confirmboxmedialist(id){
-            alert('check : ' + id)
-            $("#myModal").modal();
-            /*$("#myModal .modal-footer .btn-danger").on('click', function(){
-                document.location.href= location;
-            });*/
-        }
-
-        function confirmboxaddmedia(){
-            $("#addMyModal").modal();
-        }
-
-        function filtersShow(){
-
-            console.log($('#filters').attr('filters'))
-            if($('#filters').attr('filters') == 'false') {
-                $("#filters").show();
-                $('#filters').attr('filters', 'true');
-            } else {
-                $("#filters").hide();
-                $('#filters').attr('filters', 'false');
-            }
-        }
-
-        function sendMediaToProductForAjax(iIdMedia) {
-
-            alert('check id : '+iIdMedia);
-        }
-
-        
 
     </script>
 {% endblock %}
