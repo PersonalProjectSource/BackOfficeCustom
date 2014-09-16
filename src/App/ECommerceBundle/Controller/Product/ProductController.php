@@ -191,6 +191,7 @@ class ProductController extends Controller
         $form = $this->createForm(new ProductType(), $entity, array(
             'action' => $this->generateUrl('product_update', array('id' => $entity->getId())),
             'method' => 'PUT',
+            'em' => $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
