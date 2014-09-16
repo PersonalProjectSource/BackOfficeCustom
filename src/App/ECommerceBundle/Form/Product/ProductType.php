@@ -5,8 +5,6 @@ namespace App\ECommerceBundle\Form\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use App\AdminBundle\Form\MediaType;
-use App\ECommerceBundle\Form\Product\PriceType;
 use App\ECommerceBundle\Form\DataTransformer\IdtoObjectTransformer;
 
 class ProductType extends AbstractType

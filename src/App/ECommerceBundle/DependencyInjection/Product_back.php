@@ -12,7 +12,7 @@ use App\AdminBundle\Entity\AbstractDefault;
  * @ORM\Table(name="product")
  * @ORM\Entity()
  */
-class Product extends AbstractDefault
+class Product_back extends AbstractDefault
 {
     /**
      * @var integer

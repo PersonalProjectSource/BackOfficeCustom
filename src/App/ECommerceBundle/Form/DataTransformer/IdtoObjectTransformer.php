@@ -33,8 +33,7 @@ class IdtoObjectTransformer implements DataTransformerInterface
         $objects = array();
 
         foreach($array as $a) {
-            $object = $this->om->getRepository('AppMediaBundle:Media')->find($a);
-            array_push($objects, $object);
+            array_push($objects, $a->getId());
         }
        return $objects;
     }
@@ -48,6 +47,7 @@ class IdtoObjectTransformer implements DataTransformerInterface
      */
     public function reverseTransform($array)
     {
+        var_dump($array);die;
         $objects = new \Doctrine\Common\Collections\ArrayCollection();
 
         foreach($array as $a) {
