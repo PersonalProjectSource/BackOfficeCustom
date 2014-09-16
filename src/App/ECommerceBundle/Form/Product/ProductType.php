@@ -42,7 +42,7 @@ class ProductType extends AbstractType
            */
             ->add(
                 $builder->create('medias', 'collection',array(
-                    'type' => 'integer',
+                    'type' => 'hidden',
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,

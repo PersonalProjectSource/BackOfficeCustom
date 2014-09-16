@@ -38,6 +38,8 @@
                 </div>
                 {{ form_errors(form) }}
             </div>
+        {% elseif type == 'hidden' %}
+                <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
         {% else %}
             <div class="col-sm-10">
                 <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>

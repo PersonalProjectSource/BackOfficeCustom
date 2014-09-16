@@ -533,8 +533,8 @@ class MediaController extends Controller
             foreach($result as $key => $res) {
                 $tmp = array();
                 $tmp['value'] = $res->getId();
-                //$tmp['label'] = $res->getName();
-                $tmp['label'] = "test";
+                $tmp['type'] = $res->getType();
+                $tmp['label'] = $res->getName();;
                 $tmp['img'] = $this->container->get('app.twig.admin_extension')->formatImage($res, 'thumb', 50);
                 $data[$key] = $tmp;
             }
