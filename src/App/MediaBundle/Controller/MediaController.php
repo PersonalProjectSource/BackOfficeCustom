@@ -524,9 +524,8 @@ class MediaController extends Controller
             $search = $request->get('term');
 
             $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('m');
-            //$qb->select('m');
             $qb->where($qb->expr()->like('LOWER(m.type)',  $qb->expr()->literal('%'.$type.'%')));
-            //$qb->andWhere($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
+            $qb->andWhere($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
             $result =  $qb->getQuery()->getResult();
 
             $data = array();
