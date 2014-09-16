@@ -526,14 +526,15 @@ class MediaController extends Controller
             $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('m');
             //$qb->select('m');
             $qb->where($qb->expr()->like('LOWER(m.type)',  $qb->expr()->literal('%'.$type.'%')));
-            $qb->andWhere($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
+            //$qb->andWhere($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
             $result =  $qb->getQuery()->getResult();
 
             $data = array();
             foreach($result as $key => $res) {
                 $tmp = array();
                 $tmp['value'] = $res->getId();
-                $tmp['label'] = $res->getName();
+                //$tmp['label'] = $res->getName();
+                $tmp['label'] = "test";
                 $tmp['img'] = $this->container->get('app.twig.admin_extension')->formatImage($res, 'thumb', 50);
                 $data[$key] = $tmp;
             }

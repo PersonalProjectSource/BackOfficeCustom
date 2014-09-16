@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use App\AdminBundle\Form\MediaType;
 use App\ECommerceBundle\Form\Product\PriceType;
+use App\ECommerceBundle\Form\DataTransformer\IdtoObjectTransformer;
 
 class ProductType extends AbstractType
 {
@@ -16,6 +17,9 @@ class ProductType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entityManager = $options['em'];
+        $transformer = new IdtoObjectTransformer($entityManager);
+
         $builder
             /*->add('name', 'text', array('label' => 'Nom'))
             ->add('reference', 'text', array('label' => 'Référence'))
@@ -36,13 +40,15 @@ class ProductType extends AbstractType
                     'expanded'  => false))
            ->add('price','collection', array('type' => new PriceType()))
            */
-            ->add('medias', 'collection',array(
-                'type' => 'text',
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ))
+            ->add(
+                $builder->create('medias', 'collection',array(
+                    'type' => 'integer',
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    'prototype' => true))
+                    ->addModelTransformer($transformer)
+            )
 
 
         ;
@@ -55,6 +61,13 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\ECommerceBundle\Entity\Product\Product'
+        ));
+        $resolver->setRequired(array(
+            'em',
+        ));
+
+        $resolver->setAllowedTypes(array(
+            'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
 

@@ -51,19 +51,7 @@ class Product extends AbstractDefault
      */
     public function __construct()
     {
-        $this->feature = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->supplier = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-
-
-
-    /**
-     * @param mixed $medias
-     */
-    public function setMedias($medias)
-    {
-        $this->medias = $medias;
+        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -72,6 +60,18 @@ class Product extends AbstractDefault
     public function getMedias()
     {
         return $this->medias;
+    }
+
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $medias
+     */
+    public function setMedias(\Doctrine\Common\Collections\ArrayCollection $medias)
+    {
+        foreach ($medias as $media) {
+            $media->addProduct($this);
+        }
+        $this->medias = $medias;
     }
 
 

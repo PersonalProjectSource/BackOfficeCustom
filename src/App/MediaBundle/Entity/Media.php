@@ -53,6 +53,12 @@ class Media extends AbstractDefault
      * @ORM\Column(name="path", type="string", length=255)
      */
     private $path;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product\Product", inversedBy="medias")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
+     */
+    protected $products;
     
     
     /**
@@ -328,6 +334,24 @@ class Media extends AbstractDefault
     public function getName()
     {
         return $this->name;
+    }
+
+    public function addProduct($product) {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+        }
+    }
+
+    /**
+     * Set Products
+     *
+     * @param \App\ECommerceBundle\Entity\Product\Product $products
+     * @return products
+     */
+    public function setProducts(\App\ECommerceBundle\Entity\Product\Product $products = null)
+    {
+        $this->products = $products;
+        return $this;
     }
 
 }
