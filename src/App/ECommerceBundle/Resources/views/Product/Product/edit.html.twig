@@ -39,6 +39,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% for media in edit_form.medias %}
+
+                                                {{ form_row(media) }}
+
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>

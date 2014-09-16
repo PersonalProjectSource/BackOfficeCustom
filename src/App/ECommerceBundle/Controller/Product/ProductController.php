@@ -164,6 +164,8 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
+        $medias = $em->getRepository('AppMediaBundle:Media')->findBy(array('products' => $entity));
+        //$medias = null;
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product\Product entity.');
@@ -173,6 +175,7 @@ class ProductController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'medias' => $medias,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

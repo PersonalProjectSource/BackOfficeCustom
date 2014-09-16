@@ -47,7 +47,6 @@ class IdtoObjectTransformer implements DataTransformerInterface
      */
     public function reverseTransform($array)
     {
-        var_dump($array);die;
         $objects = new \Doctrine\Common\Collections\ArrayCollection();
 
         foreach($array as $a) {

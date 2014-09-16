@@ -56,7 +56,6 @@ class Media extends AbstractDefault
 
     /**
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product\Product", inversedBy="medias")
-     * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
      */
     protected $products;
     

@@ -26,9 +26,6 @@ class Product extends AbstractDefault
 
     /**
      * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", mappedBy="products", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="media_id", referencedColumnName="id")
-     * })
      */
     private $medias;
 
