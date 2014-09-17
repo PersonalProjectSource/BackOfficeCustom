@@ -13,8 +13,6 @@ class RolesService {
 
     public function setRoles($hierarchy = array()){
         $roles = array();
-        //var_dump($hierarchy);die;
-        //$this->get('security.context')->getToken()->getUser()
         foreach ($hierarchy as $key => $row) {
             foreach ($row as $key => $haystack) {
                 if(!in_array($haystack, $roles)) {
