@@ -290,13 +290,7 @@ class MediaController extends Controller
             'action' => $this->generateUrl('media_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-        
-//        $form->add('path', 'text', array(
-//            'attr' => array (
-//                'value' => $entity->getPath()
-//            )
-//        ));
-        
+
         $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
@@ -320,18 +314,10 @@ class MediaController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm   = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-        
-        // TODO lbrau : Voir pour gerer l'exception en commentaire au dessous.
+
         $entity->upload();
         $em->persist($entity);
         $em->flush();
-
-//        if ($editForm->isValid()) {
-//            
-//            $em->flush();
-//
-//            return $this->redirect($this->generateUrl('media_edit', array('id' => $id)));
-//        }
 
         return array(
             'entity'      => $entity,

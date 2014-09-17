@@ -85,7 +85,7 @@ class GroupController extends BaseController
                 $groupManager->updateGroup($group);
 
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')->generate('fos_user_group_show', array('groupName' => $group->getName()));
+                    $url = $this->container->get('router')->generate('fos_user_group_list', array('groupName' => $group->getName()));
                     $response = new RedirectResponse($url);
                 }
 
@@ -130,7 +130,7 @@ class GroupController extends BaseController
                 $groupManager->updateGroup($group);
 
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')->generate('fos_user_group_show', array('groupName' => $group->getName()));
+                    $url = $this->container->get('router')->generate('fos_user_group_list');
                     $response = new RedirectResponse($url);
                 }
 

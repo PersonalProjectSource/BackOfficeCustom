@@ -34,6 +34,8 @@ fos_user:
     user_class: App\UserBundle\Entity\User
     group:
         group_class: App\UserBundle\Entity\Group
+        form:
+            type: app_userbundle_form_group
         
 
 # Twig Configuration
