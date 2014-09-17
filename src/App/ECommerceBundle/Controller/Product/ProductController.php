@@ -225,24 +225,25 @@ class ProductController extends Controller
         foreach ($entity->getMedias() as $media) {
             $originalMedias->add($media);
         }
-
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+        
+        if ($request->isMethod('PUT')) {
+            $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-
-            foreach ($originalMedias as $media) {
-                if (false === $entity->getMedias()->contains($media)) {
-                    $media->getProducts()->removeElement($media);
-                    $em->persist($media);
+            if ($editForm->isValid()) {
+                
+                foreach ($originalMedias as $media) {   
+                    if (false === $entity->getMedias()->contains($media)) {
+                        $media->getProducts()->removeElement($entity);
+                        $em->persist($media);
+                    }
                 }
+                $em->persist($entity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
             }
-
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
         }
 
         return array(
