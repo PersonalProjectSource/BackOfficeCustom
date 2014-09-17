@@ -335,22 +335,20 @@ class Media extends AbstractDefault
         return $this->name;
     }
 
-    public function addProduct($product) {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-    }
 
-    /**
-     * Set Products
-     *
-     * @param \App\ECommerceBundle\Entity\Product\Product $products
-     * @return products
-     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
     public function setProducts(\App\ECommerceBundle\Entity\Product\Product $products = null)
     {
         $this->products = $products;
         return $this;
+    }
+    public function addProduct($product) {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+        }
     }
 
 }

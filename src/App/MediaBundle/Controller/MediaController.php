@@ -176,7 +176,7 @@ class MediaController extends Controller
 
             $em->flush();
 
-            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' . $entity->getExtension();
+            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/medias/' . $entity->getPath() . '.' . $entity->getExtension();
             $aDataImageOrigin = getimagesize($src);
 
             if (strpos($aDataImageOrigin['mime'],'image') !== false) {
@@ -257,7 +257,7 @@ class MediaController extends Controller
         $formats = $em->getRepository('AppMediaBundle:Croping')->findAll();
         
         // Recuperation des metadonnées de l'image.
-        $filename = 'uploads/documents/'.$entity->getPath().'.'.$entity->getExtension();
+        $filename = 'uploads/medias/'.$entity->getPath().'.'.$entity->getExtension();
         $aDataImageOrigin = getimagesize($filename, $infos);
         $iCoeffCrop = $aDataImageOrigin[0] / 500;
         $iImageWidth =  $aDataImageOrigin[0];
@@ -409,10 +409,10 @@ class MediaController extends Controller
         }
             
             $entity = $em->getRepository('AppMediaBundle:Media')->find($id);
-            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' . $entity->getExtension();   
+            $src       = $this->get('kernel')->getRootDir() . '/../web/uploads/medias/' . $entity->getPath() . '.' . $entity->getExtension();   
 
             $extension = pathinfo($src, PATHINFO_EXTENSION);
-            $destcrop = $this->get('kernel')->getRootDir() . '/../web/uploads/documents/' . $entity->getPath() . '.' .$entity->getExtension(); 
+            $destcrop = $this->get('kernel')->getRootDir() . '/../web/uploads/medias/' . $entity->getPath() . '.' .$entity->getExtension(); 
             $destcrop = explode('.'.$extension, $destcrop);
             $destcrop = $destcrop[0].'_'. $slug . '.' . $extension;
             
@@ -525,7 +525,10 @@ class MediaController extends Controller
 
             $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('m');
             $qb->where($qb->expr()->like('LOWER(m.type)',  $qb->expr()->literal('%'.$type.'%')));
-            $qb->andWhere($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
+            $orX = $qb->expr()->orX();
+            $orX->add($qb->expr()->like('LOWER(m.name)',  $qb->expr()->literal('%'.$search.'%')));
+            $orX->add($qb->expr()->like('LOWER(m.id)',  $qb->expr()->literal('%'.$search.'%')));
+            $qb->andWhere($orX);
             $result =  $qb->getQuery()->getResult();
 
             $data = array();
@@ -537,7 +540,6 @@ class MediaController extends Controller
                 $tmp['img'] = $this->container->get('app.twig.admin_extension')->formatImage($res, 'thumb', 50);
                 $data[$key] = $tmp;
             }
-
 
             $response = new JsonResponse();
             $response->setData($data);

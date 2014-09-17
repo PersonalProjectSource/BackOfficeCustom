@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\AdminBundle\Entity\AbstractDefault;
+use App\MediaBundle\Entity\Media;
 
 /**
  * Product
@@ -51,18 +52,11 @@ class Product extends AbstractDefault
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getMedias()
     {
         return $this->medias;
     }
-
-
-    /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $medias
-     */
     public function setMedias(\Doctrine\Common\Collections\ArrayCollection $medias)
     {
         foreach ($medias as $media) {
@@ -70,8 +64,9 @@ class Product extends AbstractDefault
         }
         $this->medias = $medias;
     }
-
-
-
+    public function removeMedias(Media $media)
+    {
+        $this->medias->removeElement($media);
+    }
 
 }

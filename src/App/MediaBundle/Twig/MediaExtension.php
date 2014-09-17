@@ -29,7 +29,7 @@ class MediaExtension extends \Twig_Extension
     {
         
         $rootPath = $this->container->get('request')->getBasePath();
-        if (is_file ( $rootPath."/uploads/documents/".$entity->getPath().'_'.$format.'.'.$entity->getExtension() )) {
+        if (is_file ( $rootPath."/uploads/medias/".$entity->getPath().'_'.$format.'.'.$entity->getExtension() )) {
             
             $format = '_'.$format;
         }
@@ -37,7 +37,7 @@ class MediaExtension extends \Twig_Extension
             
             $format = "";
         }
-        $imagePath = $rootPath."/uploads/documents/".$entity->getPath().$format.'.'.$entity->getExtension();
+        $imagePath = $rootPath."/uploads/medias/".$entity->getPath().$format.'.'.$entity->getExtension();
         $formatImage = '<img width="'.$width.'" src="'.$imagePath.'" id="target" />';
         
         return $formatImage;

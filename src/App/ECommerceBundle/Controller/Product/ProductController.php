@@ -11,6 +11,7 @@ use App\ECommerceBundle\Entity\Product\Product;
 use App\ECommerceBundle\Form\Product\ProductType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Product\Product controller.
@@ -129,7 +130,6 @@ class ProductController extends Controller
             'method' => 'POST',
             'em' => $this->getDoctrine()->getManager()
         ));
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -164,8 +164,13 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
-        $medias = $em->getRepository('AppMediaBundle:Media')->findBy(array('products' => $entity));
-        //$medias = null;
+        //$medias = $em->getRepository('AppMediaBundle:Media')->findBy(array('products' => $entity));
+
+        $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('m');
+        $qb->select('m');
+        $qb->leftJoin('m.products','p');
+        $qb->where('p.id = '.$entity->getId());
+        $medias = $qb->getQuery()->getResult();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Product\Product entity.');
@@ -197,8 +202,6 @@ class ProductController extends Controller
             'em' => $this->getDoctrine()->getManager()
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -218,11 +221,25 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product\Product entity.');
         }
 
+        $originalMedias = new ArrayCollection();
+        foreach ($entity->getMedias() as $media) {
+            $originalMedias->add($media);
+        }
+
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+
+            foreach ($originalMedias as $media) {
+                if (false === $entity->getMedias()->contains($media)) {
+                    $media->getProducts()->removeElement($media);
+                    $em->persist($media);
+                }
+            }
+
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));

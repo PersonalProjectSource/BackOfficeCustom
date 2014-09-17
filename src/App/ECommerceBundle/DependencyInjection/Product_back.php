@@ -63,14 +63,6 @@ class Product_back extends AbstractDefault
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", mappedBy="product", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="media_id", referencedColumnName="id")
-     * })
-     */
-    private $medias;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="reference", type="string", length=255)

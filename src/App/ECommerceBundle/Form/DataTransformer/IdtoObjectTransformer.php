@@ -51,7 +51,7 @@ class IdtoObjectTransformer implements DataTransformerInterface
 
         foreach($array as $a) {
             $object = $this->om->getRepository('AppMediaBundle:Media')->find($a);
-            $objects[] = $object;
+            $objects->add($object);
         }
 
         return $objects;
