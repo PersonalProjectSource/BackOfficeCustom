@@ -74,7 +74,7 @@ class MediaController extends Controller
                 $row[] = (string) $e->getName();
 
 
-                $row[] = $this->container->get('app.twig.admin_extension')->formatImage($e, 'thumb', 50);
+                $row[] = $this->container->get('app.media.twig')->formatImage($e, 'thumb', 50);
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;
@@ -143,7 +143,7 @@ class MediaController extends Controller
                 $row[] = (string) $e->getType();
                 $row[] = (string) $e->getName();
 
-                $row[] = $this->container->get('app.twig.admin_extension')->formatImage($e, 'thumb', 50);
+                $row[] = $this->container->get('app.media.twig')->formatImage($e, 'thumb');
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" data="'.$e->getId().'" onclick="confirmboxmedialist('.$e->getId().')"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;
