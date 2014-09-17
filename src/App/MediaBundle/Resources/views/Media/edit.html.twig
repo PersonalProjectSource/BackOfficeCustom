@@ -4,15 +4,14 @@
    <div class="col-lg-12">
          <section class="panel">
              <header class="panel-heading">
-                 Édition d'un média
+                 Édition d'un média 
              </header>
             <div class="panel-body">
                  <div class="tip4e">
-                    <img width="{{ iImageWith }}" src="{{ asset('uploads/documents/' ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
+                    <img width="{{ iImageWith }}" src="{{ media_path }}~{{ asset( ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
                     <br>
                     <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
-                 
             </div>
             <select id="format_crop" name="format_crop">
               {% for format in formats %}

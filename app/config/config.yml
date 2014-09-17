@@ -3,7 +3,11 @@ imports:
     - { resource: security.yml }
     - { resource: doctrine_extensions.yml }
     
-        
+twig:
+    globals:
+        media_path: "uploads/medias/"
+        media_absolute_path: "/BackOfficeCurrentGit/BackOfficeCustom/web/uploads/medias/"
+    
 framework:
     #esi:             ~
     #translator:      { fallback: "%locale%" }
@@ -106,3 +110,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    
+parameters:
+    test: parametre_secret
+    
