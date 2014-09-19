@@ -38,6 +38,15 @@ class ProductType extends AbstractType
                     'expanded'  => false))
            ->add('price','collection', array('type' => new PriceType()))
            */
+            ->add('name', 'text', array('label' => 'Nom', 'required' => true))
+            ->add('descriptionShort', 'textarea', array('label' => 'Résumé', 'required' => false))
+            ->add('description', 'textarea', array('label' => 'Description', 'required' => false))
+            ->add('category', 'entity',
+                array('label' => 'Catégories',
+                    'class' => 'AppAdminBundle:Category',
+                    'property' => 'title',
+                    'multiple' => true,
+                    'expanded'  => false))
             ->add(
                 $builder->create('medias', 'collection',array(
                     'type' => 'hidden',

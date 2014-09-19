@@ -102,6 +102,7 @@
     <script src="{{ asset('bundles/appadmin/js/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js') }}" ></script>
     <script src="{{ asset('bundles/appadmin/js/jquery.customSelect.min.js') }}" ></script>
     <script src="{{ asset('bundles/appadmin/js/assets/jquery-multi-select/js/jquery.multi-select.js') }}"></script>
+    <script src="{{ asset('bundles/appadmin/js/assets/jquery-multi-select/js/jquery.quicksearch.js') }}"></script>
 
     <!-- --- BOOTSTRAP --- -->
     <script src="{{ asset('bundles/appadmin/js/bootstrap-switch.js') }}"></script>
@@ -135,27 +136,8 @@
     <script class="include" type="text/javascript" src="{{ asset('bundles/appadmin/js/jquery.dcjqaccordion.2.7.js') }}" ></script>
     <script src="{{ asset('bundles/appadmin/js/modernizr.custom.js') }}"></script>
     <script src="{{ asset('bundles/appadmin/js/toucheffects.js') }}"></script>
-   
-    <script>
+    <script src="{{ asset('bundles/appadmin/js/scripts.js') }}" ></script>
 
-     var Script = function () { $('.spinner4').spinner({value:0, step: 1, min: 0, max: 200000});}();
-     tinymce.init({
-         selector: "textarea",
-         theme: "modern",
-         content_css: "css/content.css",
-         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
-         style_formats: [
-             {title: 'Bold text', inline: 'b'},
-             {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
-             {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
-             {title: 'Example 1', inline: 'span', classes: 'example1'},
-             {title: 'Example 2', inline: 'span', classes: 'example2'},
-             {title: 'Table styles'},
-             {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
-         ]
-     });
-    
-    </script>
 {% endblock %}
 <!-- END JAVASCRIPTS -->
   </body>

@@ -99,7 +99,7 @@
         {% set required = false %}
     {% endif %}
     {% if multiple %}<div class="col-md-9">{% else %}<div class="col-lg-10">{% endif %}
-    <select {{ block('widget_attributes') }}{% if multiple %} class="multi-select multi_select3" id="my_multi_select3" multiple="multiple"{% else %} class="form-control m-bot15"{% endif %}>
+    <select {{ block('widget_attributes') }}{% if multiple %} class="multi-select" multiple="multiple"{% else %} class="form-control m-bot15"{% endif %}>
         {% if empty_value is not none %}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
         {% endif %}
@@ -165,5 +165,57 @@
     {{ form_end(form) }}
 </div>
 {%- endblock form %}
+
+{% block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        <div class="col-md-4">
+            <div class="input-group date form_datetime-component">
+                <input type="text" class="form-control" size="16" type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}>
+                  <span class="input-group-btn">
+                  <button type="button" class="btn btn-danger date-set"><i class="fa fa-calendar"></i></button>
+                  </span>
+            </div>
+            {{ form_errors(form) }}
+        </div>
+
+    {% else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif %}
+{%- endblock datetime_widget %}
+
+
+{% block date_widget -%}
+    {% if widget == 'single_text' -%}
+
+        <div class="col-md-3 col-xs-11">
+            <div data-date-viewmode="years" data-date-format="dd/mm/yyyy"{% if value is not empty %} data-date="{{ value }}" {% endif %}"  class="input-append date dpYears">
+            <input type="text" readonly="" size="16" class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}>
+              <span class="input-group-btn add-on">
+                <button class="btn btn-danger" type="button"><i class="fa fa-calendar"></i></button>
+              </span>
+        </div>
+        {{ form_errors(form) }}
+        </div>
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- date_pattern|replace({
+            '{{ year }}':  form_widget(form.year),
+            '{{ month }}': form_widget(form.month),
+            '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        </div>
+    {%- endif %}
+{%- endblock date_widget %}
+{% block textarea_widget -%}
+    <div class="col-sm-10">
+        <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    </div>
+{%- endblock textarea_widget %}
+
 
 
