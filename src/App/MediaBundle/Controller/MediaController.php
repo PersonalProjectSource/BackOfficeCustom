@@ -88,7 +88,6 @@ class MediaController extends Controller
         }
     }
 
-<<<<<<< HEAD
 
     /**
      * Lists all Media entities.
@@ -157,8 +156,7 @@ class MediaController extends Controller
         }
     }
     
-=======
->>>>>>> dd8a9d2ad2a01d704556543001c18aec6d3cd1e3
+
     /**
      * Creates a new Media entity.
      *
