@@ -35,6 +35,7 @@ class CropingController extends Controller
             'entities' => $entities,
         );
     }
+    
     /**
      * Creates a new Croping entity.
      *
@@ -47,13 +48,30 @@ class CropingController extends Controller
         $entity = new Croping();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
+        
+        
 
         if ($form->isValid()) {
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('croping_show', array('id' => $entity->getId())));
+            
+            $cropNameIsDuplicate = $this->cropFormatIsDuplicateAction($entity->getName());
+            
+            if (false == $cropNameIsDuplicate) {
+                $em->persist($entity);
+                $em->flush();
+                
+                // Flashbag
+                $this->get('session')->getFlashBag()->add(
+                        'success',
+                        'Le format a été ajouté avec succès !'
+                );
+                
+                return $this->redirect($this->generateUrl('croping', array('id' => $entity->getId())));
+            }  
+            
+                
+            return $this->redirect($this->generateUrl('croping_new'));
         }
 
         return array(
@@ -90,9 +108,10 @@ class CropingController extends Controller
      */
     public function newAction()
     {
+        
         $entity = new Croping();
         $form   = $this->createCreateForm($entity);
-
+       
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -192,8 +211,13 @@ class CropingController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
-
-            return $this->redirect($this->generateUrl('croping_edit', array('id' => $id)));
+            
+             $this->get('session')->getFlashBag()->add(
+            'success',
+            'modification effectuées !'
+            );
+            
+            return $this->redirect($this->generateUrl('croping', array('id' => $id)));
         }
 
         return array(
@@ -214,6 +238,7 @@ class CropingController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AppMediaBundle:Croping')->find($id);
 
@@ -244,4 +269,60 @@ class CropingController extends Controller
             ->getForm()
         ;
     }
+    
+    
+    /**
+     * Delete Croping entity from list
+     *
+     * @Route("/delete_crop_format/{iIdCrop}/", name="delete_croping_format_from_list")
+     */
+    public function deleteQuestionListAction($iIdCrop)
+    {
+        $oEm          = $this->getDoctrine()->getManager();
+        $oCropping  = $oEm->getRepository('AppMediaBundle:Croping')->find($iIdCrop);
+
+        if (!$oCropping) {
+
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $oEm->remove($oCropping);
+        $oEm->flush();
+
+        return $this->redirect($this->generateUrl('croping'));
+    }
+    
+    /**
+     * Check if duplication between croping name.
+     *
+     * @Route("/check_crop_duplication/{$sCropingName}/", name="check_crop_duplication")
+     */
+    public function cropFormatIsDuplicateAction($sCropingName)
+    {
+        $oEm          = $this->getDoctrine()->getManager();
+        $oCropping    = $oEm->getRepository('AppMediaBundle:Croping')->findByName($sCropingName);
+        $bIsDuplicate = false; 
+        //die('passe : check duplicate');
+        
+        if ($oCropping) {
+            $bIsDuplicate = true;
+            // creation d'un message flash
+            
+            // Flashbag
+            $this->get('session')->getFlashBag()->add(
+            'duplication',
+            'Ce nom de format de crop existe déjà !'
+            );
+            
+             // redirection vers la liste de creation de croping.
+            return $this->redirect($this->generateUrl('croping_new'));
+        }
+        
+        //die('passe : check duplicate fin');
+        //return $bIsDuplicate;
+    }
+    
+    
+    
+    
 }

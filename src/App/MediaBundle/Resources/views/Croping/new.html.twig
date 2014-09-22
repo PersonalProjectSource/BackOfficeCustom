@@ -5,6 +5,12 @@
     <div class="row">
         <div class="col-lg-12">
          <h1>Création du format de croping</h1>
+         
+            {% for flashMessage in app.session.flashbag.get('duplication') %}
+               <div class="alert alert-block alert-danger fade in">
+                   {{ flashMessage }}
+               </div>
+            {% endfor %}
 
          {{ form(form) }}
 
