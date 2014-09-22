@@ -5,7 +5,7 @@ namespace App\ECommerceBundle\Entity\Product;
 use App\AdminBundle\Entity\Category;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use App\AdminBundle\Entity\AbstractDefault;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\MediaBundle\Entity\Media;
 use Gedmo\Translatable\Translatable;
 
@@ -48,12 +48,12 @@ class Product implements Translatable
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\AdminBundle\Entity\Category", mappedBy="products", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\AdminBundle\Entity\Category", cascade={"persist"})
      */
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", mappedBy="products", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", cascade={"persist"})
      */
     private $medias;
 
@@ -65,6 +65,15 @@ class Product implements Translatable
     private $locale;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->medias = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -74,13 +83,9 @@ class Product implements Translatable
         return $this->id;
     }
 
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function setTranslatableLocale($locale)
     {
-        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->locale = $locale;
     }
 
     /**
@@ -148,25 +153,21 @@ class Product implements Translatable
         $this->medias->removeElement($media);
     }
 
-    public function getCategories()
+
+    public function addCategory(Category $category)
     {
-        return $this->categories;
+        $this->categories[] = $category;
+        return $this;
     }
-    public function setCategories(\Doctrine\Common\Collections\ArrayCollection $categories)
-    {
-        foreach ($categories as $category) {
-            $category->addProduct($this);
-        }
-        $this->categories = $categories;
-    }
-    public function removeCategories(Category $category)
+
+    public function removeCategory(Category $category)
     {
         $this->categories->removeElement($category);
     }
 
-    public function setTranslatableLocale($locale)
+    public function getCategories()
     {
-        $this->locale = $locale;
+        return $this->categories;
     }
 
 }

@@ -11,10 +11,8 @@
                     <div id="infos" class="tab-pane active">
                         <section class="panel">
                             <header class="panel-heading">
-                                <div class="clearfix">
-                                    <i class="fa fa-info-circle"></i> Informations
-                                    {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product_edit', 'id' : entity.id})) }}
-                                </div>
+                                <i class="fa fa-info-circle"></i> Informations
+                                {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product_edit', 'id' : entity.id})) }}
                             </header>
                             <div class="panel-body">
                                 {{ form_row(form.name) }}
@@ -28,6 +26,7 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <i class="fa fa-money"></i> Prix
+                                {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product_edit', 'id' : entity.id})) }}
                             </header>
                             <div class="panel-body">
                             </div>
@@ -38,6 +37,7 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <i class="fa fa-pagelines"></i> Categories
+                                {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product_edit', 'id' : entity.id})) }}
                             </header>
                             <div class="panel-body">
                                 {{ form_widget(form.categories) }}
@@ -49,6 +49,7 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <i class="fa fa-truck"></i>  Livraison
+                                {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product_edit', 'id' : entity.id})) }}
                             </header>
                             <div class="panel-body">
                             </div>
@@ -59,6 +60,7 @@
                         <section class="panel">
                             <header class="panel-heading">
                                 <i class="fa fa-film"></i> Images
+                                {{ render(controller('AppLanguageBundle:Language:list', {'lang' : app.request.get("lang"), 'routing' : 'product_edit', 'id' : entity.id})) }}
                             </header>
                             <div class="panel-body">
                                 <input class="form-control" type="text" id="media-autocomplete" placeholder="rechercher un média">
