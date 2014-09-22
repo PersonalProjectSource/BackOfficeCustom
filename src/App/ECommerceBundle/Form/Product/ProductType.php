@@ -41,8 +41,9 @@ class ProductType extends AbstractType
             ->add('name', 'text', array('label' => 'Nom', 'required' => true))
             ->add('descriptionShort', 'textarea', array('label' => 'Résumé', 'required' => false))
             ->add('description', 'textarea', array('label' => 'Description', 'required' => false))
-            ->add('category', 'entity',
+            ->add('categories', 'entity',
                 array('label' => 'Catégories',
+                    'required' => false,
                     'class' => 'AppAdminBundle:Category',
                     'property' => 'title',
                     'multiple' => true,

@@ -159,11 +159,15 @@ class ProductController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppECommerceBundle:Product\Product')->find($id);
+        $lang = $request->query->get('lang');
+        if(empty($lang)) {$lang = $request->getLocale();}
+        $entity->setTranslatableLocale($lang);
+        $em->refresh($entity);
         //$medias = $em->getRepository('AppMediaBundle:Media')->findBy(array('products' => $entity));
 
         $qb = $em->getRepository('AppMediaBundle:Media')->createQueryBuilder('m');
@@ -182,7 +186,7 @@ class ProductController extends Controller
         return array(
             'medias' => $medias,
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -207,11 +211,11 @@ class ProductController extends Controller
     /**
      * Edits an existing Product\Product entity.
      *
-     * @Route("/{id}", name="product_update")
+     * @Route("/{id}/{lang}", name="product_update")
      * @Method("PUT")
      * @Template("AppECommerceBundle:Product\Product:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id, $lang = "")
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -239,16 +243,21 @@ class ProductController extends Controller
                         $em->persist($media);
                     }
                 }
+
+                if(!empty($lang)) {
+                    $entity->setTranslatableLocale($lang);
+                }
+
                 $em->persist($entity);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
+                return $this->redirect($this->generateUrl('product_edit', array('id' => $id, 'lang' => $lang)));
             }
         }
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
