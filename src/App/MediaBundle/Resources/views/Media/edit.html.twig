@@ -8,48 +8,57 @@
              </header>
             <div class="panel-body">
                  <div class="tip4e">
-                    <img width="{{ iImageWith }}" src="{{ media_path }}~{{ asset( ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
+                    <img width="{{ iImageWith }}" src="{{ asset( media_path ~ entity.path ~'.' ~ entity.extension) }}" id="target" /><br>
                     <br>
-                    <a class="btn btn-success" onclick="crop({{ entity.id }});">Crop</a>
+                    <a id="btn-to-sub" class="btn btn-success btn-redirect" onclick="crop({{ entity.id }});">Crop</a>
                  </div>
             </div>
-            <select id="format_crop" name="format_crop">
-              {% for format in formats %}
-                 <option value="{{ format.slug }}">{{format.name}}</option>
-              {% endfor %}
-            </select>
+                 
+            {% if formats is empty %}
+                <a href="{{ path('croping_new') }}" class="btn btn-info">ajouter un format de crop</a>
+            {% else %}
+                 <select id="format_crop" name="format_crop">
+                  {% for format in formats %}
+                     <option value="{{ format.slug }}">{{format.name}}</option>
+                  {% endfor %}
+                </select>
+            {% endif %}
          </section>
          <section id="formats" class="panel">
             <header class="panel-heading">
                 Images cropées
             </header>
-                <div id="container" class="panel-body">
-                   {% set i = 1 %}
-                   <ul class="grid cs-style-3">
-                   {% for format in formats %}
-                      <li>
-                        <figure>
-                            <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
-                            <figcaption>
-                                <h3>{{ format.slug }}</h3>
-                                <span>{{ format.width }} x {{ format.height }}</span>
-                                <p>{{ asset(format.slug ~ '.' ~ entity.extension) }}</p>
-                                <a class="tip5" href="#login_form_{{ format.slug }}">details image</a>
-                                <div style="display:none">
-                                  <form id="login_form_{{ format.slug }}" method="post" action="">
-                                     <p>
-                                        <img src="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}"  />
-                                        <p>{{ format.width }} x {{ format.height }}</p>
-                                     </p>
-                                  </form>
-                               </div>
-                                {#<a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>#}
-                            </figcaption>
-                        </figure>
-                      </li>
-                   {% endfor %}
-                   </ul>
-                </div>
+            <div id="container" class="panel-body">
+               {% if  formats is not empty %} 
+               {% set i = 1 %}
+               <ul class="grid cs-style-3">
+               {% for format in formats %}
+                  <li>
+                    <figure>
+                        <img src="{{ asset(media_path ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}" />
+                        <figcaption>
+                            <h3>{{ format.slug }}</h3>
+                            <span>{{ format.width }} x {{ format.height }}</span>
+                            <p>{{ asset(format.slug ~ '.' ~ entity.extension) }}</p>
+                            <a class="tip5" href="#login_form_{{ format.slug }}">details image</a>
+                            <div style="display:none">
+                              <form id="login_form_{{ format.slug }}" method="post" action="">
+                                 <p>
+                                    <img src="{{ asset( media_path ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}"  />
+                                    <p>{{ format.width }} x {{ format.height }}</p>
+                                 </p>
+                              </form>
+                           </div>
+                            {#<a class="fancybox" rel="group" href="{{ asset('uploads/documents/' ~ entity.path ~ '_' ~ format.slug ~ '.' ~ entity.extension) }}">Take a look</a>#}
+                        </figcaption>
+                    </figure>
+                  </li>
+               {% endfor %}
+               </ul>
+               {% else %}
+                   Au moins 1 format de crop est necessaire pour pourvoir avoir un rendu               
+               {% endif %}
+            </div>
          </section>
    </div>
                         
@@ -75,6 +84,8 @@
    {{ parent() }}
    
    <script language="Javascript">
+       
+       
       /*test fancy*/
       $(".tip5").fancybox({
       'scrolling'		: 'no',
@@ -83,7 +94,6 @@
              $("#login_error").hide();
          }
       });
-      
       $("#titi").fancybox({
       'scrolling'		: 'no',
       'titleShow'		: false,
@@ -95,12 +105,20 @@
       /*fin de test*/
       
       var cropTab = [];
-   
+      
    {% for format in formats %}
-      cropTab['{{format.slug}}_width'] = {{ format.width }};
-      cropTab['{{format.slug}}_height'] = {{ format.height }};
-      cropTab['{{format.slug}}_quality'] = {{ format.quality }};
-      cropTab['{{format.slug}}_ratio'] = {{ format.width / format.height}};
+ 
+     {% if format.width == 0  or format.height == 0%}
+        cropTab['{{format.slug}}_width'] = {{ format.width }};
+        cropTab['{{format.slug}}_height'] = {{ format.height }};
+        cropTab['{{format.slug}}_quality'] = {{ format.quality }};
+        cropTab['{{format.slug}}_ratio'] = {{ format.width / format.height}};
+     {% else %}
+        cropTab['{{format.slug}}_width']   = 100;
+        cropTab['{{format.slug}}_height']  = 100;
+        cropTab['{{format.slug}}_quality'] = 100 
+        cropTab['{{format.slug}}_ratio']   = 1;
+     {% endif  %}
     {% endfor %}  
        
        var x    = 0;
@@ -136,14 +154,16 @@
                  ajax_slug : slug }
                  )
                  .done(function(data){
-                     alert(data.path);
+                    // Redirige vers la le formulaire de modification apres le croping 
+                    window.location.href = "{{ path('media_edit', {'id': entity.id}) }}"; 
                   });
      }
-   
+     
+
    $('#target').Jcrop({
        onSelect: changeCoords,
        animateTo: [ 0,0,{{ formats.0.width}},{{ formats.0.height}} ],
-       aspectRatio: {{ formats.0.width / formats.0.height }}
+       aspectRatio: 4 {# TODO lbrau: bug sur les params rendu par la balise twig aspectRatio: {{ formats.0.width / formats.0.height }} #}
    },function(){
        jcrop_api = this;
    });
@@ -158,5 +178,6 @@
           aspectRatio: cropTab[name + "_ratio"]
          });
      }); 
+     
    </script>
   {% endblock %}

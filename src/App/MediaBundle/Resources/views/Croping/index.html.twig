@@ -8,6 +8,11 @@
                   <header class="panel-heading">
                       Liste des formats de croping
                   </header>
+                   {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success alert-block fade in">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
                   <div class="panel-body">
                       <div class="adv-table editable-table">
                           <div class="clearfix">
@@ -44,9 +49,12 @@
                                     <td>{{ entity.height }}</td>
                                     <td>{{ entity.quality }}</td>
 
+                                     
                                      <td class="center">
-                                             {#<a class="btn btn-success btn-sm" href="{{ path('question_show', { 'id': question.object.id }) }}"><i class="fa fa-eye"></i></a>#}
+                                        <div class="hidden-phon">
                                              <a class="btn btn-primary btn-sm" href="{{ path('croping_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
+                                             <a class="btn btn-danger btn-sm" onclick="confirmbox('{{ path('delete_croping_format_from_list', { 'iIdCrop': entity.id}) }}', '{{ entity.username }}')"><i class="fa fa-trash-o "></i></a>
+                                         </div>
                                      </td>
                                  </tr>
                               {% endfor %}
@@ -57,6 +65,22 @@
               </section>
               <!-- page end-->
           </section>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #FF6C60;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Suppression</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Annuler</button>
+                    <button class="btn btn-danger" type="button"> Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     {% endblock %}
@@ -66,7 +90,14 @@
     {{ parent() }}
     <script>
 
-
+        function confirmbox(location, user){
+            $("#myModal").modal();
+            content = "Voulez-vous supprimer l'utilisateur ? ("+ user +")";
+            $("#myModal .modal-body").html(content);
+            $("#myModal .modal-footer .btn-danger").on('click', function(){
+                document.location.href= location;
+            });
+        }
 
         var oTable = $('#editable-sample').dataTable({
             "aLengthMenu": [
@@ -105,5 +136,7 @@
             ]
         });
     </script>
+    
+     
 {% endblock %}
 

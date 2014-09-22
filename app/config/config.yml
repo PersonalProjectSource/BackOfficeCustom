@@ -2,12 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: doctrine_extensions.yml }
-    
-twig:
-    globals:
-        media_path: "uploads/medias/"
-        media_absolute_path: "/BackOfficeCurrentGit/BackOfficeCustom/web/uploads/medias/"
-    
+
 framework:
     #esi:             ~
     #translator:      { fallback: "%locale%" }
@@ -115,4 +110,9 @@ swiftmailer:
     
 parameters:
     test: parametre_secret
+    
+twig:
+    globals:
+        media_path: "uploads/medias/"
+        media_absolute_path: "/BackOfficeCurrentGit/BackOfficeCustom/web/uploads/medias/"
     

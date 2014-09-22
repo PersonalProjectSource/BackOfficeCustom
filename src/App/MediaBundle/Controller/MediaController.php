@@ -138,7 +138,7 @@ class MediaController extends Controller
 
             /* Parse Result */
             foreach ($result as $e) {
-                $row = array();
+                $row   = array();
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getType();
                 $row[] = (string) $e->getName();
@@ -258,7 +258,10 @@ class MediaController extends Controller
         
         // Recuperation des metadonnées de l'image.
         $filename = 'uploads/medias/'.$entity->getPath().'.'.$entity->getExtension();
+        
         $aDataImageOrigin = getimagesize($filename, $infos);
+        
+        //var_dump($aDataImageOrigin,"###########",$infos);
         $iCoeffCrop = $aDataImageOrigin[0] / 500;
         $iImageWidth =  $aDataImageOrigin[0];
 
