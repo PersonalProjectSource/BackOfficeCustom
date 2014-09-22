@@ -63,6 +63,11 @@ class Category
     private $children;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product\Product", inversedBy="categories")
+     */
+    protected $products;
+
+    /**
      * @Gedmo\Translatable
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=128)
@@ -102,4 +107,19 @@ class Category
     {
         return $this->parent;
     }
+    public function getProducts()
+    {
+        return $this->products;
+    }
+    public function setProducts(\App\ECommerceBundle\Entity\Product\Product $products = null)
+    {
+        $this->products = $products;
+        return $this;
+    }
+    public function addProduct($product) {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+        }
+    }
+
 }

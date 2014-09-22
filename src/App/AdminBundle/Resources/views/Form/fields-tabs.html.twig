@@ -130,9 +130,11 @@
 {%- endblock choice_widget_expanded %}
 
 {% block checkbox_widget %}
-{% spaceless %}
-         <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} data-toggle="switch"/>
-{% endspaceless %}
+    {% spaceless %}
+        <div class="col-lg-10 col-sm-9">
+            <input type="checkbox" style="width: 20px" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} class="checkbox form-control"/>
+        </div>
+    {% endspaceless %}
 {% endblock checkbox_widget %}
 
 {% block button_widget -%}

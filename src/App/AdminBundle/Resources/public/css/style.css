@@ -5570,3 +5570,7 @@ a.guest-on i {
     padding: 4px 10px;
 }
 
+.btn-lang {
+    padding: 0 12px;
+    background: #F7F5F5;
+}

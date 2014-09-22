@@ -2,10 +2,12 @@
 
 namespace App\ECommerceBundle\Entity\Product;
 
+use App\AdminBundle\Entity\Category;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\AdminBundle\Entity\AbstractDefault;
 use App\MediaBundle\Entity\Media;
+use Gedmo\Translatable\Translatable;
 
 /**
  * Product
@@ -13,7 +15,7 @@ use App\MediaBundle\Entity\Media;
  * @ORM\Table(name="product")
  * @ORM\Entity()
  */
-class Product extends AbstractDefault
+class Product implements Translatable
 {
     /**
      * @var integer
@@ -26,40 +28,41 @@ class Product extends AbstractDefault
 
     /**
      * @var string
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="description_short", type="text")
      */
     private $description_short;
 
     /**
      * @var string
-     *
+     * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text")
      */
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\AdminBundle\Entity\Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
-     * })
+     * @ORM\ManyToMany(targetEntity="App\AdminBundle\Entity\Category", mappedBy="products", cascade={"persist"})
      */
-    private $category;
+    private $categories;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", mappedBy="products", cascade={"persist"})
      */
     private $medias;
 
-
-
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
 
     /**
      * Get id
@@ -128,22 +131,6 @@ class Product extends AbstractDefault
         return $this->description_short;
     }
 
-    /**
-     * @param mixed $category
-     */
-    public function setCategory($category)
-    {
-        $this->category = $category;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
 
     public function getMedias()
     {
@@ -159,6 +146,27 @@ class Product extends AbstractDefault
     public function removeMedias(Media $media)
     {
         $this->medias->removeElement($media);
+    }
+
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+    public function setCategories(\Doctrine\Common\Collections\ArrayCollection $categories)
+    {
+        foreach ($categories as $category) {
+            $category->addProduct($this);
+        }
+        $this->categories = $categories;
+    }
+    public function removeCategories(Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
 }
