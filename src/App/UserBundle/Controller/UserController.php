@@ -50,16 +50,14 @@ class UserController extends Controller
         $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-     
+
         $data = $request->get($form->getName(), array());
-           $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('email' => $data["email"]));
-        if ($user) {
-           var_dump('HELL');
+        $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('email' => $data["email"]));
+        if ($user instanceof \App\UserBundle\Entity\User) {
             $form->get('email')->addError(new FormError('Cet email est déjà existant'));
         }
-
         $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('username' => $data["username"]));
-        if ($user) {
+        if ($user instanceof \App\UserBundle\Entity\User) {
             $form->get('username')->addError(new FormError('Ce nom d\'utilisateur est déjà existant'));
         }
 
@@ -209,21 +207,38 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="user_update")
      * @Method("PUT")
-     * @Template()
+     * @Template("AppUserBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppUserBundle:User')->find($id);
+        $username = $entity->getUsername();
+        $email = $entity->getEmail();
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+        $data = $request->get($editForm->getName(), array());
+        $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('email' => $data["email"]));
+        if ($user instanceof \App\UserBundle\Entity\User && $data["email"] != $email) {
+            $editForm->get('email')->addError(new FormError('Cet email est déjà existant'));
+        }
+        $user  = $em->getRepository('AppUserBundle:User')->findOneBy(array('username' => $data["username"]));
+        if ($user instanceof \App\UserBundle\Entity\User && $data["username"] != $username) {
+            $editForm->get('username')->addError(new FormError('Ce nom d\'utilisateur est déjà existant'));
+        }
+        if(!empty($data["plainPassword"]['first']) && !empty($data["plainPassword"]['second']) && $data["plainPassword"]['second'] == $data["plainPassword"]['first']) {
+            $userManager = $this->container->get('fos_user.user_manager');
+            $user->setPassword($data["plainPassword"]['first']);
+            $userManager->updateUser($user);
+        }
 
         if ($editForm->isValid()) {
             $em->flush();

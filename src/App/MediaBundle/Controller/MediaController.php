@@ -75,7 +75,7 @@ class MediaController extends Controller
 
 
                 $row[] = $this->container->get('app.media.twig')->formatImage($e, 'thumb', 50);
-                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("media_edit", array('id' => $e->getId())).'"><i class="fa fa-crop"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;
 
@@ -88,6 +88,7 @@ class MediaController extends Controller
         }
     }
 
+<<<<<<< HEAD
 
     /**
      * Lists all Media entities.
@@ -156,6 +157,8 @@ class MediaController extends Controller
         }
     }
     
+=======
+>>>>>>> dd8a9d2ad2a01d704556543001c18aec6d3cd1e3
     /**
      * Creates a new Media entity.
      *
