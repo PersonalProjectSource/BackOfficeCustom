@@ -21,6 +21,11 @@ class Customer extends AbstractDefault
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", cascade={"persist"})
+     */
+    private $catalogs;
 
     /**
      * @var string
@@ -91,5 +96,45 @@ class Customer extends AbstractDefault
     public function getNewsletter()
     {
         return $this->newsletter;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add catalogs
+     *
+     * @param \App\ECommerceBundle\Entity\Catalog $catalogs
+     * @return Customer
+     */
+    public function addCatalog(\App\ECommerceBundle\Entity\Catalog $catalogs)
+    {
+        $this->catalogs[] = $catalogs;
+
+        return $this;
+    }
+
+    /**
+     * Remove catalogs
+     *
+     * @param \App\ECommerceBundle\Entity\Catalog $catalogs
+     */
+    public function removeCatalog(\App\ECommerceBundle\Entity\Catalog $catalogs)
+    {
+        $this->catalogs->removeElement($catalogs);
+    }
+
+    /**
+     * Get catalogs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCatalogs()
+    {
+        return $this->catalogs;
     }
 }

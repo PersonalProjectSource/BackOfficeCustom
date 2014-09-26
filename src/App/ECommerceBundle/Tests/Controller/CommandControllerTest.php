@@ -1,25 +1,25 @@
 <?php
 
-namespace App\AdminBundle\Tests\Controller;
+namespace App\ECommerceBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CropingControllerTest extends WebTestCase
+class CommandControllerTest extends WebTestCase
 {
-    
+    /*
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/croping/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /croping/");
+        $crawler = $client->request('GET', '/command/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /command/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'app_adminbundle_croping[field_name]'  => 'Test',
+            'app_ecommercebundle_command[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class CropingControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Update')->form(array(
-            'app_adminbundle_croping[field_name]'  => 'Foo',
+            'app_ecommercebundle_command[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 
@@ -51,5 +51,5 @@ class CropingControllerTest extends WebTestCase
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
 
-    
+    */
 }
