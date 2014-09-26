@@ -28,13 +28,6 @@ class CatalogController extends Controller
      */
     public function indexAction(Request $request)
     {
-        /*$em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('AppECommerceBundle:Catalog')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );*/
         
         $em = $this->getDoctrine()->getManager();
 
@@ -74,7 +67,6 @@ class CatalogController extends Controller
 
             return $response;
         }
-
     }
     /**
      * Creates a new Catalog entity.
