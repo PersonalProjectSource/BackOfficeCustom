@@ -32,7 +32,7 @@ class Catalog
     private $customers;
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Country", mappedBy="catalogs")
+     * @ORM\OneToMany(targetEntity="App\LanguageBundle\Entity\Country", mappedBy="catalogs")
      */
     private $country;
 

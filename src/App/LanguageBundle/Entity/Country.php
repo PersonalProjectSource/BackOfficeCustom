@@ -31,7 +31,7 @@ class Country extends AbstractDefault
 
     
     /**
-     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", inversedBy="country")
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Catalog")
      */
     private $catalogs;
 
