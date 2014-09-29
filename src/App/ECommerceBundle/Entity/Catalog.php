@@ -30,6 +30,11 @@ class Catalog
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Customer", cascade={"persist"})
      */
     private $customers;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Country", mappedBy="catalogs")
+     */
+    private $country;
 
     /**
      * @var string

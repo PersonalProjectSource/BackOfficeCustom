@@ -29,6 +29,11 @@ class Country extends AbstractDefault
      */
     private $isoCode;
 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", inversedBy="country")
+     */
+    private $catalogs;
 
     /**
      * Get id

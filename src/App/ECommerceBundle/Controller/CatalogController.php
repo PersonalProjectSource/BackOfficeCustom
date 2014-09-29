@@ -60,8 +60,8 @@ class CatalogController extends Controller
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("catalog_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;
-
             }
+            
             $response = new JsonResponse();
             $response->setData($output);
 
