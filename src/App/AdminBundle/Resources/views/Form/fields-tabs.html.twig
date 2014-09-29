@@ -122,18 +122,17 @@
     <div class="checkboxes col-lg-10" {{ block('widget_container_attributes') }}>
         {% for child in form %}
             <label class="label_check">
-             <input type="checkbox" {% if  child.vars.value is defined %} value="{{  child.vars.value }}"{% endif %}{% if  child.vars.checked %} checked="checked"{% endif %}">
-            {{ child.vars.label }}
+                <input type="checkbox" {% if  child.vars.value is defined %} value="{{  child.vars.value }}"{% endif %}{% if  child.vars.checked %} checked="checked"{% endif %}">
+                {{ child.vars.label }}
             </label>
         {% endfor %}
+        {{ form_errors(form) }}
     </div>
 {%- endblock choice_widget_expanded %}
 
 {% block checkbox_widget %}
     {% spaceless %}
-        <div class="col-lg-10 col-sm-9">
-            <input type="checkbox" style="width: 20px" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} class="checkbox form-control"/>
-        </div>
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
     {% endspaceless %}
 {% endblock checkbox_widget %}
 
