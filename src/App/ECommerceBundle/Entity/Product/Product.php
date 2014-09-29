@@ -56,6 +56,11 @@ class Product implements Translatable
      * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", cascade={"persist"})
      */
     private $medias;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", cascade={"persist"})
+     */
+    private $catalogs;
 
     /**
      * @Gedmo\Locale

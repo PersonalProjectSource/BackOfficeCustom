@@ -17,3 +17,14 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        
+        $('#app_adminbundle_croping_width').attr('value', 100);
+        $('#app_adminbundle_croping_height').attr('value', 100);
+        $('#app_adminbundle_croping_quality').attr('value', 100);
+    </script>
+{% endblock %}
+    
