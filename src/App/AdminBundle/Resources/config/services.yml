@@ -17,3 +17,7 @@ services:
             class: App\AdminBundle\Services\LanguageService
             arguments:
               - "@service_container"
+    app.adminbundle.services.mailer:
+        class: App\AdminBundle\Services\LanguageService
+        arguments:
+          - "@service_container"
