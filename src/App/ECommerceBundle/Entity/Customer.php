@@ -137,4 +137,9 @@ class Customer extends AbstractDefault
     {
         return $this->catalogs;
     }
+    
+     public function __toString()
+    {
+        return $this->gender;
+    }
 }

@@ -31,7 +31,7 @@ class Product implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -69,6 +69,11 @@ class Product implements Translatable
      */
     private $locale;
 
+    
+    
+    
+    
+    
     /**
      * Constructor
      */
@@ -173,6 +178,11 @@ class Product implements Translatable
     public function getCategories()
     {
         return $this->categories;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 
 }

@@ -17,13 +17,16 @@
                     </section>
                 </div>
 
-                <div id="catalogue" class="tab-pane">
+                <div id="product" class="tab-pane">
                     <section class="panel">
                         <header class="panel-heading">
                             <i class="fa fa-money"></i> Produits du catalogue
                         </header>
                         <div class="panel-body">
-                            coucou catalogues
+                            {#{{ form_row(form.products) }}#}
+                            {% for product in form.products %}
+                                <li>{{ form_row(product.name) }}</li>
+                            {% endfor %}
                         </div>
                     </section>
                 </div>
@@ -34,7 +37,7 @@
                             <i class="fa fa-pagelines"></i> Liste des consommateurs
                         </header>
                         <div class="panel-body">
-                            coucou consommateurs
+                            {{ form_row(form.customers) }}
                             {#{{ form_widget(form.categories) }}#}
                         </div>
                     </section>
@@ -46,7 +49,7 @@
                             <i class="fa fa-pagelines"></i> Pays
                         </header>
                         <div class="panel-body">
-                            coucou pays
+                            {{ form_row(form.country) }}
                             {#{{ form_widget(form.country) }}#}
                         </div>
                     </section>
@@ -63,7 +66,7 @@
         <div class="col-md-2">
             <ul class="vertical-menu">
                 <li class="active"><a href="#infos" data-toggle="tab"><i class="fa fa-info-circle"></i>  Informations</a></li>
-                <li><a href="#catalog" data-toggle="tab"><i class="fa fa-money"></i>  Produits du catalogue</a></li>
+                <li><a href="#product" data-toggle="tab"><i class="fa fa-money"></i>  Produits du catalogue</a></li>
                 <li><a href="#customer" data-toggle="tab"><i class="fa fa-pagelines"></i> Liste des consommateurs</a></li>
                 <li><a href="#country" data-toggle="tab"><i class="fa fa-pagelines"></i> Gestion des localités</a></li>
             </ul>

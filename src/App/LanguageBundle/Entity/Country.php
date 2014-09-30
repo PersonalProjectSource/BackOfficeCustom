@@ -31,7 +31,7 @@ class Country extends AbstractDefault
 
     
     /**
-     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", inversedBy="country")
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", mappedBy="country")
      */
     private $catalogs;
 
@@ -65,6 +65,10 @@ class Country extends AbstractDefault
      */
     public function getIsoCode()
     {
+        return $this->isoCode;
+    }
+    
+    public function __toString() {
         return $this->isoCode;
     }
 }
