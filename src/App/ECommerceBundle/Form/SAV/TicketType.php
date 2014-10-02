@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Form\SAV;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use App\ECommerceBundle\Form\SAV\MessageType;
 
 class TicketType extends AbstractType
 {
@@ -24,8 +25,7 @@ class TicketType extends AbstractType
                 'multiple' => false,
                 'required' => true
             ))
-
-
+            ->add('message', new MessageType(), array('label' => false))
         ;
     }
     

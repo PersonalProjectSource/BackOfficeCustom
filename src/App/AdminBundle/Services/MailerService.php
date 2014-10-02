@@ -2,6 +2,7 @@
 namespace App\AdminBundle\Services;
 
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MailerService
 {
@@ -42,8 +43,6 @@ class MailerService
         } catch (\Exception $e) {
             return false;
         }
-
-        $this->sendMessage($from, $to, $subject, $body);
     }
 
 }

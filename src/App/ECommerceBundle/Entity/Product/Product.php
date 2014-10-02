@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\MediaBundle\Entity\Media;
 use Gedmo\Translatable\Translatable;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Product
@@ -15,7 +16,7 @@ use Gedmo\Translatable\Translatable;
  * @ORM\Table(name="product")
  * @ORM\Entity()
  */
-class Product implements Translatable
+class Product extends AbstractDefault implements Translatable
 {
     /**
      * @var integer

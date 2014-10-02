@@ -36,7 +36,7 @@ class GroupController extends BaseController
     public function listAction()
     {
         $groups = $this->container->get('fos_user.group_manager')->findGroups();
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:list.html.'.$this->getEngine(), array('groups' => $groups));
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:list.html.twig', array('groups' => $groups));
     }
 
     /**
@@ -46,7 +46,7 @@ class GroupController extends BaseController
     {
         $group = $this->findGroupBy('name', $groupName);
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:show.html.'.$this->getEngine(), array('group' => $group));
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:show.html.twig', array('group' => $group));
     }
 
     /**
@@ -95,7 +95,7 @@ class GroupController extends BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:edit.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:edit.html.twig', array(
             'form'      => $form->createview(),
             'group_name'  => $group->getName(),
         ));
@@ -140,7 +140,7 @@ class GroupController extends BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:new.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Group:new.html.twig', array(
             'form' => $form->createview(),
         ));
     }

@@ -38,22 +38,24 @@ class MessageController extends Controller
     /**
      * Creates a new Message entity.
      *
-     * @Route("/", name="message_create")
+     * @Route("/{id_ticket}/create", name="message_create")
      * @Method("POST")
      * @Template("AppECommerceBundle:SAV\Message:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $id_ticket)
     {
         $entity = new Message();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity, $id_ticket);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ticket = $em->getRepository('AppECommerceBundle:SAV\Ticket')->find($id_ticket);
+            $entity->setTicket($ticket);
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('message_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('ticket_new_message', array('id' => $ticket->getId())));
         }
 
         return array(
@@ -69,10 +71,10 @@ class MessageController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Message $entity)
+    private function createCreateForm(Message $entity, $id_ticket)
     {
         $form = $this->createForm(new MessageType(), $entity, array(
-            'action' => $this->generateUrl('message_create'),
+            'action' => $this->generateUrl('message_create', array('id_ticket' => $id_ticket)),
             'method' => 'POST',
         ));
 

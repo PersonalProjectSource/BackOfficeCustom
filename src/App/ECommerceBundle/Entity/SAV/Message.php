@@ -3,6 +3,7 @@
 namespace App\ECommerceBundle\Entity\SAV;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Message
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="sav_message")
  * @ORM\Entity
  */
-class Message
+class Message extends AbstractDefault
 {
     /**
      * @var integer
@@ -24,9 +25,14 @@ class Message
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="string", length=255)
+     * @ORM\Column(name="content", type="text")
      */
     private $content;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="\App\ECommerceBundle\Entity\SAV\Ticket", inversedBy="messages", cascade={"persist"})
+     */
+    private $ticket;
 
 
     /**
@@ -61,4 +67,22 @@ class Message
     {
         return $this->content;
     }
+
+    /**
+     * @param mixed $ticket
+     */
+    public function setTicket($ticket)
+    {
+        $this->ticket = $ticket;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTicket()
+    {
+        return $this->ticket;
+    }
+
+
 }

@@ -36,7 +36,7 @@ class ResettingController extends BaseController
      */
     public function requestAction()
     {
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:request.html.'.$this->getEngine());
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:request.html.twig');
     }
 
     /**
@@ -54,7 +54,7 @@ class ResettingController extends BaseController
         }
 
         if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:passwordAlreadyRequested.html.'.$this->getEngine());
+            return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:passwordAlreadyRequested.html.twig'));
         }
 
         if (null === $user->getConfirmationToken()) {
@@ -121,7 +121,7 @@ class ResettingController extends BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:reset.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:reset.html.twig', array(
             'token' => $token,
             'form' => $form->createView(),
         ));

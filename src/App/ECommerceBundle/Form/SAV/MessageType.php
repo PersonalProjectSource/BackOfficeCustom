@@ -15,7 +15,7 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content')
+            ->add('content', 'textarea', array('label' => 'message', 'required' => false))
         ;
     }
     

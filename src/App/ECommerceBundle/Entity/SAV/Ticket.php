@@ -43,10 +43,14 @@ class Ticket
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\ECommerceBundle\Entity\Customer", mappedBy="ticket")
+     * @ORM\OneToOne(targetEntity="\App\ECommerceBundle\Entity\Customer")
      */
     private $customer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\App\ECommerceBundle\Entity\SAV\Message", mappedBy="ticket", cascade={"persist"})
+     */
+    private $messages;
 
     /**
      * Get id
@@ -141,6 +145,22 @@ class Ticket
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * @param mixed $messages
+     */
+    public function setMessages($messages)
+    {
+        $this->messages = $messages;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 
 
