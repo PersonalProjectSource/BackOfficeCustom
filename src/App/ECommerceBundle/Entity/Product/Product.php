@@ -32,7 +32,7 @@ class Product extends AbstractDefault implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -70,6 +70,11 @@ class Product extends AbstractDefault implements Translatable
      */
     private $locale;
 
+    
+    
+    
+    
+    
     /**
      * Constructor
      */
@@ -174,6 +179,11 @@ class Product extends AbstractDefault implements Translatable
     public function getCategories()
     {
         return $this->categories;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 
 }

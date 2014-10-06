@@ -10,7 +10,7 @@ use App\UserBundle\Entity\User;
  * Customer
  *
  * @ORM\Table(name="customer")
- * * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\CustomerRepository")
+ * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\CustomerRepository")
  */
 class Customer
 {
@@ -143,6 +143,7 @@ class Customer
     {
         return $this->catalogs;
     }
+
 
     /**
      * @param mixed $user

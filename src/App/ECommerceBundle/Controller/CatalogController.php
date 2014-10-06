@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\ECommerceBundle\Entity\Catalog;
+use App\ECommerceBundle\Entity\Product\Product;
 use App\ECommerceBundle\Form\CatalogType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -124,6 +125,12 @@ class CatalogController extends Controller
     public function newAction()
     {
         $entity = new Catalog();
+        
+        $produit1 = new Product();
+        $produit1->setName('toto1');
+        
+        $entity->getProducts()->add($produit1);
+        
         $form   = $this->createCreateForm($entity);
 
         return array(

@@ -24,7 +24,7 @@ class Catalog
      /**
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product\Product", cascade={"persist"})
      */
-    private $products;
+     protected $products;
     
     /**
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Customer", cascade={"persist"})
@@ -32,7 +32,7 @@ class Catalog
     private $customers;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\LanguageBundle\Entity\Country", mappedBy="catalogs")
+     * @ORM\ManyToOne(targetEntity="App\LanguageBundle\Entity\Country", inversedBy="catalogs")
      */
     private $country;
 
@@ -43,6 +43,18 @@ class Catalog
      */
     private $name;
 
+    
+    
+    
+    
+    
+     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -76,14 +88,7 @@ class Catalog
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
+   
     /**
      * Add products
      *
@@ -92,6 +97,8 @@ class Catalog
      */
     public function addProduct(\App\ECommerceBundle\Entity\Product\Product $products)
     {
+        
+        var_dump("passe dans le setteur");
         $this->products[] = $products;
 
         return $this;
@@ -115,6 +122,11 @@ class Catalog
     public function getProducts()
     {
         return $this->products;
+    }
+    
+     public function setProduct(ArrayCollection $product)
+    {
+        $this->products = $products;
     }
 
     /**
@@ -148,5 +160,28 @@ class Catalog
     public function getCustomers()
     {
         return $this->customers;
+    }
+
+    /**
+     * Set country
+     *
+     * @param \App\ECommerceBundle\Entity\Country $country
+     * @return Catalog
+     */
+    public function setCountry(\App\ECommerceBundle\Entity\Country $country = null)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return \App\ECommerceBundle\Entity\Country 
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }
