@@ -73,7 +73,7 @@ class RegistrationController extends BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Registration:register.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Registration:register.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -91,7 +91,7 @@ class RegistrationController extends BaseController
             throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Registration:checkEmail.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Registration:checkEmail.html.twig', array(
             'user' => $user,
         ));
     }
@@ -141,7 +141,7 @@ class RegistrationController extends BaseController
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return $this->container->get('templating')->renderResponse('AppUserBundle:Registration:confirmed.html.'.$this->getEngine(), array(
+        return $this->container->get('templating')->renderResponse('AppUserBundle:Registration:confirmed.html.twig', array(
             'user' => $user,
         ));
     }

@@ -43,10 +43,23 @@ class Ticket
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\ECommerceBundle\Entity\Customer", mappedBy="ticket")
+     * @ORM\OneToOne(targetEntity="\App\ECommerceBundle\Entity\Customer")
      */
     private $customer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\App\ECommerceBundle\Entity\SAV\Message", mappedBy="ticket", cascade={"remove", "persist"})
+     */
+    private $messages;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->messages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -128,20 +141,45 @@ class Ticket
     }
 
     /**
-     * @param mixed $customer
+     * Set customer
+     *
+     * @param \App\ECommerceBundle\Entity\Customer $customer
+     * @return Ticket
      */
-    public function setCustomer($customer)
+    public function setCustomer(\App\ECommerceBundle\Entity\Customer $customer = null)
     {
         $this->customer = $customer;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get customer
+     *
+     * @return \App\ECommerceBundle\Entity\Customer 
      */
     public function getCustomer()
     {
         return $this->customer;
     }
 
+    public function setMessages(\Doctrine\Common\Collections\ArrayCollection $messages)
+    {
+        foreach ($messages as $message) {
+            $message->setTicket($this);
+        }
+        $this->messages = $messages;
+    }
 
+
+
+    /**
+     * Get messages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
 }

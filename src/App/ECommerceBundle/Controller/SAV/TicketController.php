@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\ECommerceBundle\Entity\SAV\Ticket;
 use App\ECommerceBundle\Form\SAV\TicketType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\ECommerceBundle\Entity\SAV\Message;
+use App\ECommerceBundle\Form\SAV\MessageType;
 
 /**
  * Ticket controller.
@@ -69,21 +71,23 @@ class TicketController extends Controller
 
             /* Parse Result */
             foreach ($result as $e) {
+                $message = $em->getRepository('AppECommerceBundle:SAV\Message')->getLastMessageTicket($e->getId());
                 $row = array();
                 $row[] = (string) $e->getId();
                 $row[] = "-"; //TODO Customer
                 $row[] = (string) $e->getEmail();
                 $row[] = (string) $e->getType();
                 $row[] = (string) $e->getState();
-                $row[] = "-"; //TODO Last Message
-                $row[] = "-"; //TODO Last Message DATE
-
-
-                $row[] = $this->container->get('app.media.twig')->formatImage($e, 'thumb', 50);
-                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("ticket_edit", array('id' => $e->getId())).'"><i class="fa fa-crop"></i></a>
-                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
+                if($message instanceof \App\ECommerceBundle\Entity\SAV\Message) {
+                    $row[] = (string) $message->getContent();
+                    $row[] = (string) $message->getCreatedAt()->format('d/m/Y H:i:s');
+                } else {
+                    $row[] = '-';
+                    $row[] = '-';
+                }
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("ticket_new_message", array('id' => $e->getId())).'"><i class="fa fa-edit"></i></a>
+                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o"></i></a>';
                 $output['aaData'][] = $row ;
-
 
             }
             $response = new JsonResponse();
@@ -107,7 +111,7 @@ class TicketController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $data = $request->get($form->getName(), array());
-        $customer = $em->getRepository('AppECommerceBundle:Customer')->findOneBy(array("email" => $data["email"]));
+        $customer = $em->getRepository('AppECommerceBundle:Customer')->getCustomerByEmail($data["email"]);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -117,9 +121,9 @@ class TicketController extends Controller
             $em->flush();
 
             $from = $data["email"];
-            $to = "contact@backoffice.com";
+            $to = "a.delachezemurel@novediagroup.com";
             $subject = "[SAV] Prise de contact";
-            $body = $data["message"]["content"];
+            $body = $data["messages"]["content"];
             $this->get('app.adminbundle.services.mailer')->send($from, $to, $subject, $body);
             return $this->redirect($this->generateUrl('ticket'));
         }
@@ -142,6 +146,7 @@ class TicketController extends Controller
         $form = $this->createForm(new TicketType(), $entity, array(
             'action' => $this->generateUrl('ticket_create'),
             'method' => 'POST',
+            'em' => $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -231,6 +236,7 @@ class TicketController extends Controller
         $form = $this->createForm(new TicketType(), $entity, array(
             'action' => $this->generateUrl('ticket_update', array('id' => $entity->getId())),
             'method' => 'PUT',
+            'em' => $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
@@ -311,5 +317,32 @@ class TicketController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * Displays all ticket's messages and create a new message.
+     *
+     * @Route("/{id}/ticket-new-message", name="ticket_new_message")
+     * @Method("GET")
+     * @Template("AppECommerceBundle:SAV\Ticket:newMessage.html.twig")
+     */
+    public function newMessage($id) {
+        $em = $this->getDoctrine()->getManager();
+        $ticket = $em->getRepository('AppECommerceBundle:SAV\Ticket')->find($id);
+
+        $entity = new Message();
+        $form = $this->createForm(new MessageType(), $entity, array(
+                'action' => $this->generateUrl('message_create', array('id_ticket' => $ticket->getId())),
+                'method' => 'POST',
+            ));
+
+        $form->add('submit', 'submit', array('label' => 'Envoyer'));
+
+        return array(
+            'ticket' => $ticket,
+            'messages' => $em->getRepository('AppECommerceBundle:SAV\Message')->getMessagesTicket($ticket->getId()),
+            'entity' => $entity,
+            'form' => $form->createView(),
+        );
     }
 }

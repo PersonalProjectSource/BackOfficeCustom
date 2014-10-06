@@ -2,9 +2,8 @@
 {% block body %}
     <section class="site-min-height">
         <!-- page start-->
-        {{ render(controller('AppLanguageBundle:Language:filter', {'request': app.request})) }}
+        {# render(controller('AppLanguageBundle:Language:filter', {'request': app.request})) #}
 
-        <div class="col-sm-12">
         <section class="panel">
             <header class="panel-heading">
                 <div class="clearfix">
@@ -45,7 +44,6 @@
                 </div>
             </div>
         </section>
-        </div>
 
         <!-- page end-->
     </section>

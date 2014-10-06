@@ -3,15 +3,16 @@
 namespace App\ECommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\AdminBundle\Entity\AbstractDefault;
+use App\UserBundle\Entity\User;
+
 
 /**
  * Customer
  *
  * @ORM\Table(name="customer")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\CustomerRepository")
  */
-class Customer extends AbstractDefault
+class Customer
 {
     /**
      * @var integer
@@ -20,7 +21,7 @@ class Customer extends AbstractDefault
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
     
     /**
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", cascade={"persist"})
@@ -40,6 +41,11 @@ class Customer extends AbstractDefault
      * @ORM\Column(name="newsletter", type="boolean")
      */
     private $newsletter;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $user;
 
 
     /**
@@ -137,9 +143,23 @@ class Customer extends AbstractDefault
     {
         return $this->catalogs;
     }
-    
-     public function __toString()
+
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
     {
-        return $this->gender;
+        $this->user = $user;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+
 }

@@ -20,9 +20,19 @@ class CatalogType extends AbstractType
 //                'class' => "App\ECommerceBundle\Entity\Product\Product",
 //            ))
                 
-            ->add('products', 'collection', array(
-                'type' => new Product\ProductType(),
-            ))
+//            ->add('products', 'collection', array(
+//                'type' => new Product\ProductType(),
+//            ))
+                
+            ->add(
+                $builder->create('products', 'collection',array(
+                    'type' => 'hidden',
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    'prototype' => true))
+                    ->addModelTransformer($transformer)
+            )    
                 
             ->add('customers')
             ->add('country')

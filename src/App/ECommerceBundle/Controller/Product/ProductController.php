@@ -12,6 +12,7 @@ use App\ECommerceBundle\Form\Product\ProductType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Product\Product controller.
@@ -27,6 +28,7 @@ class ProductController extends Controller
      * @Route("/", name="product")
      * @Method("GET")
      * @Template()
+     * @Secure(roles="PRODUCT_VIEW, ROLE_SUPER_ADMIN")
      */
     public function indexAction(Request $request)
     {
@@ -95,6 +97,7 @@ class ProductController extends Controller
      * @Route("/", name="product_create")
      * @Method("POST")
      * @Template("AppECommerceBundle:Product\Product:new.html.twig")
+     * @Secure(roles="PRODUCT_CREATE, ROLE_SUPER_ADMIN")
      */
     public function createAction(Request $request)
     {
@@ -140,6 +143,7 @@ class ProductController extends Controller
      * @Route("/new", name="product_new")
      * @Method("GET")
      * @Template()
+     * @Secure(roles="PRODUCT_CREATE, ROLE_SUPER_ADMIN")
      */
     public function newAction()
     {
@@ -158,6 +162,7 @@ class ProductController extends Controller
      * @Route("/{id}/edit", name="product_edit")
      * @Method("GET")
      * @Template()
+     * @Secure(roles="PRODUCT_EDIT, ROLE_SUPER_ADMIN")
      */
     public function editAction($id, Request $request)
     {
@@ -214,6 +219,7 @@ class ProductController extends Controller
      * @Route("/{id}/{lang}", name="product_update")
      * @Method("PUT")
      * @Template("AppECommerceBundle:Product\Product:edit.html.twig")
+     * @Secure(roles="PRODUCT_EDIT, ROLE_SUPER_ADMIN")
      */
     public function updateAction(Request $request, $id, $lang = "")
     {

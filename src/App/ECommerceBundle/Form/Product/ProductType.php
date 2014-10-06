@@ -73,7 +73,6 @@ class ProductType extends AbstractType
         $resolver->setRequired(array(
             'em',
         ));
-
         $resolver->setAllowedTypes(array(
             'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
