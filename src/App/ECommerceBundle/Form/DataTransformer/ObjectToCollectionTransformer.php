@@ -7,7 +7,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class IdtoObjectTransformer implements DataTransformerInterface
+class ObjecttoCollectionTransformer implements DataTransformerInterface
 {
     /**
      * @var ObjectManager
@@ -30,12 +30,11 @@ class IdtoObjectTransformer implements DataTransformerInterface
      */
     public function transform($array)
     {
-        $objects = array();
-
+        $object = null;
         foreach($array as $a) {
-            array_push($objects, $a->getId());
+            $object = $a;
         }
-       return $objects;
+        return $object;
     }
 
     /**
@@ -45,15 +44,12 @@ class IdtoObjectTransformer implements DataTransformerInterface
      * @return object|null
      * @throws TransformationFailedException if object (issue) is not found.
      */
-    public function reverseTransform($array)
+    public function reverseTransform($object)
     {
-        $objects = new \Doctrine\Common\Collections\ArrayCollection();
 
-        foreach($array as $a) {
-            $object = $this->om->getRepository('AppMediaBundle:Media')->find($a);
-            $objects->add($object);
-        }
+        $array = new \Doctrine\Common\Collections\ArrayCollection();
+        $array->add($object);
 
-        return $objects;
+        return $array;
     }
 }

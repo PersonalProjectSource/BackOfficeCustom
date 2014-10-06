@@ -70,3 +70,11 @@ $('.dpYears').datepicker({
     format: "dd/mm/yyyy",
     language: 'fr'
 });
+
+function deleteModal(location, content){
+    $("#deleteModal").modal();
+    $("#deleteModal .modal-body").html(content);
+    $("#deleteModal .modal-footer .btn-danger").on('click', function(){
+        document.location.href= location;
+    });
+}

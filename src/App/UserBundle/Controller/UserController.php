@@ -91,13 +91,6 @@ class UserController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array(
-            'label' => 'Creer',
-            'attr' => array(
-                'class' => 'btn btn-danger'
-            ), 
-        ));
-
         return $form;
     }
 
@@ -155,12 +148,7 @@ class UserController extends Controller
     public function editAction($id)
     {
        $em = $this->getDoctrine()->getManager();
-       $oRequest = $this->getRequest();
-       
-       if ($oRequest->isMethod('p')) {
-          echo "post<br>";
-       }
-       
+
         $entity = $em->getRepository('AppUserBundle:User')->find($id);
 
         if (!$entity) {
@@ -168,13 +156,11 @@ class UserController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'roles' => $entity->getRoles(),
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -191,13 +177,6 @@ class UserController extends Controller
         $form = $this->createForm(new UserType($roles), $entity, array(
             'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
             'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array(
-            'label' => 'Modifier',
-            'attr' => array(
-                'class' => 'btn btn-danger'
-            ), 
         ));
 
         return $form;
@@ -255,15 +234,11 @@ class UserController extends Controller
     /**
      * Deletes a User entity.
      *
-     * @Route("/{id}", name="user_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="user_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AppUserBundle:User')->find($id);
 
@@ -273,54 +248,9 @@ class UserController extends Controller
 
             $em->remove($entity);
             $em->flush();
-        }
 
         return $this->redirect($this->generateUrl('user_list'));
     }
 
-    /**
-     * Creates a form to delete a User entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array(
-                'label' => 'Delete',
-                'attr'  => array(
-                    'class' => 'btn btn-xs btn-danger'
-                )
-            ))
-            ->getForm()
-        ;
-    }
 
-    /**
-     * Delete UserHermes entity from list
-     *
-     * @Route("/delete/{iIdUser}/", name="delete_user_from_list")
-     */
-    public function deleteQuestionListAction($iIdUser)
-    {
-        $oEm     = $this->getDoctrine()->getManager();
-        $oHermesUser  = $oEm->getRepository('AppUserBundle:User')->find($iIdUser);
-
-        if (!$oHermesUser) {
-
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-
-        $oEm->remove($oHermesUser);
-        $oEm->flush();
-
-        return $this->redirect($this->generateUrl('user_list'));
-    }
-    
-    
-    
 }

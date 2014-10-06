@@ -71,15 +71,20 @@ class TicketController extends Controller
 
             /* Parse Result */
             foreach ($result as $e) {
+                $message = $em->getRepository('AppECommerceBundle:SAV\Message')->getLastMessageTicket($e->getId());
                 $row = array();
-                $message = current ($e->getMessages());
                 $row[] = (string) $e->getId();
                 $row[] = "-"; //TODO Customer
                 $row[] = (string) $e->getEmail();
                 $row[] = (string) $e->getType();
                 $row[] = (string) $e->getState();
-                $row[] = (string) $message->getContent();
-                $row[] = (string) $message->getCreatedAt()->format('d/m/Y H:i:s');
+                if($message instanceof \App\ECommerceBundle\Entity\SAV\Message) {
+                    $row[] = (string) $message->getContent();
+                    $row[] = (string) $message->getCreatedAt()->format('d/m/Y H:i:s');
+                } else {
+                    $row[] = '-';
+                    $row[] = '-';
+                }
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("ticket_new_message", array('id' => $e->getId())).'"><i class="fa fa-edit"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o"></i></a>';
                 $output['aaData'][] = $row ;
@@ -118,7 +123,7 @@ class TicketController extends Controller
             $from = $data["email"];
             $to = "a.delachezemurel@novediagroup.com";
             $subject = "[SAV] Prise de contact";
-            $body = $data["message"]["content"];
+            $body = $data["messages"]["content"];
             $this->get('app.adminbundle.services.mailer')->send($from, $to, $subject, $body);
             return $this->redirect($this->generateUrl('ticket'));
         }
@@ -141,6 +146,7 @@ class TicketController extends Controller
         $form = $this->createForm(new TicketType(), $entity, array(
             'action' => $this->generateUrl('ticket_create'),
             'method' => 'POST',
+            'em' => $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));
@@ -230,6 +236,7 @@ class TicketController extends Controller
         $form = $this->createForm(new TicketType(), $entity, array(
             'action' => $this->generateUrl('ticket_update', array('id' => $entity->getId())),
             'method' => 'PUT',
+            'em' => $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));
@@ -333,6 +340,7 @@ class TicketController extends Controller
 
         return array(
             'ticket' => $ticket,
+            'messages' => $em->getRepository('AppECommerceBundle:SAV\Message')->getMessagesTicket($ticket->getId()),
             'entity' => $entity,
             'form' => $form->createView(),
         );

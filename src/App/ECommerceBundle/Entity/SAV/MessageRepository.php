@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ECommerceBundle\Entity;
+namespace App\ECommerceBundle\Entity\SAV;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -16,7 +16,7 @@ class MessageRepository extends EntityRepository
         $qb = $this->createQueryBuilder('m');
         $qb->leftJoin('m.ticket','t');
         $qb->where('t = '.$id_ticket);
-        $qb->orderBy('m','ASC');
+        $qb->orderBy('m.createdAt','DESC');
         $qb->setMaxResults(1);
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -25,7 +25,7 @@ class MessageRepository extends EntityRepository
         $qb = $this->createQueryBuilder('m');
         $qb->leftJoin('m.ticket','t');
         $qb->where('t = '.$id_ticket);
-        $qb->orderBy('m','ASC');
+        $qb->orderBy('m.createdAt','DESC');
         return $qb->getQuery()->getResult();
     }
 

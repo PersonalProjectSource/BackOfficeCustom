@@ -54,7 +54,7 @@ class ResettingController extends BaseController
         }
 
         if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:passwordAlreadyRequested.html.twig'));
+            return $this->container->get('templating')->renderResponse('AppUserBundle:Resetting:passwordAlreadyRequested.html.twig');
         }
 
         if (null === $user->getConfirmationToken()) {

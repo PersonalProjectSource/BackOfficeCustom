@@ -31,7 +31,7 @@ fos_user:
         group_class: App\UserBundle\Entity\Group
         form:
             type: app_userbundle_form_group
-        
+
 
 # Twig Configuration
 twig:
@@ -103,7 +103,6 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
-    host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
@@ -115,4 +114,27 @@ twig:
     globals:
         media_path: "uploads/medias/"
         media_absolute_path: "/BackOfficeCurrentGit/BackOfficeCustom/web/uploads/medias/"
+
+jms_security_extra:
+    # Whether you want to secure all services (true), or only secure specific
+    # services (false); see also below
+    secure_all_services: false
+
+    # Enabling this setting will add an additional special attribute "ROLE_IDDQD".
+    # Anybody with this attribute will effectively bypass all security checks.
+    enable_iddqd_attribute: false
+
+    # Enables expression language
+    expressions: false
+
+    # Allows you to disable some, or all built-in voters
+    voters:
+        disable_authenticated: false
+        disable_role:          false
+        disable_acl:           false
+
+    # Allows you to specify access control rules for specific methods, such
+    # as controller actions
+    method_access_control: { }
+
     

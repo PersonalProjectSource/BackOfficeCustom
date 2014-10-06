@@ -9,7 +9,7 @@ use App\AdminBundle\Entity\AbstractDefault;
  * Message
  *
  * @ORM\Table(name="sav_message")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\SAV\MessageRepository")
  */
 class Message extends AbstractDefault
 {
@@ -31,6 +31,7 @@ class Message extends AbstractDefault
 
     /**
      * @ORM\ManyToOne(targetEntity="\App\ECommerceBundle\Entity\SAV\Ticket", inversedBy="messages", cascade={"persist"})
+     * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
      */
     private $ticket;
 
@@ -69,20 +70,24 @@ class Message extends AbstractDefault
     }
 
     /**
-     * @param mixed $ticket
+     * Set ticket
+     *
+     * @param \App\ECommerceBundle\Entity\SAV\Ticket $ticket
+     * @return Message
      */
-    public function setTicket($ticket)
+    public function setTicket(\App\ECommerceBundle\Entity\SAV\Ticket $ticket = null)
     {
         $this->ticket = $ticket;
+        return $this;
     }
 
     /**
-     * @return mixed
+     * Get ticket
+     *
+     * @return \App\ECommerceBundle\Entity\SAV\Ticket 
      */
     public function getTicket()
     {
         return $this->ticket;
     }
-
-
 }

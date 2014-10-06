@@ -57,7 +57,7 @@
                                      <td class="center">
                                         <div class="hidden-phon">
                                              <a class="btn btn-primary btn-sm" href="{{ path('user_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a>
-                                            <a class="btn btn-danger btn-sm" onclick="confirmbox('{{ path('delete_user_from_list', { 'iIdUser': entity.id}) }}', '{{ entity.username }}')"><i class="fa fa-trash-o "></i></a>
+                                            <button onclick="deleteModal('{{ path('user_delete' , {'id' : entity.id}) }}','êtes vous sûr de vouloir supprimer l\'utilisateur {{ entity.username }} ?');" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                                          </div>
                                      </td>
                                  </tr>
@@ -69,23 +69,7 @@
               </section>
               <!-- page end-->
           </section>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #FF6C60;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Suppression</h4>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn btn-default" type="button">Annuler</button>
-                    <button class="btn btn-danger" type="button"> Supprimer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-   
+    {{ include ('AppAdminBundle:Modal:delete.html.twig') }}
 {% endblock %}
 
 
@@ -93,14 +77,7 @@
     {{ parent() }}
 
     <script>
-        function confirmbox(location, user){
-            $("#myModal").modal();
-            content = "Voulez-vous supprimer l'utilisateur ? ("+ user +")";
-            $("#myModal .modal-body").html(content);
-            $("#myModal .modal-footer .btn-danger").on('click', function(){
-                document.location.href= location;
-            });
-        }
+
         var oTable = $('#editable-sample').dataTable({
             "aLengthMenu": [
                 [5, 15, 20, 50, 100, -1],
@@ -139,5 +116,6 @@
         });
 
     </script>
+
 {% endblock %}
 
