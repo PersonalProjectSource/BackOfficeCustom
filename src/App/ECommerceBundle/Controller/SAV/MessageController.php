@@ -51,6 +51,8 @@ class MessageController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $ticket = $em->getRepository('AppECommerceBundle:SAV\Ticket')->find($id_ticket);
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $entity->setUser($user);
             $entity->setTicket($ticket);
             $em->persist($entity);
             $em->flush();

@@ -143,10 +143,9 @@ class TicketController extends Controller
      */
     private function createCreateForm(Ticket $entity)
     {
-        $form = $this->createForm(new TicketType(), $entity, array(
+        $form = $this->createForm(new TicketType($this->container), $entity, array(
             'action' => $this->generateUrl('ticket_create'),
             'method' => 'POST',
-            'em' => $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));

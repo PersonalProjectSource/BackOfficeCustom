@@ -27,6 +27,8 @@ class UserType extends AbstractType
         $builder
             ->add('enabled', 'checkbox', array('label' => 'Activé', 'required' => false))
             ->add('username','text', array('label' => 'Identifiant'))
+            ->add('firstname','text', array('label' => 'Prénom'))
+            ->add('lastname','text', array('label' => 'Nom'))
             ->add('email','email', array('label' => 'E-mail'))
             ->add('plainPassword', 'repeated', array(
                     'required' =>false,

@@ -82,7 +82,7 @@ class CountryController extends Controller
                 $row = array();
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getPosition();
-                $row[] = (string) $this->container->get('app.twig.admin_extension')->country($e->getIsoCode(), $lang);
+                $row[] = (string) $this->container->get('app.language.twig')->country($e->getIsoCode(), $lang);
                 $row[] = (string) $e->getIsoCode();
                 ($e->getEnabled()==0) ? $row[] = '<span class="label label-danger label-mini"><i class="fa fa-times"></i></span>' : $row[] = '<span class="label label-success label-mini"><i class="fa fa-check"></i></span>';
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("country_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>

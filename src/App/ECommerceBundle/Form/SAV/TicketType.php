@@ -3,21 +3,34 @@
 namespace App\ECommerceBundle\Form\SAV;
 
 use App\ECommerceBundle\Form\DataTransformer\ObjecttoCollectionTransformer;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use App\ECommerceBundle\Form\SAV\MessageType;
 
 class TicketType extends AbstractType
 {
+
+    /**
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
         /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entityManager = $options['em'];
-        $transformer = new ObjecttoCollectionTransformer($entityManager);
+
+        $transformer = new ObjecttoCollectionTransformer($this->container);
 
         $builder
             ->add('email')
@@ -48,12 +61,6 @@ class TicketType extends AbstractType
             'cascade_validation' => true,
 
         ));
-        $resolver->setRequired(array(
-                'em',
-            ));
-        $resolver->setAllowedTypes(array(
-                'em' => 'Doctrine\Common\Persistence\ObjectManager',
-            ));
     }
 
     /**

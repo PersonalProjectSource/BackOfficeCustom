@@ -35,6 +35,10 @@ class Message extends AbstractDefault
      */
     private $ticket;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
+     */
+    private $user;
 
     /**
      * Get id
@@ -89,5 +93,21 @@ class Message extends AbstractDefault
     public function getTicket()
     {
         return $this->ticket;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

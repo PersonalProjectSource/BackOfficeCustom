@@ -18,7 +18,7 @@
                             <div class="message-body msg-in">
                                 <span class="arrow"></span>
                                 <div class="text">
-                                    <p class="attribution"><a href="#">contact@backoffice.com</a> le {{ message.createdAt | date('d/m/Y') }}  à {{ message.createdAt | date('H:i') }}</p>
+                                    <p class="attribution"><a href="#">{{ message.user.email }}</a> le {{ message.createdAt | date('d/m/Y') }}  à {{ message.createdAt | date('H:i') }}</p>
                                     <p>{{ message.content }}</p>
                                 </div>
                             </div>

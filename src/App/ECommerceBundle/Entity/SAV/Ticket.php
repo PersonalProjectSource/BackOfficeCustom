@@ -171,8 +171,6 @@ class Ticket
         $this->messages = $messages;
     }
 
-
-
     /**
      * Get messages
      *
