@@ -87,7 +87,6 @@ class Media extends AbstractDefault
     protected function getUploadRootDir()
     {
         // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        //var_dump(__DIR__.'/../../../../web/'.$this->getUploadDir());die;
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
@@ -123,8 +122,6 @@ class Media extends AbstractDefault
         
         // Génère une codification du nom du fichier uploaded
         $this->preUpload();
-//        var_dump(getimagesize($this->file));
-//        var_dump(getimagesize($this->file));die;
         $this->setType($this->file->getMimeType());
         $this->setDateCreation(new \DateTime("now"));
         $this->setExtension($this->file->guessExtension());

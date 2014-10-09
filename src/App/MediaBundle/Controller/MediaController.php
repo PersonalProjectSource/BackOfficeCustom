@@ -262,7 +262,6 @@ class MediaController extends Controller
         
         $aDataImageOrigin = getimagesize($filename, $infos);
         
-        //var_dump($aDataImageOrigin,"###########",$infos);
         $iCoeffCrop = $aDataImageOrigin[0] / 500;
         $iImageWidth =  $aDataImageOrigin[0];
 

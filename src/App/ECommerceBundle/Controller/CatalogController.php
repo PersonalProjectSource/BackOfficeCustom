@@ -108,6 +108,7 @@ class CatalogController extends Controller
         $form = $this->createForm(new CatalogType(), $entity, array(
             'action' => $this->generateUrl('catalog_create'),
             'method' => 'POST',
+            'em'=> $this->getDoctrine()->getManager()
         ));
 
         $form->add('submit', 'submit', array('label' => 'Create'));

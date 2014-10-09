@@ -28,7 +28,6 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-       //var_dump($this->getRequest());
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppUserBundle:User')->findAll();

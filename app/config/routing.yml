@@ -1,3 +1,8 @@
+app_cms:
+    resource: "@AppCMSBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app_media:
     resource: "@AppMediaBundle/Controller/"
     type:     annotation

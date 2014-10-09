@@ -25,16 +25,17 @@ class IdtoObjectTransformer implements DataTransformerInterface
     /**
      * Transforms an object (issue) to a string (id).
      *
-     * @param  Object|null $object
-     * @return string
+     * @param  ArrayCollection : $array
+     * @return Array<id> : $object
      */
     public function transform($array)
     {
+        // affichage
         $objects = array();
-
-        foreach($array as $a) {
-            array_push($objects, $a->getId());
+        foreach($array as $k => $a) {
+           array_push($objects, $a->getId());
         }
+        
        return $objects;
     }
 
@@ -47,13 +48,14 @@ class IdtoObjectTransformer implements DataTransformerInterface
      */
     public function reverseTransform($array)
     {
-        $objects = new \Doctrine\Common\Collections\ArrayCollection();
+        // submit
+        $aArrayCollection = new \Doctrine\Common\Collections\ArrayCollection();
 
         foreach($array as $a) {
             $object = $this->om->getRepository('AppMediaBundle:Media')->find($a);
-            $objects->add($object);
+            $aArrayCollection->add($object);
         }
 
-        return $objects;
+        return $aArrayCollection;
     }
 }

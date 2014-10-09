@@ -98,9 +98,7 @@ class Catalog
     public function addProduct(\App\ECommerceBundle\Entity\Product\Product $products)
     {
         
-        var_dump("passe dans le setteur");
         $this->products[] = $products;
-
         return $this;
     }
 
