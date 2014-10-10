@@ -74,10 +74,10 @@ class ProductController extends Controller
                 $row[] = (string) $e->getId();
                 $row[] = (string) $e->getPosition();
                 $row[] = (string) $e->getName();
-                $row[] = (string) $e->getReference();
-                $row[] = (string) $e->getQuantity();
-                $row[] = (string) $e->getState();
-                $row[] = (string) $e->getSlug();
+                $row[] = "";//TODO
+                $row[] = "";//TODO
+                $row[] = "";//TODO
+                $row[] = "";//TODO SLUG
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("product_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;

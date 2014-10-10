@@ -7,3 +7,8 @@ services:
         arguments: [@service_container]
         tags:
             - { name: form.type, alias: app_userbundle_form_group }
+    app.userbundle.security.login.success.handler:
+        class:  App\UserBundle\Security\LoginSuccessHandler
+        arguments:  [@router, @security.context]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }

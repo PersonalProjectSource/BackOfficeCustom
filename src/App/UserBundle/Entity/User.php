@@ -45,6 +45,13 @@ class User extends BaseUser {
     private $lastname;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="firstconnexion", type="boolean")
+     */
+    private $firstconnexion;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -98,6 +105,22 @@ class User extends BaseUser {
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    /**
+     * @param boolean $firstconnexion
+     */
+    public function setFirstconnexion($firstconnexion)
+    {
+        $this->firstconnexion = $firstconnexion;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getFirstconnexion()
+    {
+        return $this->firstconnexion;
     }
 
 

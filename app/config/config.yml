@@ -5,7 +5,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -109,9 +109,10 @@ swiftmailer:
     
 parameters:
     test: parametre_secret
-    
+
 twig:
     globals:
+        filemanager_path: %filemanager_path%
         media_path: "uploads/medias/"
         media_absolute_path: "/BackOfficeCurrentGit/BackOfficeCustom/web/uploads/medias/"
 

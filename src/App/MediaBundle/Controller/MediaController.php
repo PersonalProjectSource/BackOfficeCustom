@@ -527,7 +527,7 @@ class MediaController extends Controller
                 $tmp['value'] = $res->getId();
                 $tmp['type'] = $res->getType();
                 $tmp['label'] = $res->getName();;
-                $tmp['img'] = $this->container->get('app.twig.admin_extension')->formatImage($res, 'thumb', 50);
+                $tmp['img'] = $this->container->get('app.media.twig')->formatImage($res, 'thumb', 50);
                 $data[$key] = $tmp;
             }
 

@@ -70,6 +70,31 @@
       {% include "AppAdminBundle:Menu:main.html.twig" %}
       <section id="main-content">
           <section class="wrapper site-min-height">
+              {% for flashMessage in app.session.flashbag.get('error') %}
+                  <div class="alert alert-block alert-danger fade in">
+                      <button data-dismiss="alert" class="close close-sm" type="button">
+                          <i class="fa fa-times"></i>
+                      </button>
+                      {{ flashMessage }}
+                  </div>
+              {% endfor %}
+              {% for flashMessage in app.session.flashbag.get('success') %}
+                  <div class="alert alert-success fade in">
+                      <button data-dismiss="alert" class="close close-sm" type="button">
+                          <i class="fa fa-times"></i>
+                      </button>
+                      {{ flashMessage }}
+                  </div>
+              {% endfor %}
+              {% for flashMessage in app.session.flashbag.get('notice') %}
+                  <div class="alert alert-info fade in">
+                      <button data-dismiss="alert" class="close close-sm" type="button">
+                          <i class="fa fa-times"></i>
+                      </button>
+                      {{ flashMessage }}
+                  </div>
+              {% endfor %}
+
             {% block body %}
             {% endblock %}
           </section>
