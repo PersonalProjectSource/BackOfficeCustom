@@ -42,6 +42,18 @@
                           <span>Gestion des catalogues</span>
                       </a>
                   </li>
+                  <li>
+                      <a  href="{{ path('article') }}">
+                          <i class="fa fa-shopping-cart"></i>
+                          <span>Gestion des Articles</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a  href="{{ path('page') }}">
+                          <i class="fa fa-shopping-cart"></i>
+                          <span>Gestion des Pages</span>
+                      </a>
+                  </li>
                   <li class="sub-menu">
                       <a href="javascript:;" {% if app.request.get('_route') == 'product' or app.request.get('_route') == 'product' %}class='active'{% endif %}>
                           <i class="fa fa-flask"></i>
