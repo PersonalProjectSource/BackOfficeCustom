@@ -49,7 +49,6 @@ class ObjecttoCollectionTransformer implements DataTransformerInterface
     {
 
         $user = $this->container->get('security.context')->getToken()->getUser();
-        var_dump($user->getId());
         $object->setUser($user);
         $array = new \Doctrine\Common\Collections\ArrayCollection();
         $array->add($object);

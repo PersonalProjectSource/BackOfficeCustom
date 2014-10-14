@@ -6,7 +6,7 @@
         <section class="panel">
             <header class="panel-heading">
                 <div class="clearfix">
-                    Liste des produits
+                    Liste des Articles
                     <div class="btn-group pull-right">
                         <button class="btn btn-infos" onclick="filtersShow();">Recherche <i class="fa fa-search"></i></button>
                     </div>
@@ -18,7 +18,7 @@
                         <a href="{{ path ('article_new') }}">
                             <div class="btn-group">
                                 <button  class="btn green">
-                                    Ajouter un nouveau produit <i class="fa fa-plus"></i>
+                                    Ajouter un nouvel article <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </a>
@@ -30,6 +30,10 @@
                         <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Date</th>
+                            <th>slug</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -126,7 +130,7 @@
             "aoColumnDefs": [
                 { "sWidth": "80px", "aTargets" : [ 0 ] },
                 { "sWidth": "80px", "aTargets" : [ 1 ] },
-                { "bSortable": false,"sWidth": "65px", "aTargets" : [ 6 ] }
+                { "bSortable": false,"sWidth": "90px", "aTargets" : [ 5 ] }
             ]
         });
 

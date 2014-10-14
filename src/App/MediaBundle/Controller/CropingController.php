@@ -318,7 +318,6 @@ class CropingController extends Controller
             return $this->redirect($this->generateUrl('croping_new'));
         }
         
-        //die('passe : check duplicate fin');
         //return $bIsDuplicate;
     }
     

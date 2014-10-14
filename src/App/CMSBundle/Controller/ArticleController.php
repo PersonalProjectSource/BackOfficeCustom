@@ -10,6 +10,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\CMSBundle\Entity\Article;
 use App\CMSBundle\Entity\Page;
 use App\CMSBundle\Form\ArticleType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 
 /**
  * Article controller.
@@ -18,7 +21,6 @@ use App\CMSBundle\Form\ArticleType;
  */
 class ArticleController extends Controller
 {
-
     /**
      * Lists all Article entities.
      *
@@ -28,24 +30,13 @@ class ArticleController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $oTransformer = new DateTimeToStringTransformer();
 
         $em = $this->getDoctrine()->getManager();
         if ($request->isXmlHttpRequest()) {
 
-            $qb = $em->getRepository('AppCMSBundle:Article')->getArticleList($request);
-            // TODO : ne pas laisser les requetes dans le controlleur.
-            /*$qb = $em->getRepository('AppCMSBundle:Article')->createQueryBuilder('a');
-            $qb_count->select('a');
-
-            $qb_count = clone $qb;
-            $qb->setFirstResult($request->get('iDisplayStart'));
-            $qb->setMaxResults($request->get('iDisplayLength'));
-
-            $result =  $qb->getQuery()->getResult();
-
-            $qb_count->select('COUNT(a)');
-            $total =  $qb_count->getQuery()->getSingleScalarResult();*/
-            // TODO #################### FIN ###################################
+            $result = $em->getRepository('AppCMSBundle:Article')->getArticleList($request);
+            $total = $em->getRepository('AppCMSBundle:Article')->getNb($request);
 
             $output = array(
                 "sEcho" => intval($request->get('sEcho')),
@@ -55,8 +46,15 @@ class ArticleController extends Controller
             );
 
             foreach ($result as $e) {
+
+                $sDateTimeTransformed  = $oTransformer->transform($e->getPublishedAt());
+
                 $row   = array();
                 $row[] = (string) $e->getId();
+                $row[] = (string) $e->getTitle();
+                $row[] = (string) $e->getContent();
+                $row[] = (string) $sDateTimeTransformed;
+                $row[] = (string) $e->getSlug();
                 $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("article_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
                           <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row ;

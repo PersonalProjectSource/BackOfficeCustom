@@ -5,21 +5,10 @@ namespace App\CMSBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AbstractContent
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\CMSBundle\Entity\AbstractContentRepository")
+ * @ORM\MappedSuperclass
  */
 class AbstractContent
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string
@@ -48,17 +37,6 @@ class AbstractContent
      * @ORM\Column(name="publishedAt", type="datetime")
      */
     private $publishedAt;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set title

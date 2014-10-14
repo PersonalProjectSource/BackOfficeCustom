@@ -11,24 +11,19 @@ class ArticleRepository extends EntityRepository {
 
     public function getArticleList($oRequest) {
 
-        //$qb = $em->getRepository('AppCMSBundle:Article')->createQueryBuilder('a');
-        //$qb->select('a');
-
-        $qb = $this->createQueryBuilder('a')->select();
-
-
-        /*$qb_count = clone $qb;
-        $qb->setFirstResult($oRequest->get('iDisplayStart'));
-        $qb->setMaxResults($oRequest->get('iDisplayLength'));
-        */
-
-
-        $result =  $qb->getQuery()->getResult();
-        var_dump($result);die;
-        //$qb_count->select('COUNT(a)');
-        //$total =  $qb_count->getQuery()->getSingleScalarResult();
+        $qb = $this->createQueryBuilder('a');
+        $result = $qb->getQuery()->getResult();
 
         return $result;
+    }
+
+    public function getNb($oRequest) {
+
+        $qb_count = $this->createQueryBuilder('a');
+        $qb_count->select('COUNT(a)');
+        $total =  $qb_count->getQuery()->getSingleScalarResult();
+
+        return $total;
     }
 
 
