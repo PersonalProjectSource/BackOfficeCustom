@@ -1,10 +1,12 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace App\CMSBundle\Services;
+
+use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use App\CMSBundle\Entity\AbstractContent;
+use App\CMSBundle\Entity\Article;
+use App\CMSBundle\Entity\Page;
 
 /**
  * Description of ContentFactory
@@ -13,5 +15,24 @@
  */
 class ContentFactory {
 
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected $oContainer;
+
+    public function __construct(ContainerInterface $oContainer)
+    {
+        $this->oContainer     = $oContainer;
+    }
     
+    public function getFactoryTest($oObjectFactory) {
+        
+        $aClassProduted = array('article' => new Article(), 'page' => new Page());
+        
+        $this->oContainer = $aClassProduted[$oObjectFactory];
+
+        
+        return $this->oContainer;
+        
+    }
 }

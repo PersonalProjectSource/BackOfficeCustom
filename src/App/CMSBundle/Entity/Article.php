@@ -3,14 +3,14 @@
 namespace App\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+//use App\CMSBundle\Entity\AbstractContent;
 /**
  * Article
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Article
+class Article extends AbstractContent
 {
     /**
      * @var integer
