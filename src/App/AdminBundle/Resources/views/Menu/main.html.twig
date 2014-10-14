@@ -84,6 +84,60 @@
                           <li {% if app.request.get('_route') == 'croping' %}class='active'{% endif %}><a  href="{{ path ('croping') }}">Formats de croping</a></li>
                       </ul>
                   </li>
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-sitemap"></i>
+                          <span>CMS</span>
+                      </a>
+                      <ul class="sub">
+                          
+                          <li class="sub-menu">
+                              <a  href="boxed_page.html">Article</a>
+                              <ul class="sub">
+                                  <li>
+                                      <a  href="{{ path('article') }}">Tous les articles</a>
+                                  </li>
+                                  <li class="sub-menu">
+                                      <a  href="{{ path('article_new') }}">Ajouter un article</a>
+                                  </li>
+                              </ul>
+                          </li>
+                          <li class="sub-menu">
+                              <a  href="boxed_page.html">Médias</a>
+                              <ul class="sub">
+                                  <li>
+                                       <a  href="{{ path('article') }}">Tous les médias</a>
+                                  </li>
+                                  <li class="sub-menu">
+                                      <a  href="javascript:;">Ajouter un média</a>
+                                  </li>
+                              </ul>
+                          </li>
+                          <li class="sub-menu">
+                              <a  href="boxed_page.html">Liens</a>
+                              <ul class="sub">
+                                  <li>
+                                       <a  href="{{ path('article') }}">Tous les Liens</a>
+                                  </li>
+                                  <li class="sub-menu">
+                                      <a  href="javascript:;">Ajouter un Lien</a>
+                                  </li>
+                              </ul>
+                          </li>
+                          <li class="sub-menu">
+                              <a  href="boxed_page.html">Pages</a>
+                              <ul class="sub">
+                                  <li>
+                                       
+                                          <a  href="{{ path('page') }}">Tous les pages</a>
+                                  </li>
+                                  <li class="sub-menu">
+                                      <a  href="javascript:;">Ajouter un page</a>
+                                  </li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </li>
                   <li>
                       <a  href="{{ path('fos_user_security_logout') }}">
                           <i class="fa fa-power-off"></i>
