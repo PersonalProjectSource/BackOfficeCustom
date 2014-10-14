@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\ECommerceBundle\Entity\Customer;
 use App\ECommerceBundle\Form\CustomerType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
  * Customer controller.
@@ -25,15 +27,60 @@ class CustomerController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppECommerceBundle:Customer')->findAll();
+        if ($request->isXmlHttpRequest()) {
 
-        return array(
-            'entities' => $entities,
-        );
+            $qb = $em->getRepository('AppECommerceBundle:Customer')->createQueryBuilder('a');
+            $qb->select('a');
+
+
+
+            $qb_count = clone $qb;
+            $qb->setFirstResult($request->get('iDisplayStart'));
+            $qb->setMaxResults($request->get('iDisplayLength'));
+            $result =  $qb->getQuery()->getResult();
+
+            $qb_count->select('COUNT(a)');
+            $total =  $qb_count->getQuery()->getSingleScalarResult();
+
+            $output = array(
+                "sEcho" => intval($request->get('sEcho')),
+                "iTotalRecords" => intval($total),
+                "iTotalDisplayRecords" => intval($total),
+                "aaData" => array()
+            );
+
+            foreach ($result as $e) {
+                $row   = array();
+                $row[] = (string) $e->getId();
+                $row[] = (string) $e->getGender();
+                $row[] = (string) $e->getUser()->getFirstname();
+                $row[] = (string) $e->getUser()->getLastname();
+                $row[] = (string) $e->getUser()->getEmail();
+                $row[] = (string) $e->getNewsletter();
+                if(is_object($e->getUser()->getLastLogin())) {
+                    $row[] = (string) $e->getUser()->getLastLogin()->format('d/M/Y H:m:i');
+                } else {
+                    $row[] = "-";
+                }
+
+
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("customer_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
+                $output['aaData'][] = $row ;
+
+            }
+            $response = new JsonResponse();
+            $response->setData($output);
+
+            return $response;
+        }
+
+
     }
     /**
      * Creates a new Customer entity.
@@ -50,10 +97,19 @@ class CustomerController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $generator = new SecureRandom();
+            $random = $generator->nextBytes(10);
+
+            $entity->getUser()->setPassword($random);
+            $entity->getUser()->setPlainPassword($random);
+            $entity->getUser()->setFirstconnexion(0);
+            $entity->getUser()->setRoles(array('ROLE_CUSTOMER'));
+
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('customer_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('customer'));
         }
 
         return array(
@@ -146,7 +202,7 @@ class CustomerController extends Controller
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }

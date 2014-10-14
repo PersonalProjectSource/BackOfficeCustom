@@ -53,7 +53,7 @@ class Address extends AbstractDefault
     /**
      * @var string
      *
-     * @ORM\Column(name="address2", type="string", length=255)
+     * @ORM\Column(name="address2", type="string", length=255, nullable=true)
      */
     private $address2;
 
@@ -74,16 +74,21 @@ class Address extends AbstractDefault
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=255)
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     private $phone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phone_mobile", type="string", length=255)
+     * @ORM\Column(name="phone_mobile", type="string", length=255, nullable=true)
      */
     private $phoneMobile;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Customer", inversedBy="address")
+     */
+    private $customer;
 
 
     /**
@@ -302,4 +307,21 @@ class Address extends AbstractDefault
     {
         return $this->phoneMobile;
     }
+
+    /**
+     * @param int $customer
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
 }

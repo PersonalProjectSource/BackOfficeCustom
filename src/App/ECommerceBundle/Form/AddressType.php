@@ -15,15 +15,15 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('compagny')
-            ->add('lastname')
-            ->add('firstname')
-            ->add('address1')
-            ->add('address2')
-            ->add('postcode')
-            ->add('city')
-            ->add('phone')
-            ->add('phoneMobile')
+            ->add('compagny','text',array('label' => 'Société', 'required' => false))
+            ->add('firstname','text',array('label' => 'Prénom', 'required' => true))
+            ->add('lastname','text',array('label' => 'Nom', 'required' => true))
+            ->add('address1','text',array('label' => 'Adresse', 'required' => true))
+            ->add('address2','text',array('label' => 'Adresse (2)', 'required' => false))
+            ->add('postcode','text',array('label' => 'Code postal', 'required' => true))
+            ->add('city','text',array('label' => 'Ville', 'required' => true))
+            ->add('phone','text',array('label' => 'Téléphone', 'required' => false))
+            ->add('phoneMobile','text',array('label' => 'Téléphone Mobile', 'required' => false))
         ;
     }
     

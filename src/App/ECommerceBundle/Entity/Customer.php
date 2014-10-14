@@ -3,8 +3,7 @@
 namespace App\ECommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\UserBundle\Entity\User;
-
+use App\AdminBundle\Entity\AbstractDefault;
 
 /**
  * Customer
@@ -12,7 +11,7 @@ use App\UserBundle\Entity\User;
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="App\ECommerceBundle\Entity\CustomerRepository")
  */
-class Customer
+class Customer extends AbstractDefault
 {
     /**
      * @var integer
@@ -36,6 +35,14 @@ class Customer
     private $gender;
 
     /**
+     * @var date
+     *
+     * @ORM\Column(name="birthday", type="date")
+     */
+
+    private $birthday;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="newsletter", type="boolean")
@@ -46,6 +53,13 @@ class Customer
      * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", cascade={"persist"})
      */
     private $user;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Address", mappedBy="customer", cascade={"persist"})
+     */
+    protected $address;
 
 
     /**
@@ -82,6 +96,22 @@ class Customer
     }
 
     /**
+     * @param \App\ECommerceBundle\Entity\date $birthday
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+    }
+
+    /**
+     * @return \App\ECommerceBundle\Entity\date
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
      * Set newsletter
      *
      * @param boolean $newsletter
@@ -109,6 +139,7 @@ class Customer
     public function __construct()
     {
         $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->address = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -162,4 +193,47 @@ class Customer
     }
 
 
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $address
+     */
+    public function setAddress($address)
+    {
+        foreach ($address as $addr) {
+            $addr->setCustomer($this);
+        }
+        $this->address = $address;
+    }
+
+    /**
+     * Add address
+     *
+     * @param \App\ECommerceBundle\Entity\Address $address
+     * @return Customer
+     */
+    public function addAddress(\App\ECommerceBundle\Entity\Address $address)
+    {
+        $this->address[] = $address;
+
+        return $this;
+    }
+
+    /**
+     * Remove address
+     *
+     * @param \App\ECommerceBundle\Entity\Address $address
+     */
+    public function removeAddress(\App\ECommerceBundle\Entity\Address $address)
+    {
+        $this->address->removeElement($address);
+    }
+
+    /**
+     * Get address
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
 }
