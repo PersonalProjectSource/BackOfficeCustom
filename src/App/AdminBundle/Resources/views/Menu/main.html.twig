@@ -58,6 +58,9 @@
                           <span>Clients</span>
                       </a>
                       <ul class="sub">
+                          <li {% if app.request.get('_route') == 'ticket' %}class='active'{% endif %}><a  href="{{ path ('customer') }}">Clients</a></li>
+                      </ul>
+                      <ul class="sub">
                           <li {% if app.request.get('_route') == 'ticket' %}class='active'{% endif %}><a  href="{{ path ('ticket') }}">SAV</a></li>
                       </ul>
                   </li>
