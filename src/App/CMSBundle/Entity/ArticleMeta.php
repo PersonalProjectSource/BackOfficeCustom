@@ -118,4 +118,9 @@ class ArticleMeta
     {
         return $this->article;
     }
+
+    public function __toString() {
+
+        return $this->metaKey;
+    }
 }

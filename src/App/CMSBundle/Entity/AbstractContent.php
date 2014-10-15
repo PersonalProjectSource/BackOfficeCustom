@@ -129,4 +129,6 @@ class AbstractContent
     {
         return $this->publishedAt;
     }
+
+
 }

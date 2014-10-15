@@ -26,7 +26,6 @@ class Article extends AbstractContent
      */
     private $articleMetas;
 
-
     /**
      * Get id
      *

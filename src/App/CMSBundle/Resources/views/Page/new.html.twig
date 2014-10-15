@@ -1,15 +1,15 @@
-{% extends '::base.html.twig' %}
+{% extends 'AppAdminBundle:Layout:admin.html.twig' %}
+{% form_theme form 'AppAdminBundle:Form:fields.html.twig' %}
 
-{% block body -%}
-    <h1>Page creation</h1>
-
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('page') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Création d'une page
+                </header>
+                {{ form(form) }}
+            </section>
+        </div>
+    </div>
 {% endblock %}

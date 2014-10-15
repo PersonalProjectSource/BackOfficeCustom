@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Page
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\CMSBundle\Entity\Repositories\PageRepository")
  */
 class Page extends AbstractContent
 {

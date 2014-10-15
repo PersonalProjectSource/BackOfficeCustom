@@ -19,12 +19,7 @@ class CatalogType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         
-        $entityManager = $options['em'];
-        $transformer = new IdtoObjectTransformer($entityManager);
-        
-        
-        $builder
-            ->add('name')
+            $builder->add('name')
 //            ->add('products', 'entity', array(
 //                'class' => "App\ECommerceBundle\Entity\Product\Product",
 //            ))
@@ -61,13 +56,6 @@ class CatalogType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\ECommerceBundle\Entity\Catalog'
-        ));
-        
-        $resolver->setRequired(array(
-            'em',
-        ));
-        $resolver->setAllowedTypes(array(
-           'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
 

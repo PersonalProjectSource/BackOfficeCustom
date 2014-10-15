@@ -4,11 +4,16 @@ namespace App\CMSBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\CMSBundle\Entity\Page;
 use App\CMSBundle\Form\PageType;
+
+
 
 /**
  * Page controller.
@@ -25,15 +30,53 @@ class PageController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        /*
+         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppCMSBundle:Page')->findAll();
 
         return array(
             'entities' => $entities,
         );
+        */
+
+        $oTransformer = new DateTimeToStringTransformer();
+
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isXmlHttpRequest()) {
+
+            $result = $em->getRepository('AppCMSBundle:Page')->getArticleList($request);
+            $total  = $em->getRepository('AppCMSBundle:Page')->getNb($request);
+
+            $output = array(
+                "sEcho"                => intval($request->get('sEcho')),
+                "iTotalRecords"        => intval($total),
+                "iTotalDisplayRecords" => intval($total),
+                "aaData"               => array()
+            );
+
+            foreach ($result as $e) {
+
+                $sDateTimeTransformed  = $oTransformer->transform($e->getPublishedAt());
+
+                $row   = array();
+                $row[] = (string) $e->getId();
+                $row[] = (string) $e->getTitle();
+                $row[] = (string) $e->getContent();
+                $row[] = (string) $sDateTimeTransformed;
+                $row[] = (string) $e->getSlug();
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("article_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
+                $output['aaData'][] = $row;
+            }
+
+            $response = new JsonResponse();
+            $response->setData($output);
+
+            return $response;
+        }
     }
     /**
      * Creates a new Page entity.
