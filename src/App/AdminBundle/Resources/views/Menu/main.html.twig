@@ -36,11 +36,22 @@
                           <span>Gestion des Categories</span>
                       </a>
                   </li>
-                  <li>
-                      <a  href="{{ path('catalog') }}">
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
                           <i class="fa fa-shopping-cart"></i>
                           <span>Gestion des catalogues</span>
                       </a>
+                      <ul class="sub">
+                          <li class="sub-menu">
+                              <a href="javascript:;" {% if app.request.get('_route') == 'product' or app.request.get('_route') == 'product' %}class='active'{% endif %}>
+                                  <i class="fa fa-flask"></i>
+                                  <span>Produits</span>
+                              </a>
+                              <ul class="sub">
+                                  <li {% if app.request.get('_route') == 'product' %}class='active'{% endif %}><a  href="{{ path ('product') }}">Catalogue produits</a></li>
+                              </ul>
+                          </li>
+                      </ul>
                   </li>
                   <li>
                       <a  href="{{ path('article') }}">
@@ -89,7 +100,7 @@
                   </li>
                   <li class="sub-menu">
                       <a href="javascript:;" >
-                          <i class="fa fa-sitemap"></i>
+                          <i class="fa fa-code"></i>
                           <span>CMS</span>
                       </a>
                       <ul class="sub">
@@ -113,17 +124,6 @@
                                   </li>
                                   <li class="sub-menu">
                                       <a  href="{{ path('media_new') }}">Ajouter un média</a>
-                                  </li>
-                              </ul>
-                          </li>
-                          <li class="sub-menu">
-                              <a  href="boxed_page.html">Liens</a>
-                              <ul class="sub">
-                                  <li>
-                                       <a  href="{{ path('article') }}">Tous les Liens</a>
-                                  </li>
-                                  <li class="sub-menu">
-                                      <a  href="javascript:;">Ajouter un Lien</a>
                                   </li>
                               </ul>
                           </li>
