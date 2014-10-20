@@ -1,16 +1,24 @@
-{% extends '::base.html.twig' %}
+{% extends 'AppAdminBundle:Layout:admin.html.twig' %}
+{% form_theme edit_form 'AppAdminBundle:Form:fields.html.twig' %}
 
-{% block body -%}
-    <h1>Page edit</h1>
-
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('page') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="clearfix">
+                        Modifier un article
+                    </div>
+                </header>
+                {{ form(edit_form) }}
+            </section>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <a href="{{ path('page') }}" class="btn btn-shadow btn-default"><i class="fa fa-arrow-left"></i> Retour</a>
+        <button onclick="deleteModal('{{ path('page_delete' , {'id' : entity.id}) }}', 'êtes vous sûr de vouloir supprimer la page ?');" class="btn btn-shadow btn-danger"><i class="fa fa-trash-o"></i> Supprimer</button>
+        <button type="submit" class="btn btn-shadow btn-success pull-right"><i class="fa fa-save"></i> Modifier</button>
+    </div>
+    {{ include ('AppAdminBundle:Modal:delete.html.twig') }}
 {% endblock %}
+

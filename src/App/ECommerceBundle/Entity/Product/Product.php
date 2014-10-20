@@ -28,6 +28,21 @@ class Product extends AbstractDefault implements Translatable
     private $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\AdminBundle\Entity\Category", cascade={"persist"})
+     */
+    private $categories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", cascade={"persist"})
+     */
+    private $medias;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", cascade={"persist"})
+     */
+    private $catalogs;
+
+    /**
      * @var string
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
@@ -47,21 +62,6 @@ class Product extends AbstractDefault implements Translatable
      * @ORM\Column(name="description", type="text")
      */
     private $description;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\AdminBundle\Entity\Category", cascade={"persist"})
-     */
-    private $categories;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Media", cascade={"persist"})
-     */
-    private $medias;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Catalog", cascade={"persist"})
-     */
-    private $catalogs;
 
     /**
      * @Gedmo\Locale

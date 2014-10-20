@@ -3,7 +3,7 @@
 namespace App\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use App\CMSBundle\Entity\AbstractContent;
+use App\CMSBundle\Entity\AbstractContent;
 /**
  * Article
  *

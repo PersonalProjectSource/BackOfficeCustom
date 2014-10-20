@@ -67,8 +67,8 @@ class PageController extends Controller
                 $row[] = (string) $e->getContent();
                 $row[] = (string) $sDateTimeTransformed;
                 $row[] = (string) $e->getSlug();
-                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("article_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
-                          <a class="btn btn-danger btn-sm" onclick="confirmbox()"><i class="fa fa-trash-o "></i></a>';
+                $row[] = '<a class="btn btn-primary btn-sm" href="'.$this->generateUrl("page_edit", array('id' => $e->getId())).'"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-danger btn-sm" onclick="confirmbox('.$e->getId().')"><i class="fa fa-trash-o "></i></a>';
                 $output['aaData'][] = $row;
             }
 
@@ -96,7 +96,7 @@ class PageController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('page_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('page', array('id' => $entity->getId())));
         }
 
         return array(

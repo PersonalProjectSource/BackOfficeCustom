@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass
+ *
  */
 class AbstractContent
 {
-
     /**
      * @var string
      *
@@ -37,6 +37,16 @@ class AbstractContent
      * @ORM\Column(name="publishedAt", type="datetime")
      */
     private $publishedAt;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set title
@@ -129,6 +139,4 @@ class AbstractContent
     {
         return $this->publishedAt;
     }
-
-
 }

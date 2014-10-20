@@ -3,7 +3,7 @@
 namespace App\CMSBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use App\CMSBundle\Entity\AbstractContent;
+use App\CMSBundle\Entity\AbstractContent;
 
 /**
  * Page
@@ -26,7 +26,6 @@ class Page extends AbstractContent
      * @ORM\OneToMany(targetEntity="App\CMSBundle\Entity\PageMeta", mappedBy="page")
      */
     private $pageMetas;
-
 
     /**
      * Get id
